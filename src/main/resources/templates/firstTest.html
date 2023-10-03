@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test 1</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<div id="header">
+    <button onclick="addRandomDigit()">Next</button>
+    <button onclick="stop()">Stop</button>
+    <button onclick="clearNumbers()">Clear</button>
+    <span id="countNumbersSpan">Count: 0</span>
+</div>
+
+<div id="numbers">
+    <div id="numberDiv">
+        <span id="numberSpan"></span>
+    </div>
+</div>
+
+<script>
+    var stage = 0; // Начинаем с 0 для первого нажатия
+    var countNumbers = 0;
+    var numberSpan = document.getElementById("numberSpan");
+
+    function addRandomDigit() {
+
+        // Генерация случайной цифры от 0 до 9
+        var randomDigit = Math.floor(Math.random() * 10);
+
+        // Добавление случайной цифры к тексту внутри <span>
+        numberSpan.textContent += randomDigit;
+
+        if (stage === 0) {
+            var one = Math.floor(Math.random() * 10);
+            var two = Math.floor(Math.random() * 10);
+            var three = Math.floor(Math.random() * 10);
+            numberSpan.textContent += one + two + three;
+            countNumbers = 2;
+        }
+
+        if (stage % 2 === 1) {
+            var fourthRandomDigit = Math.floor(Math.random() * 10);
+            numberSpan.textContent += fourthRandomDigit;
+            countNumbers++;
+        }
+
+        // Вычисление масштаба текста, чтобы он всегда влезал
+        var parentWidth = document.getElementById("numberDiv").offsetWidth;
+        var textWidth = numberSpan.offsetWidth;
+        var scaleFactor = parentWidth / textWidth;
+
+        // Применение масштаба к размеру шрифта
+        var fontSize = parseFloat(window.getComputedStyle(numberSpan).fontSize);
+        if (fontSize * scaleFactor <= 800) {
+            numberSpan.style.fontSize = (fontSize * scaleFactor) + "px";
+        } else {
+            numberSpan.style.fontSize = 800 + "px";
+        }
+        countNumbers++;
+        stage++;
+
+        // Временное скрытие цифр на 1 секунду
+        numberSpan.style.visibility = "visible";
+        setTimeout(function() {
+            numberSpan.style.visibility = "hidden";
+        }, 1000); // 1 секунда задержки
+
+        // Обновление значения счетчика цифр
+        document.getElementById("countNumbersSpan").textContent = "Count: " + countNumbers;
+    }
+
+    function stop() {
+        numberSpan.style.visibility = "visible";
+        // Обновление значения счетчика цифр
+        document.getElementById("countNumbersSpan").textContent = "Count: " + countNumbers;
+
+        stage = 0;
+        countNumbers = 0;
+
+    }
+
+    // Массив разрешенных цветов
+    var allowedColors = ["#FF0000", "#FF8000", "#FFFF00", "#00FF00", "#00FFEE", "#2231ff", "#7b00ff", "#FF00EE", "#4f2d2d"];
+
+    function clearNumbers() {
+        // Выбор случайного цвета из массива
+        var randomColor = allowedColors[Math.floor(Math.random() * allowedColors.length)];
+
+        // Установка случайного цвета фона
+        document.body.style.backgroundColor = randomColor;
+
+        // Получение цвета текста, который будет темнее фонового цвета
+        var textColor = darkenColor(randomColor, 0.7);
+
+        // Установка цвета текста
+        document.body.style.color = textColor;
+
+        // Очистка цифр
+        numberSpan.textContent = "";
+    }
+
+    // Функция для уменьшения интенсивности цвета
+    function darkenColor(color, factor) {
+        var r = parseInt(color.slice(1, 3), 16);
+        var g = parseInt(color.slice(3, 5), 16);
+        var b = parseInt(color.slice(5, 7), 16);
+
+        r = Math.floor(r * factor);
+        g = Math.floor(g * factor);
+        b = Math.floor(b * factor);
+
+        return "#" + toHex(r) + toHex(g) + toHex(b);
+    }
+
+    // Функция для преобразования числа в 16-ричный формат с двумя символами
+    function toHex(number) {
+        var hex = number.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+    }
+
+
+</script>
+
+</body>
+</html>
