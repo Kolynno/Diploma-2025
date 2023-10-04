@@ -15,4 +15,9 @@ public class TestController {
     public String secondTest() {
         return "secondTest";
     }
+
+    @GetMapping("/third")
+    public String thirdTest() {
+        return "thirdTest";
+    }
 }

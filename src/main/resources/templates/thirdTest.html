@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test 3</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/firstTestStyles.css}">
+</head>
+<body>
+
+<div id="header">
+    <button onclick="changeColor()">Start</button>
+    <button onclick="clearNumbers()">Clear</button>
+</div>
+
+<div id="numbers">
+    <div id="numberDiv">
+        <span id="numberSpan"></span>
+    </div>
+</div>
+
+<script>
+    //статичные
+    var stage = 1;
+    var delay = 0.0;
+    var hasTime = true;
+    var startTime; // Переменная для хранения времени начала реакции
+
+    //можно менять
+    var allowedColors = ["#FF0000", "#FF8000", "#FFFF00", "#00FF00", "#00FFEE", "#2231ff", "#7b00ff", "#FF00EE", "#4f2d2d"]; //используемые цвета
+    var timeToTest = 30000; //60 сек на тест
+
+    function changeColor() {
+        if (stage === 1) {
+            setTimeout(function() {
+                hasTime = false // После задержки кнопка "Start" станет неактивной
+                console.log("Stage:" + stage);
+                console.log("Delay:" + delay);
+                document.body.style.backgroundColor = "#FFFFFF";
+            }, timeToTest);
+        }
+
+        var waitTime = Math.floor(Math.random() * 4) + 1;
+        setTimeout(function() {
+            var randomColor;
+            do {
+                randomColor = allowedColors[Math.floor(Math.random() * allowedColors.length)];
+            } while (randomColor === rgbToHex(document.body.style.backgroundColor));
+            document.body.style.backgroundColor = randomColor;
+            startTime = new Date().getTime();
+        }, waitTime * 1000); // Переводим секунды в миллисекунды
+        stage++;
+    }
+
+    function clearNumbers() {
+            var randomColor = allowedColors[Math.floor(Math.random() * allowedColors.length)];
+            document.body.style.backgroundColor = randomColor;
+            stage = 1;
+            delay = 0.0;
+            hasTime = true;
+    }
+
+    document.addEventListener("keyup", function (event) {
+        if (event.key === "Enter" && hasTime) {
+            var reactionTime = new Date().getTime() - startTime;
+            delay += reactionTime / 1000; // Переводим миллисекунды в секунды
+            var hexColor = rgbToHex(document.body.style.backgroundColor);
+            console.log("Color:" + hexColor + ". Reaction Time:" + reactionTime/1000);
+            changeColor();
+        }
+    });
+
+    function rgbToHex(rgb) {
+        var colors = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        if (colors) {
+            // Преобразуем числа в шестнадцатеричный формат и формируем строку
+            var hex = "#" + ("0" + parseInt(colors[1], 10).toString(16)).slice(-2) +
+                ("0" + parseInt(colors[2], 10).toString(16)).slice(-2) +
+                ("0" + parseInt(colors[3], 10).toString(16)).slice(-2);
+            return hex.toUpperCase();
+        }
+        return null;
+    }
+</script>
+
+</body>
+</html>
