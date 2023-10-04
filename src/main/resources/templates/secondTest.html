@@ -28,7 +28,7 @@
     var trueAnswer = 0;
     var correctUserAnswersCount = 0;
     var hasTime = true;
-
+    var currentColor = 0;
     //можно менять
     var allowedColors = ["#FF0000", "#FF8000", "#FFFF00", "#00FF00", "#00FFEE", "#2231ff", "#7b00ff", "#FF00EE", "#4f2d2d"]; //используемые цвета
     var changeTextColor = 0.7; // изменение темности цифр
@@ -87,15 +87,6 @@
     }
 
     function clearNumbers() {
-
-            var randomColor = allowedColors[Math.floor(Math.random() * allowedColors.length)];
-            console.log("Color:" + randomColor)
-
-            document.body.style.backgroundColor = randomColor;
-
-            var textColor = darkenColor(randomColor, changeTextColor);
-            document.body.style.color = textColor;
-
             numberSpan.textContent = "";
             userInput = "";
             stage = 1;
@@ -138,6 +129,20 @@
                 userInput += "" + event.key;
             }
         }
+        if (event.key === "z") {
+            currentColor = (currentColor + 1) % allowedColors.length;
+            var color = allowedColors[currentColor];
+            console.log("Color:" + color)
+
+            document.body.style.backgroundColor = color;
+
+            var textColor = darkenColor(color, changeTextColor);
+            document.body.style.color = textColor;
+        }
+        if (event.key === "c") {
+            clearNumbers();
+        }
+
     });
 </script>
 
