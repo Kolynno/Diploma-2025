@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Test 1</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/firstTestStyles.css}">
 </head>
 <body>
 
@@ -22,11 +22,14 @@
 
 
 <script>
+    //статичные
     var stage = 0;
     var countNumbers = 0;
     var numberSpan = document.getElementById("numberSpan"); //место для чисел
+    //можно менять
     var allowedColors = ["#FF0000", "#FF8000", "#FFFF00", "#00FF00", "#00FFEE", "#2231ff", "#7b00ff", "#FF00EE", "#4f2d2d"]; //используемые цвета
-
+    var timeToAppear = 1000; // 1 секунда
+    var changeTextColor = 0.7; // изменение темности цифр
 
     function addRandomDigit() {
 
@@ -62,11 +65,11 @@
         countNumbers++;
         stage++;
 
-        //Скрыть цифры спустя секунду
+        //Скрыть цифры
         numberSpan.style.visibility = "visible";
         setTimeout(function() {
             numberSpan.style.visibility = "hidden";
-        }, 1000); // 1 секунда задержки
+        }, timeToAppear);
 
         document.getElementById("countNumbersSpan").textContent = "Count: " + countNumbers;
     }
@@ -89,7 +92,7 @@
 
         document.body.style.backgroundColor = randomColor;
 
-        var textColor = darkenColor(randomColor, 0.7);
+        var textColor = darkenColor(randomColor, changeTextColor);
         document.body.style.color = textColor;
 
         numberSpan.textContent = "";

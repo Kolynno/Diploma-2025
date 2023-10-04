@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test 2</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/firstTestStyles.css}">
+</head>
+<body>
+
+<div id="header">
+    <button onclick="makeMath()">Next</button>
+    <button onclick="clearNumbers()">Clear</button>
+</div>
+
+<div id="numbers">
+    <div id="numberDiv">
+        <span id="numberSpan"></span>
+    </div>
+</div>
+
+
+
+<script>
+
+    //Еще уменьшить размер цифр, сделать возможным ввод минуса и backspace
+
+    //статичные
+    var stage = 1;
+    var numberSpan = document.getElementById("numberSpan"); //место для чисел
+    var userInput = 0;
+    var trueAnswer = 0;
+    var correctUserAnswersCount = 0;
+    var hasTime = true;
+
+    //можно менять
+    var allowedColors = ["#FF0000", "#FF8000", "#FFFF00", "#00FF00", "#00FFEE", "#2231ff", "#7b00ff", "#FF00EE", "#4f2d2d"]; //используемые цвета
+    var changeTextColor = 0.7; // изменение темности цифр
+    var timeToTest = 121000; //121 сек на тест
+
+    function makeMath() {
+        console.log("Stage:" + stage);
+
+        if (stage === 1) {
+            // Устанавливаем задержку на 130 секунд
+            setTimeout(function() {
+                hasTime = false // После задержки кнопка "Next" станет активной
+            }, timeToTest);
+        }
+        numberSpan.textContent = "";
+
+        var type = Math.floor(Math.random() * 3);
+
+        //+
+        if (type === 0) {
+            var firstP = Math.floor(Math.random() * 50);
+            var secondP = Math.floor(Math.random() * 49);
+            numberSpan.textContent += firstP + "+" + secondP + "=";
+            trueAnswer = firstP + secondP;
+            console.log("Operation:plus")
+        }
+        //-
+        if (type === 1) {
+            var firstM = Math.floor(Math.random() * 99);
+            var secondM = Math.floor(Math.random() * 99);
+            numberSpan.textContent += firstM + "-" + secondM + "=";
+            trueAnswer = firstM - secondM;
+            console.log("Operation:minus")
+
+        }
+        //*
+        if (type === 2) {
+            var first = Math.floor(Math.random() * 10);
+            var second = Math.floor(Math.random() * 9);
+            numberSpan.textContent += first + "×" + second + "=";
+            trueAnswer = first * second;
+            console.log("Operation:mult")
+
+        }
+
+        // Вычисление масштаба текста, чтобы он всегда влезал
+        var parentWidth = document.getElementById("numberDiv").offsetWidth;
+        var textWidth = numberSpan.offsetWidth;
+        var scaleFactor = parentWidth / textWidth;
+
+        // Применение масштаба к размеру шрифта
+        var fontSize = parseFloat(window.getComputedStyle(numberSpan).fontSize);
+        if (fontSize * scaleFactor <= 500) {
+            numberSpan.style.fontSize = (fontSize * scaleFactor) + "px";
+        } else {
+            numberSpan.style.fontSize = 500 + "px";
+        }
+        stage++;
+
+
+        userInput = "";
+    }
+
+    function clearNumbers() {
+
+            var randomColor = allowedColors[Math.floor(Math.random() * allowedColors.length)];
+            console.log("Color:" + randomColor)
+
+            document.body.style.backgroundColor = randomColor;
+
+            var textColor = darkenColor(randomColor, changeTextColor);
+            document.body.style.color = textColor;
+
+            numberSpan.textContent = "";
+            userInput = "";
+            stage = 1;
+            hasTime = true;
+
+    }
+
+
+    // Функция для уменьшения интенсивности цвета
+    function darkenColor(color, factor) {
+        var r = parseInt(color.slice(1, 3), 16);
+        var g = parseInt(color.slice(3, 5), 16);
+        var b = parseInt(color.slice(5, 7), 16);
+
+        r = Math.floor(r * factor);
+        g = Math.floor(g * factor);
+        b = Math.floor(b * factor);
+
+        return "#" + toHex(r) + toHex(g) + toHex(b);
+    }
+
+    // Функция для преобразования числа в 16-ричный формат с двумя символами
+    function toHex(number) {
+        var hex = number.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+    }
+
+    // Объявляем флаг для предотвращения многократного нажатия
+    var keyPressed = false;
+
+    // Обработчик события нажатия клавиши
+    document.addEventListener("keydown", function (event) {
+        // Проверяем, что клавиша Enter была нажата
+        if (event.key === "Enter" && hasTime && !keyPressed) {
+            keyPressed = true; // Устанавливаем флаг
+
+            if (userInput === trueAnswer) {
+                correctUserAnswersCount++;
+            }
+            console.log("UserResult:" + userInput);
+            console.log("TrueResult:" + trueAnswer);
+            makeMath();
+
+            // Устанавливаем таймаут для сброса флага через короткое время (например, 1000 миллисекунд)
+            setTimeout(function() {
+                keyPressed = false;
+            }, 1000);
+        } else if (!isNaN(event.key)) {
+            // Если нажата цифровая клавиша, добавляем ее значение к числу в поле ввода
+            numberSpan.textContent += event.key;
+            userInput += "" + event.key;
+        }
+    });
+
+
+</script>
+
+</body>
+</html>
