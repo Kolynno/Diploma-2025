@@ -20,18 +20,18 @@
     </div>
 </div>
 
+
 <script>
-    var stage = 0; // Начинаем с 0 для первого нажатия
+    var stage = 0;
     var countNumbers = 0;
-    var numberSpan = document.getElementById("numberSpan");
+    var numberSpan = document.getElementById("numberSpan"); //место для чисел
+    var allowedColors = ["#FF0000", "#FF8000", "#FFFF00", "#00FF00", "#00FFEE", "#2231ff", "#7b00ff", "#FF00EE", "#4f2d2d"]; //используемые цвета
+
 
     function addRandomDigit() {
 
-        // Генерация случайной цифры от 0 до 9
-        var randomDigit = Math.floor(Math.random() * 10);
-
-        // Добавление случайной цифры к тексту внутри <span>
-        numberSpan.textContent += randomDigit;
+        var randomInt = Math.floor(Math.random() * 10);
+        numberSpan.textContent += randomInt;
 
         if (stage === 0) {
             var one = Math.floor(Math.random() * 10);
@@ -42,8 +42,8 @@
         }
 
         if (stage % 2 === 1) {
-            var fourthRandomDigit = Math.floor(Math.random() * 10);
-            numberSpan.textContent += fourthRandomDigit;
+            var randomNum = Math.floor(Math.random() * 10);
+            numberSpan.textContent += randomNum;
             countNumbers++;
         }
 
@@ -62,43 +62,36 @@
         countNumbers++;
         stage++;
 
-        // Временное скрытие цифр на 1 секунду
+        //Скрыть цифры спустя секунду
         numberSpan.style.visibility = "visible";
         setTimeout(function() {
             numberSpan.style.visibility = "hidden";
         }, 1000); // 1 секунда задержки
 
-        // Обновление значения счетчика цифр
         document.getElementById("countNumbersSpan").textContent = "Count: " + countNumbers;
     }
 
     function stop() {
         numberSpan.style.visibility = "visible";
-        // Обновление значения счетчика цифр
         document.getElementById("countNumbersSpan").textContent = "Count: " + countNumbers;
+
+        console.log("MaxNumbers:" + countNumbers)
+        console.log("Numbers:" + numberSpan.textContent)
 
         stage = 0;
         countNumbers = 0;
-
     }
 
-    // Массив разрешенных цветов
-    var allowedColors = ["#FF0000", "#FF8000", "#FFFF00", "#00FF00", "#00FFEE", "#2231ff", "#7b00ff", "#FF00EE", "#4f2d2d"];
-
     function clearNumbers() {
-        // Выбор случайного цвета из массива
-        var randomColor = allowedColors[Math.floor(Math.random() * allowedColors.length)];
 
-        // Установка случайного цвета фона
+        var randomColor = allowedColors[Math.floor(Math.random() * allowedColors.length)];
+        console.log("Color:" + randomColor)
+
         document.body.style.backgroundColor = randomColor;
 
-        // Получение цвета текста, который будет темнее фонового цвета
         var textColor = darkenColor(randomColor, 0.7);
-
-        // Установка цвета текста
         document.body.style.color = textColor;
 
-        // Очистка цифр
         numberSpan.textContent = "";
     }
 
@@ -120,8 +113,6 @@
         var hex = number.toString(16);
         return hex.length === 1 ? "0" + hex : hex;
     }
-
-
 </script>
 
 </body>
