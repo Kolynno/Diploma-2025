@@ -44,7 +44,7 @@
             var randomColor;
             do {
                 randomColor = allowedColors[Math.floor(Math.random() * allowedColors.length)];
-            } while (randomColor === rgbToHex(document.body.style.backgroundColor));
+            } while (randomColor.toLowerCase() === rgbToHex(document.body.style.backgroundColor).toLowerCase());
             document.body.style.backgroundColor = randomColor;
             startTime = new Date().getTime();
         }, waitTime * 1000); // Переводим секунды в миллисекунды
@@ -73,6 +73,9 @@
         }
         if (event.key === "c") {
             clearNumbers();
+        }
+        if (event.key === "n") {
+            window.location.href = "/first"
         }
     });
 

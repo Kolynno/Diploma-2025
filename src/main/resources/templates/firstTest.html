@@ -34,15 +34,21 @@
 
     function addRandomDigit() {
 
-        var randomInt = Math.floor(Math.random() * 10);
-        numberSpan.textContent += randomInt;
+        console.log("STAGE:" + stage);
+
+
 
         if (stage === 0) {
             var one = Math.floor(Math.random() * 10);
             var two = Math.floor(Math.random() * 10);
             var three = Math.floor(Math.random() * 10);
-            numberSpan.textContent += one + two + three;
+            numberSpan.textContent += one;
+            numberSpan.textContent += two;
+            numberSpan.textContent += three;
             countNumbers = 2;
+        } else {
+            var randomInt = Math.floor(Math.random() * 10);
+            numberSpan.textContent += randomInt;
         }
 
         if (stage % 2 === 1) {
@@ -58,10 +64,10 @@
 
         // Применение масштаба к размеру шрифта
         var fontSize = parseFloat(window.getComputedStyle(numberSpan).fontSize);
-        if (fontSize * scaleFactor <= 800) {
+        if (fontSize * scaleFactor <= 700) {
             numberSpan.style.fontSize = (fontSize * scaleFactor) + "px";
         } else {
-            numberSpan.style.fontSize = 800 + "px";
+            numberSpan.style.fontSize = 700 + "px";
         }
         countNumbers++;
         stage++;
@@ -128,6 +134,9 @@
         }
         if (event.key === "c") {
             clearNumbers();
+        }
+        if (event.key === "n") {
+            window.location.href = "/second"
         }
     });
 
