@@ -129,7 +129,7 @@
                 userInput += "" + event.key;
             }
         }
-        if (event.key === "z") {
+        if (event.key === "z" || event.key === "я") {
             currentColor = (currentColor + 1) % allowedColors.length;
             var color = allowedColors[currentColor];
             console.log("Color:" + color)
@@ -139,10 +139,10 @@
             var textColor = darkenColor(color, changeTextColor);
             document.body.style.color = textColor;
         }
-        if (event.key === "c") {
+        if (event.key === "c" || event.key === "с") {
             clearNumbers();
         }
-        if (event.key === "n") {
+        if (event.key === "n" || event.key === "т") {
             window.location.href = "/third"
         }
 
