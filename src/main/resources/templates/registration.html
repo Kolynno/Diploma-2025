@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация участника</title>
+    <link rel="stylesheet" href="/css/registration.css">
+</head>
+<body>
+<div class="container">
+    <h1>Регистрация участника</h1>
+    <form id="registrationForm">
+        <label for="firstname">Имя:</label>
+        <input type="text" id="firstname" name="firstname" required><br>
+
+        <label for="lastname">Фамилия:</label>
+        <input type="text" id="lastname" name="lastname" required><br>
+
+        <label for="middlename">Отчество:</label>
+        <input type="text" id="middlename" name="middlename" required><br>
+
+        <label for="birthday">Дата рождения:</label>
+        <input type="date" id="birthday" name="birthday" required><br>
+
+        <label for="sex">Пол:</label>
+        <select id="sex" name="sex" required>
+            <option value="">Выберите</option>
+            <option value="male">Мужской</option>
+            <option value="female">Женский</option>
+        </select><br>
+
+        <label for="education">Место учебы:</label>
+        <input type="text" id="education" name="education" required><br>
+
+        <button type="button" id="submitBtn">Продолжить</button>
+        <p id="error" style="color:red;"></p>
+    </form>
+</div>
+
+<script src="/scripts/registration.js"></script>
+</body>
+</html>
