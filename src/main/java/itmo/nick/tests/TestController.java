@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class TestController {
 
+    //Основные страницы
     @GetMapping("/r")
     public String registration() {
         return "registration";
@@ -23,6 +24,16 @@ public class TestController {
         return "testsPage";
     }
 
+
+    //Тесты
+    @GetMapping("/t/a/1")
+    public String attentionTestOne() {
+        return "attention/attentionTestOne";
+    }
+
+
+
+    //Реация на действия
     @PostMapping("/register")
     public String registerPerson(@RequestBody Person person) {
         return "personStateAnalyze";

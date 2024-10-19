@@ -4,17 +4,6 @@
     --main-color-accent: #bc57ff;
 }
 
-/* Общие стили */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
 input, select {
     width: 100%;
     padding: 8px;
@@ -37,4 +26,9 @@ button {
 
 button:hover {
     background-color: var(--main-color-hover);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
 }
