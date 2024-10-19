@@ -1,0 +1,52 @@
+.container {
+    text-align: center;
+    margin: 0 auto;
+    width: 80%; /* Ширина контейнера */
+}
+
+.row {
+    display: flex; /* Располагаем квадраты в ряд */
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.square {
+    display: inline-block;
+    width: 200px; /* Фиксированная ширина квадрата */
+    height: 220px; /* Фиксированная высота квадрата */
+    border-bottom: 5px solid transparent;
+    margin: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.square img {
+    width: 100%; /* Картинки подгоняются под размер квадрата */
+    height: auto;
+}
+
+.square:hover {
+    transform: scale(1.1); /* Эффект увеличения при наведении */
+}
+
+.square.selected {
+    border-color: var(--main-color-accent);
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 15%;
+}
+
+p {
+    margin-left: 20px;
+    margin-right: 20px;
+}

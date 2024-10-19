@@ -1,7 +1,7 @@
 package itmo.nick.tests;
 
-import itmo.nick.database.PersonDatabaseActions;
 import itmo.nick.person.Person;
+import itmo.nick.person.PersonState;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +13,24 @@ public class TestController {
         return "registration";
     }
 
-    @PostMapping("/register")
-    public String registerPerson(@RequestBody Person person) {
-        PersonDatabaseActions personDatabaseActions = new PersonDatabaseActions();
-        personDatabaseActions.save(person);
-        return "personStateAnalyze";
-    }
-
     @GetMapping("/s")
     public String personStateAnalyze() {
         return "personStateAnalyze";
     }
+
+    @GetMapping("/t")
+    public String testsPage() {
+        return "testsPage";
+    }
+
+    @PostMapping("/register")
+    public String registerPerson(@RequestBody Person person) {
+        return "personStateAnalyze";
+    }
+
+    @PostMapping("/stateAnalyze")
+    public String personState(@RequestBody PersonState personState) {
+        return "personStateAnalyze";
+    }
 }
+

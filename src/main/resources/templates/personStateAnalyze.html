@@ -2,9 +2,48 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Первичный тест состояния</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Первичная оценка участника</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/analyse.css">
+
 </head>
 <body>
+<div class="container">
+    <div id="row-joy" class="row">
+        <p>Радость</p>
+        <div class="square" data-row="joy" data-value="1"><img src="/img/joy5.png"></div>
+        <div class="square" data-row="joy" data-value="2"><img src="/img/joy4.png"></div>
+        <div class="square" data-row="joy" data-value="3"><img src="/img/joy3.png"></div>
+        <div class="square" data-row="joy" data-value="4"><img src="/img/joy2.png"></div>
+        <div class="square" data-row="joy" data-value="5"><img src="/img/joy1.png"></div>
+        <p>Грусть</p>
+    </div>
 
+    <div id="row-calm" class="row">
+        <p>Спокойствие</p>
+        <div class="square" data-row="calm" data-value="1"><img src="/img/calm5.png"></div>
+        <div class="square" data-row="calm" data-value="2"><img src="/img/calm4.png"></div>
+        <div class="square" data-row="calm" data-value="3"><img src="/img/calm3.png"></div>
+        <div class="square" data-row="calm" data-value="4"><img src="/img/calm2.png"></div>
+        <div class="square" data-row="calm" data-value="5"><img src="/img/calm1.png"></div>
+        <p>Увлеченность</p>
+    </div>
+
+    <div id="row-dominance" class="row">
+        <p>Доминирование</p>
+        <div class="square" data-row="dominance" data-value="1"><img src="/img/controll5.png"></div>
+        <div class="square" data-row="dominance" data-value="2"><img src="/img/controll4.png"></div>
+        <div class="square" data-row="dominance" data-value="3"><img src="/img/controll3.png"></div>
+        <div class="square" data-row="dominance" data-value="4"><img src="/img/controll2.png"></div>
+        <div class="square" data-row="dominance" data-value="5"><img src="/img/controll1.png"></div>
+        <p>Под контролем</p>
+    </div>
+
+    <button id="submitBtn">Продолжить</button>
+    <button id="backBtn">Обратно</button>
+</div>
+
+<script src="/scripts/stateSelection.js"></script>
 </body>
 </html>

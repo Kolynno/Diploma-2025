@@ -18,10 +18,8 @@ document.getElementById('submitBtn').addEventListener('click', function() {
 
     // Если есть ошибки, выводим их и прекращаем выполнение
     if (errorMessage) {
-        document.getElementById('error').textContent = errorMessage.replace(/\n/g, ' ');
+        alert('Пожалуйста, заполните каждое поле корректными данными.');
         return;
-    } else {
-        document.getElementById('error').textContent = ''; // Очищаем ошибки
     }
 
     // Создаем объект с данными
