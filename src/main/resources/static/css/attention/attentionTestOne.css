@@ -57,3 +57,17 @@ table.table-content th {
     color: #fff;
     font-weight: normal;
 }
+
+#timer input {
+    width: 10%;
+    height: 20px;
+    float: right;
+    padding: 0px;
+    margin: 0px;
+    text-align: right;
+}
+
+#timer {
+    text-align: right;
+    float: right;
+}

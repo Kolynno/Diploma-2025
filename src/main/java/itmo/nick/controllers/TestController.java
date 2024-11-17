@@ -3,6 +3,8 @@ package itmo.nick.controllers;
 import itmo.nick.person.Person;
 import itmo.nick.person.PersonState;
 import itmo.nick.test.attention.TestOne;
+import itmo.nick.test.attention.TestOneData;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,5 +47,12 @@ public class TestController {
     public String personState(@RequestBody PersonState personState) {
         return "personStateAnalyze";
     }
+
+    @PostMapping("/stageData")
+    public ResponseEntity<Void> stageData(@RequestBody TestOneData data) {
+        //System.out.println(data);
+        return ResponseEntity.ok().build();
+    }
+
 }
 
