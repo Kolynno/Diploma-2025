@@ -1,4 +1,4 @@
-// Обработка выбора квадрата
+// Обработка выбора квадрата состояния
 document.querySelectorAll('.square').forEach(square => {
     square.addEventListener('click', function() {
         const row = this.getAttribute('data-row');

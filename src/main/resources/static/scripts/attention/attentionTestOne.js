@@ -32,7 +32,7 @@ if (document.getElementById('nextBtn') != null) {
         };
 
         try {
-            await fetch('/stageData', {
+            await fetch('/attentionTestOneStageData', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

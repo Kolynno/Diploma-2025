@@ -8,27 +8,37 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Основной контроллер
+ */
 @Controller
 public class TestController {
 
-    //Основные страницы
+    /**
+     * Основные страницы
+     */
+    //Страница регистрации нового участника
     @GetMapping("/r")
     public String registration() {
         return "registration";
     }
 
+    //Страница оценки первичного состояния
     @GetMapping("/s")
     public String personStateAnalyze() {
         return "personStateAnalyze";
     }
 
+    //Страница всех тестов
     @GetMapping("/t")
     public String testsPage() {
         return "testsPage";
     }
 
-
-    //Тесты
+    /**
+     * Тесты
+     */
+    //Тест на внимательность 1
     @GetMapping("/t/a/1")
     public String attentionTestOne(@RequestParam("s") int stage) {
         TestOne testOne = TestOne.getInstance();
@@ -37,19 +47,25 @@ public class TestController {
     }
 
 
-    //Реация на действия
+    /**
+     * Реация на действия
+     */
+
+    //Данные регистрации участника
     @PostMapping("/register")
     public String registerPerson(@RequestBody Person person) {
         return "personStateAnalyze";
     }
 
+    //Данные состояния участника
     @PostMapping("/stateAnalyze")
     public String personState(@RequestBody PersonState personState) {
         return "personStateAnalyze";
     }
 
-    @PostMapping("/stageData")
-    public ResponseEntity<Void> stageData(@RequestBody TestOneData data) {
+    //Данные этапа теста на внимательность 1
+    @PostMapping("/attentionTestOneStageData")
+    public ResponseEntity<Void> attentionTestOneStageData(@RequestBody TestOneData data) {
         //System.out.println(data);
         return ResponseEntity.ok().build();
     }
