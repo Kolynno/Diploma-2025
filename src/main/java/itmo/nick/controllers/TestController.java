@@ -1,9 +1,12 @@
 package itmo.nick.controllers;
 
+import itmo.nick.database.entities.PersonTable;
+import itmo.nick.database.PersonTableService;
 import itmo.nick.person.Person;
 import itmo.nick.person.PersonState;
 import itmo.nick.test.attention.TestOne;
 import itmo.nick.test.attention.TestOneData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 public class TestController {
+
+    @Autowired
+    private PersonTableService personTableService;
 
     /**
      * Основные страницы
@@ -46,20 +52,21 @@ public class TestController {
         return "attention/attentionTestOneStage" + stage;
     }
 
-
     /**
      * Реация на действия
      */
-
     //Данные регистрации участника
     @PostMapping("/register")
     public String registerPerson(@RequestBody Person person) {
+        PersonTable.getInstance().setPerson(person);
         return "personStateAnalyze";
     }
 
     //Данные состояния участника
     @PostMapping("/stateAnalyze")
     public String personState(@RequestBody PersonState personState) {
+        PersonTable.getInstance().setPersonState(personState);
+        personTableService.save(PersonTable.getInstance());
         return "personStateAnalyze";
     }
 
@@ -69,6 +76,5 @@ public class TestController {
         //System.out.println(data);
         return ResponseEntity.ok().build();
     }
-
 }
 
