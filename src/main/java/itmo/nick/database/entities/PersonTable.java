@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Класс таблицы участника в БД
@@ -43,6 +44,10 @@ public class PersonTable {
 		} else {
 			return personTable;
 		}
+	}
+
+	public static void delete() {
+		personTable = null;
 	}
 
 	public void setPerson(Person person) {

@@ -1,6 +1,7 @@
 package itmo.nick.database.repositories;
 
 import itmo.nick.database.entities.PersonTable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PersonTableRepository extends CrudRepository<PersonTable, Integer> {
 
+	@Query("SELECT MAX(person_id) FROM PersonTable")
+	String findCurrentPersonId();
 }

@@ -1,5 +1,6 @@
 package itmo.nick.controllers;
 
+import itmo.nick.database.ResultTableService;
 import itmo.nick.database.entities.PersonTable;
 import itmo.nick.database.PersonTableService;
 import itmo.nick.person.Person;
@@ -19,6 +20,8 @@ public class TestController {
 
     @Autowired
     private PersonTableService personTableService;
+    @Autowired
+    private ResultTableService resultTableService;
 
     /**
      * Основные страницы
@@ -67,14 +70,28 @@ public class TestController {
     public String personState(@RequestBody PersonState personState) {
         PersonTable.getInstance().setPersonState(personState);
         personTableService.save(PersonTable.getInstance());
+        PersonTable.delete();
         return "personStateAnalyze";
     }
 
     //Данные этапа теста на внимательность 1
     @PostMapping("/attentionTestOneStageData")
     public ResponseEntity<Void> attentionTestOneStageData(@RequestBody TestOneData data) {
-        //System.out.println(data);
+        System.out.println(data);
+        TestOne testOne = getInstance();
+
+        if (data.getStage() != 0) {
+            testOne.getTestData()[data.getStage()] = new TestOneData(data.getStage(), data.getTime(), data.getErrors());
+        }
+
+        if (data.getStage() == 4) {
+            resultTableService.saveTestOne(testOne.getTestData());
+        }
         return ResponseEntity.ok().build();
+    }
+
+    private static TestOne getInstance() {
+        return TestOne.getInstance();
     }
 }
 

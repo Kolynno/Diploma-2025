@@ -13,7 +13,7 @@ public class SimpleTest {
 	/**
 	 * Номер последнего этапа
 	 */
-	final int lastStage;
+	public final int lastStage;
 	/**
 	 * Дошел ли участник до результата
 	 */
