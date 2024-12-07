@@ -1,6 +1,7 @@
 package itmo.nick.controllers;
 
 import itmo.nick.database.ResultTableService;
+import itmo.nick.database.TestTableService;
 import itmo.nick.database.entities.PersonTable;
 import itmo.nick.database.PersonTableService;
 import itmo.nick.person.Person;
@@ -10,6 +11,7 @@ import itmo.nick.test.attention.TestOneData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,6 +24,8 @@ public class TestController {
     private PersonTableService personTableService;
     @Autowired
     private ResultTableService resultTableService;
+    @Autowired
+    private TestTableService testTableService;
 
     /**
      * Основные страницы
@@ -40,7 +44,8 @@ public class TestController {
 
     //Страница всех тестов
     @GetMapping("/t")
-    public String testsPage() {
+    public String testsPage(Model model) {
+		model.addAttribute("t1", testTableService.getNameById(1));
         return "testsPage";
     }
 
