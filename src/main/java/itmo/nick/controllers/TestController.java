@@ -54,9 +54,16 @@ public class TestController {
      */
     //Тест на внимательность 1
     @GetMapping("/t/a/1")
-    public String attentionTestOne(@RequestParam("s") int stage) {
+    public String attentionTestOne(@RequestParam("s") int stage, Model model) {
         TestOne testOne = TestOne.getInstance();
         stage = testOne.CorrectNextStage(stage);
+        if (stage == 0) {
+            model.addAttribute("desc", testTableService.getDescById(1));
+            model.addAttribute("name", testTableService.getNameById(1));
+        }
+        if (stage == 5) {
+            model.addAttribute("result", testTableService.getResultsById(1));
+        }
         return "attention/attentionTestOneStage" + stage;
     }
 

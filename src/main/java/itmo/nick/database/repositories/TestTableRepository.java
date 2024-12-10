@@ -18,4 +18,10 @@ public interface TestTableRepository extends CrudRepository<TestTable, Integer> 
 
 	@Query("SELECT test_name FROM TestTable WHERE test_id = :id")
 	String findNameById(int id);
+
+	@Query("SELECT test_start_desc FROM TestTable WHERE test_id = :id")
+	String findDescById(int id);
+
+	@Query("SELECT test_original_result FROM TestTable WHERE test_id = :id")
+	String findResultsById(int id);
 }

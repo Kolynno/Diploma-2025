@@ -1,6 +1,7 @@
 package itmo.nick.database.repositories;
 
 import itmo.nick.database.entities.ResultTable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ResultTableRepository extends CrudRepository<ResultTable, Integer> {
 
+	@Query("SELECT COUNT(result_id) FROM ResultTable WHERE person_id = :personId")
+	String getStatus(String personId);
 }

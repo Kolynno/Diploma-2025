@@ -1,8 +1,6 @@
 package itmo.nick.database;
 
-import itmo.nick.database.entities.PersonTable;
 import itmo.nick.database.entities.ResultTable;
-import itmo.nick.database.entities.TestTable;
 import itmo.nick.database.repositories.PersonTableRepository;
 import itmo.nick.database.repositories.ResultTableRepository;
 import itmo.nick.test.attention.TestOneData;
@@ -37,5 +35,12 @@ public class ResultTableService {
 		resultTable.setP4(String.valueOf(testOneData[4].getTime() + testOneData[4].getErrors() * 2));
 
 		resultTableRepository.save(resultTable);
+	}
+
+	public boolean getStatus(int id) {
+		if ("0".equals(resultTableRepository.getStatus("1"))) {
+			return false;
+		} //TODO GET REAL ID
+		return true;
 	}
 }
