@@ -1,5 +1,7 @@
 package itmo.nick.test;
 
+import itmo.nick.test.attention.TestOne;
+
 /**
  *
  * @author Николай Жмакин
@@ -15,9 +17,8 @@ public class SimpleTest {
 	 */
 	public final int lastStage;
 	/**
-	 * Дошел ли участник до результата
+	 * Завершен ли тест участником
 	 */
-	//TODO брать это поле из БД по id участника
 	boolean isFinished;
 
 	protected SimpleTest(int lastStage) {
@@ -57,5 +58,14 @@ public class SimpleTest {
 		if (stage == lastStage) {
 			isFinished = true;
 		}
+	}
+
+	public void setFinished(boolean finished) {
+		isFinished = finished;
+		currentStage = 0;
+	}
+
+	public static void setNotFinished() {
+		TestOne.getInstance().setFinished(false);
 	}
 }

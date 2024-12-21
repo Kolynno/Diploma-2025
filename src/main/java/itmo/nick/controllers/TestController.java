@@ -14,7 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import static itmo.nick.test.SimpleTest.setNotFinished;
+import static itmo.nick.test.attention.TestOne.getInstance;
 
 /**
  * Основной контроллер
@@ -57,7 +58,7 @@ public class TestController {
     //Тест на внимательность 1
     @GetMapping("/t/a/1")
     public String attentionTestOne(@RequestParam("s") int stage, Model model) {
-        TestOne testOne = TestOne.getInstance();
+        TestOne testOne = getInstance();
         stage = testOne.CorrectNextStage(stage);
         if (stage == 0) {
             model.addAttribute("desc", testTableService.getDescById(1));
@@ -87,6 +88,7 @@ public class TestController {
         PersonTable.getInstance().setPersonState(personState);
         personTableService.save(PersonTable.getInstance());
         PersonTable.delete();
+        setNotFinished();
         return "personStateAnalyze";
     }
 
@@ -104,10 +106,6 @@ public class TestController {
             resultTableService.saveTestOne(testOne.getTestData());
         }
         return ResponseEntity.ok().build();
-    }
-
-    private static TestOne getInstance() {
-        return TestOne.getInstance();
     }
 }
 

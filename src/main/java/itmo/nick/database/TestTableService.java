@@ -31,7 +31,7 @@ public class TestTableService {
 
 	public String getNameById(int id) {
 		String name = testTableRepository.findNameById(id);
-		boolean status = resultTableService.getStatus(id);
+		boolean status = resultTableService.getStatus();
 		if (status) {
 			return name + " ✓";
 		} else {

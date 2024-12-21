@@ -25,28 +25,31 @@ public class TestOne extends SimpleTest {
 		}
 	}
 
+	/**
+	 * Рассчет итогового результата (в секундах) в виде человеческого текста
+	 * для отображения на этапе результата
+	 * @param original оригинальное время тестов
+	 * @return удобочитаемый текст результата
+	 */
 	public String resultSec(String[] original) {
-		double stage1 = (double) Math.round((testOne.getTestData()[1].getTime() - Double.parseDouble(original[0])) * 100) /100;
-		String stage1Text = stage1 < 0 ?
-			"вы быстрее на " + Math.abs(stage1) + "с."
-			: "вы медленне на " + stage1 + "с.";
-
-		double stage2 = (double) Math.round((testOne.getTestData()[2].getTime() - Double.parseDouble(original[1])) * 100) /100;
-		String stage2Text = stage2 < 0 ?
-			"вы быстрее на " + Math.abs(stage2) + "с."
-			: "вы медленне на " + stage2 + "с.";
-
-//todo удвоенное среднее время, а не просто на 2
-		double stage3 = (double) Math.round((testOne.getTestData()[3].getTime() + testOne.getTestData()[3].getErrors() * 2 - Double.parseDouble(original[2])) * 100) /100;
-		String stage3Text = stage3 < 0 ?
-			"вы быстрее на " + Math.abs(stage3) + "с."
-			: "вы медленне на " + stage3 + "с.";
-
-		double stage4 = (double) Math.round((testOne.getTestData()[4].getTime() + testOne.getTestData()[4].getErrors() * 2 - Double.parseDouble(original[3])) * 100) /100;
-		String stage4Text = stage4 < 0 ?
-			"вы быстрее на " + Math.abs(stage4) + "с."
-			: "вы медленне на " + stage4 + "с.";
+		String stage1Text = getStageText(testOne.getTestData()[1].getTime(), original, 0);
+		String stage2Text = getStageText(testOne.getTestData()[2].getTime(), original, 1);
+		String stage3Text = getStageText(testOne.getTestData()[3].getTime()
+			+ testOne.getTestData()[3].getErrors() * 2 * (testOne.getTestData()[3].getTime() / 100), original, 2);
+		String stage4Text = getStageText(testOne.getTestData()[4].getTime()
+			+ testOne.getTestData()[4].getErrors() * 2 * (testOne.getTestData()[4].getTime() / 100), original, 3);
 
 		return "Этап 1: " + stage1Text + "<br>Этап 2: " + stage2Text + "<br>Этап 3: " + stage3Text + "<br>Этап 4: " + stage4Text;
+	}
+
+	private String getStageText(Double testOne, String[] original, int originalStage) {
+		double stage = getStageTime(testOne, original, originalStage);
+		return stage < 0 ?
+			"вы быстрее на " + Math.abs(stage) + "с."
+			: "вы медленне на " + stage + "с.";
+	}
+
+	private double getStageTime(Double testOne, String[] original, int originalStage) {
+		return (double) Math.round((testOne - Double.parseDouble(original[originalStage])) * 100) / 100;
 	}
 }
