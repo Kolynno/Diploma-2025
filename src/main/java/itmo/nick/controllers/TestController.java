@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+
 /**
  * Основной контроллер
  */
@@ -62,7 +64,9 @@ public class TestController {
             model.addAttribute("name", testTableService.getNameById(1));
         }
         if (stage == 5) {
-            model.addAttribute("result", testTableService.getResultsById(1));
+            model.addAttribute("result",
+                testOne.resultSec(testTableService.getResultsById(1).split(";"))
+            );
         }
         return "attention/attentionTestOneStage" + stage;
     }

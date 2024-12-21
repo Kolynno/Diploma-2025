@@ -7,13 +7,13 @@ if (document.getElementById('timerBtn') != null) {
 
         if (intervalId === null) {
             intervalId = setInterval(() => {
-                timer++;
-            }, 1000);
+                timer += 0.1;
+            }, 100);
             timerButton.textContent = `Запущено!`;
         } else {
             clearInterval(intervalId);
             intervalId = null;
-            timerButton.textContent = `${timer} сек.`;
+            timerButton.textContent = `${Math.round(timer * 100) / 100} сек.`;
         }
     });
 }
@@ -26,7 +26,7 @@ if (document.getElementById('nextBtn') != null) {
         const errors = errorsInput ? parseInt(errorsInput.value) || 0 : 0;
 
         const stageData = {
-            time: timer,
+            time: Math.round(timer * 100) / 100,
             errors: errors,
             stage: currentStage
         };

@@ -17,6 +17,6 @@ import lombok.*;
 
 public class TestOneData {
 	private final Integer stage;
-	private final Integer time;
+	private final Double time;
 	private final Integer errors;
 }
