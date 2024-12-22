@@ -1,6 +1,6 @@
 package itmo.nick.test;
 
-import itmo.nick.test.attention.TestOne;
+import itmo.nick.test.attention.AttentionTestOne;
 
 /**
  *
@@ -66,6 +66,6 @@ public class SimpleTest {
 	}
 
 	public static void setNotFinished() {
-		TestOne.getInstance().setFinished(false);
+		AttentionTestOne.getInstance().setFinished(false);
 	}
 }

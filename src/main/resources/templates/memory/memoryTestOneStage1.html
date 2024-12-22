@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест Memtrax</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/memory/memoryTestOne.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <img th:src="${imagePath}" alt="Memory Test Stage">
+    </div>
+    <div class="buttons">
+        <button class="back-btn" id="backBtn" data-url="/t/m/1?s=0">Назад</button>
+    </div>
+</div>
+<script src="/scripts/memory/memoryTestOne.js"></script>
+<script src="/scripts/memory/timeout.js"></script>
+</body>
+</html>

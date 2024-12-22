@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест Memtrax</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/memory/memoryTestOne.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <h4 th:text="${name}"></h4>
+        <p th:utext="${desc}"></p>
+        <h4>Исследуется</h4>
+        <p></p>
+        <h4>Проведение теста</h4>
+        <p></p>
+    </div>
+    <div class="buttons">
+        <button class="start-btn" id="nextBtn" data-url="/t/m/1?s=1">Начать</button>
+        <button class="back-btn" id="backBtn" data-url="/t">Обратно</button>
+    </div>
+</div>
+<script src="/scripts/memory/memoryTestOne.js"></script>
+</body>
+</html>
