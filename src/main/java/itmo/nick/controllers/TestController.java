@@ -50,7 +50,8 @@ public class TestController {
     //Страница всех тестов
     @GetMapping("/t")
     public String testsPage(Model model) {
-		model.addAttribute("t1", testTableService.getNameById(1));
+        model.addAttribute("t1", testTableService.getNameById(1));
+        model.addAttribute("t2", testTableService.getNameById(2));
         return "testsPage";
     }
 
@@ -77,24 +78,34 @@ public class TestController {
 	//Тест на память 1
 	@GetMapping("/t/m/1")
 	public String memoryTestOne(@RequestParam("s") int stage,
-                                @RequestParam(value = "t", required = false) Integer timeout, Model model) {
+                                @RequestParam(value = "t", required = false) Double timeout, Model model) {
 		MemoryTestOne memoryTestOne = MemoryTestOne.getInstance();
 		stage = memoryTestOne.CorrectNextStage(stage);
         if (timeout != null) {
-            if (timeout == 1) {
-                System.out.println("TIME");
-            } else if (timeout == 0) {
-                System.out.println("SPACE");
+            if (timeout > 3.0) {
+                memoryTestOne.answer("0", 0);
+            } else {
+                //только время реации распознавания
+                memoryTestOne.answer("1", timeout);
             }
         }
 
-        if (stage == 0) {
+         if (stage == 0) {
             model.addAttribute("desc", testTableService.getDescById(2));
             model.addAttribute("name", testTableService.getNameById(2));
         }
-        if (stage == 2) {
+        String picture = memoryTestOne.getNextPicture();
+        if ("-1".equals(picture)) {
+            stage = 2;
+        } else {
+            model.addAttribute("imagePath", "/img/memtrax/" + picture +".jpg");
         }
-        model.addAttribute("imagePath", "/img/memtrax/"+ memoryTestOne.getNextPicture() +".jpg");
+        if (stage == 2) {
+            model.addAttribute("result",
+                memoryTestOne.result(testTableService.getResultsById(2).split(";"))
+            );
+        }
+
 		return "memory/memoryTestOneStage" + stage;
 	}
 

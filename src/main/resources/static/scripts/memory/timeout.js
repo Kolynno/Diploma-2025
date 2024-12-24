@@ -1,9 +1,15 @@
+// Время загрузки страницы
+const pageLoadTime = performance.now();
+
 // Функция для перенаправления на указанную страницу
 function redirectToPage(isTimeout) {
+    const currentTime = performance.now();
+    const elapsedTime = ((currentTime - pageLoadTime) / 1000).toFixed(1); // Время в секундах с точностью до 1 знака
+
     if (isTimeout) {
-        window.location.href = "/t/m/1?s=1&t=1";
+        window.location.href = `/t/m/1?s=1&t=${elapsedTime}`;
     } else {
-        window.location.href = "/t/m/1?s=1&t=0";
+        window.location.href = `/t/m/1?s=1&t=${elapsedTime}`;
     }
 }
 
@@ -16,4 +22,4 @@ window.addEventListener("keydown", function(event) {
         event.preventDefault(); // Предотвращаем скроллинг страницы
         redirectToPage(false);
     }
-})
+});
