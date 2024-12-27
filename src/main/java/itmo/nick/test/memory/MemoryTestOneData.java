@@ -37,12 +37,10 @@ public class MemoryTestOneData {
 	 * Получить номер картинки
 	 */
 	public String getNextPicture() {
-		if (currentPict >= pictureSequence.length - 1) {
+		if (currentPict >= pictureSequence.length) {
 			return "-1";
 		}
-		String picture = pictureSequence[currentPict];
-  		currentPict++;
-		return picture;
+		return pictureSequence[currentPict];
 	}
 
 	/**
@@ -51,12 +49,14 @@ public class MemoryTestOneData {
 	 * 1 - нажатие на пробел (повторение картинки)
 	 */
 	public String getCorrectAnswer() {
-		System.out.println("Pict:" + currentPict); // must 0-49
-		return correctAnswers[currentPict];
+		System.out.println("Pict:" + currentPict);
+		String answer = correctAnswers[currentPict];
+		currentPict++;
+		return answer;
 	}
 
 	/**
-	 * Увеличить счетчик ошибко на 1
+	 * Увеличить счетчик ошибки на 1
 	 */
 	public void increaseIncorrectAnswers() {
 		incorrectAnswers++;

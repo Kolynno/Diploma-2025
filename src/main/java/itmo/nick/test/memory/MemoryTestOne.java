@@ -1,7 +1,6 @@
 package itmo.nick.test.memory;
 
 import itmo.nick.test.SimpleTest;
-import itmo.nick.test.attention.AttentionTestOne;
 
 /**
  * Memtrax - тест на память 1
@@ -34,18 +33,20 @@ public class MemoryTestOne extends SimpleTest {
 	}
 
 	public String result(String[] split) {
-
-		System.out.println(memoryTestOneData.getIncorrectAnswers() + "- Incorrect");
-		System.out.println(Math.round((double) memoryTestOneData.getIncorrectAnswers() /50.0 * 100)/100 + "- % Incorrect");
-		System.out.println(memoryTestOneData.getAnswerTime() + "- Sec total");
-		System.out.println(Math.round(memoryTestOneData.getAnswerTime()/25.0 * 10) / 10 + "- Sec for each");
-
 		return "Обычные люди: " + split[0] + " ошибок и до " + split[1] + " сек. в среднем скорость ответа<br>" +
 			"Легкое когнитивное нарушение: " + split[2] + " ошибок и до " + split[3] + " сек. в среднем скорость ответа<br>" +
 			"Легкая степень деменции: " + split[4] + " ошибок и до " + split[5] + " сек. в среднем скорость ответа<br>" +
 			"Средняя и тяжка деменция: от " + split[4] + " ошибок и от " + split[5] + " сек. в среднем скорость ответа<br>" +
-			"Ваш результат: " + Math.round((double) memoryTestOneData.getIncorrectAnswers() /50 * 100) / 100  + "%, " +
-			Math.round(memoryTestOneData.getAnswerTime()/25 * 10) / 10 + " сек.";
+			"Ваш результат: " + getErrorPercent() + "% ошибок,<br>" +
+			getAnswerMs() + " мс. среднее время реакции на повторную картинку";
+	}
+
+	public long getAnswerMs() {
+		return Math.round(memoryTestOneData.getAnswerTime() / 25.0 * 1000);
+	}
+
+	public double getErrorPercent() {
+		return Math.round(memoryTestOneData.getIncorrectAnswers() / 52.0 * 1000) / 10.0;
 	}
 
 	public void answer(String type, double time) {

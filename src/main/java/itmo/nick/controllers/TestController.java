@@ -10,7 +10,6 @@ import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.attention.AttentionTestOneData;
 import itmo.nick.test.memory.MemoryTestOne;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -101,6 +100,7 @@ public class TestController {
             model.addAttribute("imagePath", "/img/memtrax/" + picture +".jpg");
         }
         if (stage == 2) {
+            resultTableService.saveTestTwo(memoryTestOne.getErrorPercent(), memoryTestOne.getAnswerMs());
             model.addAttribute("result",
                 memoryTestOne.result(testTableService.getResultsById(2).split(";"))
             );

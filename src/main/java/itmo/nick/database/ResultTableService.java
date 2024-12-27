@@ -43,8 +43,18 @@ public class ResultTableService {
 		resultTableRepository.save(resultTable);
 	}
 
-	public boolean getStatus() {
-		if ("0".equals(resultTableRepository.getStatus())) {
+	public void saveTestTwo(double errors, double time) {
+		ResultTable resultTable = new ResultTable();
+		resultTable.setTest_id("2");
+		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setP1(String.valueOf(errors));
+		resultTable.setP2(String.valueOf(time));
+
+		resultTableRepository.save(resultTable);
+	}
+
+	public boolean getStatus(int testId) {
+		if ("0".equals(resultTableRepository.getStatus(String.valueOf(testId)))) {
 			return false;
 		}
 		return true;

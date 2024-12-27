@@ -5,8 +5,6 @@ import itmo.nick.database.repositories.TestTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 /**
  * Сервис тестов
  *
@@ -31,7 +29,7 @@ public class TestTableService {
 
 	public String getNameById(int id) {
 		String name = testTableRepository.findNameById(id);
-		boolean status = resultTableService.getStatus();
+		boolean status = resultTableService.getStatus(id);
 		if (status) {
 			return name + " ✓";
 		} else {
