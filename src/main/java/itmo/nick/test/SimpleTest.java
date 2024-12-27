@@ -1,6 +1,7 @@
 package itmo.nick.test;
 
 import itmo.nick.test.attention.AttentionTestOne;
+import itmo.nick.test.memory.MemoryTestOne;
 
 /**
  *
@@ -65,7 +66,12 @@ public class SimpleTest {
 		currentStage = 0;
 	}
 
-	public static void setNotFinished() {
-		AttentionTestOne.getInstance().setFinished(false);
+	/**
+	 * Очистка данных
+	 */
+	public static void deleteTestAndData() {
+		AttentionTestOne.getInstance().delete();
+		MemoryTestOne.getInstance().delete();
 	}
+
 }

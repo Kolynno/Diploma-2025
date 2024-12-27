@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import static itmo.nick.test.SimpleTest.setNotFinished;
+import static itmo.nick.test.SimpleTest.deleteTestAndData;
 import static itmo.nick.test.attention.AttentionTestOne.getInstance;
 
 /**
@@ -37,6 +37,7 @@ public class TestController {
     //Страница регистрации нового участника
     @GetMapping("/r")
     public String registration() {
+        deleteTestAndData();
         return "registration";
     }
 
@@ -78,7 +79,7 @@ public class TestController {
 	@GetMapping("/t/m/1")
 	public String memoryTestOne(@RequestParam("s") int stage,
                                 @RequestParam(value = "t", required = false) Double timeout, Model model) {
-		MemoryTestOne memoryTestOne = MemoryTestOne.getInstance();
+ 		MemoryTestOne memoryTestOne = MemoryTestOne.getInstance();
 		stage = memoryTestOne.CorrectNextStage(stage);
         if (timeout != null) {
             if (timeout > 3.0) {
@@ -89,7 +90,7 @@ public class TestController {
             }
         }
 
-         if (stage == 0) {
+        if (stage == 0) {
             model.addAttribute("desc", testTableService.getDescById(2));
             model.addAttribute("name", testTableService.getNameById(2));
         }
@@ -97,7 +98,7 @@ public class TestController {
         if ("-1".equals(picture)) {
             stage = 2;
         } else {
-            model.addAttribute("imagePath", "/img/memtrax/" + picture +".jpg");
+            model.addAttribute("imagePath", "/img/memtrax/" + picture + ".jpg");
         }
         if (stage == 2) {
             resultTableService.saveTestTwo(memoryTestOne.getErrorPercent(), memoryTestOne.getAnswerMs());
@@ -125,14 +126,12 @@ public class TestController {
         PersonTable.getInstance().setPersonState(personState);
         personTableService.save(PersonTable.getInstance());
         PersonTable.delete();
-        setNotFinished();
         return "personStateAnalyze";
     }
 
     //Данные этапа теста на внимательность 1
     @PostMapping("/attentionTestOneStageData")
     public ResponseEntity<Void> attentionTestOneStageData(@RequestBody AttentionTestOneData data) {
-        System.out.println(data);
         AttentionTestOne attentionTestOne = getInstance();
 
         if (data.getStage() != 0) {

@@ -55,4 +55,8 @@ public class MemoryTestOne extends SimpleTest {
 		}
 		memoryTestOneData.increaseTime(time);
 	}
+
+	public void delete() {
+		memoryTestOne = null;
+	}
 }

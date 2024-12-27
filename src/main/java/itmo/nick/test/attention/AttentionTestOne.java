@@ -52,4 +52,8 @@ public class AttentionTestOne extends SimpleTest {
 	private double getStageTime(Double testOne, String[] original, int originalStage) {
 		return (double) Math.round((testOne - Double.parseDouble(original[originalStage])) * 100) / 100;
 	}
+
+	public void delete() {
+		attentionTestOne = null;
+	}
 }

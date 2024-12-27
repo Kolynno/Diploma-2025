@@ -40,6 +40,7 @@ public class MemoryTestOneData {
 		if (currentPict >= pictureSequence.length) {
 			return "-1";
 		}
+		System.out.println("Pict:" + currentPict);
 		return pictureSequence[currentPict];
 	}
 
@@ -49,7 +50,7 @@ public class MemoryTestOneData {
 	 * 1 - нажатие на пробел (повторение картинки)
 	 */
 	public String getCorrectAnswer() {
-		System.out.println("Pict:" + currentPict);
+		System.out.println("Answer:" + currentPict);
 		String answer = correctAnswers[currentPict];
 		currentPict++;
 		return answer;
