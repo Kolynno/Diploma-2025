@@ -9,6 +9,7 @@ import itmo.nick.person.PersonState;
 import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.attention.AttentionTestOneData;
 import itmo.nick.test.memory.MemoryTestOne;
+import itmo.nick.test.reaction.ReactionTestOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -52,6 +53,7 @@ public class TestController {
     public String testsPage(Model model) {
         model.addAttribute("t1", testTableService.getNameById(1));
         model.addAttribute("t2", testTableService.getNameById(2));
+        model.addAttribute("t3", testTableService.getNameById(3));
         return "testsPage";
     }
 
@@ -101,14 +103,45 @@ public class TestController {
             model.addAttribute("imagePath", "/img/memtrax/" + picture + ".jpg");
         }
         if (stage == 2) {
-            resultTableService.saveTestTwo(memoryTestOne.getErrorPercent(), memoryTestOne.getAnswerMs());
+            if (!memoryTestOne.isFinished()) {
+                resultTableService.saveTestTwo(memoryTestOne.getErrorPercent(), memoryTestOne.getAnswerMs());
+                memoryTestOne.setFinished(true);
+            }
             model.addAttribute("result",
                 memoryTestOne.result(testTableService.getResultsById(2).split(";"))
             );
+
         }
 
 		return "memory/memoryTestOneStage" + stage;
 	}
+
+    //Тест на реацию 1
+    @GetMapping("/t/r/1")
+    public String reactionTestOne(@RequestParam("s") int stage,
+                                @RequestParam(value = "t", required = false) Double time, Model model) {
+        ReactionTestOne reactionTestOne = ReactionTestOne.getInstance();
+        stage = reactionTestOne.CorrectNextStage(stage);
+
+        if (stage == 0) {
+            model.addAttribute("desc", testTableService.getDescById(3));
+            model.addAttribute("name", testTableService.getNameById(3));
+        }
+        System.out.println(time == null? "No time" : time);
+        //model.addAttribute("imagePath", "/img/memtrax/" + picture + ".jpg");
+
+        if (stage == 2) {
+            if (!reactionTestOne.isFinished()) {
+                reactionTestOne.setFinished(true);
+            }
+            model.addAttribute("result",
+                reactionTestOne.result(testTableService.getResultsById(3).split(";"))
+            );
+        }
+
+        return "reaction/reactionTestOneStage" + stage;
+    }
+
 
     /**
      * Реация на действия

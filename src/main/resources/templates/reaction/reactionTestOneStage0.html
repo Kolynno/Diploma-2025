@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест Реакции</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/reaction/reactionTestOne.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <h4 th:text="${name}"></h4>
+        <p th:utext="${desc}"></p>
+        <h4>Исследуется</h4>
+        <p>Скорость реакции человека</p>
+        <h4>Проведение теста</h4>
+        <p>Пока показывается красный прямоугольник - ничего не нужно делать.<br>
+        Как только он пропадает, сразу же надо реагировать и жать на пробел, чтобы зафиксировать время реакции.<br>
+        Данный текст длиться 1 минуту.</p>
+    </div>
+    <div class="buttons">
+        <button class="start-btn" id="nextBtn" data-url="/t/r/1?s=1">Начать</button>
+        <button class="back-btn" id="backBtn" data-url="/t">Обратно</button>
+    </div>
+</div>
+<script src="/scripts/reaction/reactionTestOne.js"></script>
+</body>
+</html>
