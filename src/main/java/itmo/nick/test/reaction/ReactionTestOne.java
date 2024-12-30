@@ -3,6 +3,8 @@ package itmo.nick.test.reaction;
 import itmo.nick.test.SimpleTest;
 import itmo.nick.test.memory.MemoryTestOneData;
 
+import java.util.ArrayList;
+
 /**
  * Тест на время реакции 1
  *
@@ -12,10 +14,18 @@ import itmo.nick.test.memory.MemoryTestOneData;
 public class ReactionTestOne extends SimpleTest {
 
 	static ReactionTestOne reactionTestOne;
+	private ArrayList<ReactionTestOneData> reactionTestOneDataList = new ArrayList<>();
 
+	private static int TEST_TIME_IN_SEC = 10;
+	private static int TEST_TIME_IN_MS = TEST_TIME_IN_SEC * 1000;
+	private static double ERROR_TIME_IN_SEC = 0.5;
 
 	protected ReactionTestOne() {
-		super(3);
+		super(2);
+	}
+
+	public void addData(ReactionTestOneData data) {
+		reactionTestOneDataList.add(data);
 	}
 
 	public static ReactionTestOne getInstance() {
@@ -30,13 +40,41 @@ public class ReactionTestOne extends SimpleTest {
 
 	public String result(String[] split) {
 		return "Среднее время реакции бодрого человека " + split[0] + " мс. <br>при " + split[1] +
-			" кол-ве пропусков (реакция более 500мс) и " + split[2] + " кол-ве преждевременных нажатий <br>У человека " +
+			" пропусков (реакция более 500мс) и " + split[2] + " преждевременных нажатий <br>У человека " +
 			"с недостатком сна среднее время реакции " + split[3] + " мс.<br>при " + split[4] +
-			" кол-ве пропусков и " + split[5] + "кол-ве преждевременных нажатий<br>Ваш результат " +
-			"NUMBER мс. - скорость реакции при NUBMER кол-ве ошибок и NUMBER кол-ве ложных нажатий.";
+			" пропусков и " + split[5] + " преждевременных нажатий<br>Ваш результат " +
+			String.valueOf(getReactionTime()).substring(0,5) + " c. - скорость реакции, количество ошибок = "
+			+ getErrors() + ", ложных нажатий = " + getFalseStarts();
+	}
+
+	public String getFalseStarts() {
+		return String.valueOf(reactionTestOneDataList.stream()
+			.mapToDouble(ReactionTestOneData::getDelay)
+			.filter(time -> time == 0).count());
+	}
+
+	public long getErrors() {
+		return reactionTestOneDataList.stream()
+			.mapToDouble(ReactionTestOneData::getReactionTime)
+			.filter(time -> time > ERROR_TIME_IN_SEC).count();
+	}
+
+	public double getReactionTime() {
+		double total = reactionTestOneDataList.stream().mapToDouble(ReactionTestOneData::getReactionTime).sum();
+		return total/reactionTestOneDataList.stream().filter(time -> time.getReactionTime() != 0).count();
 	}
 
 	public void delete() {
 		reactionTestOne = null;
+	}
+
+	public boolean timeIsUp() {
+		double totalTime = reactionTestOneDataList.stream()
+			.mapToDouble(data -> data.getReactionTime() + data.getDelay()).sum();
+		return totalTime > TEST_TIME_IN_MS;
+	}
+
+	public ArrayList<ReactionTestOneData> getReactionTestOneDataList() {
+		return reactionTestOneDataList;
 	}
 }

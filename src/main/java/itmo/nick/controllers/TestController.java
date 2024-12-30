@@ -10,6 +10,7 @@ import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.attention.AttentionTestOneData;
 import itmo.nick.test.memory.MemoryTestOne;
 import itmo.nick.test.reaction.ReactionTestOne;
+import itmo.nick.test.reaction.ReactionTestOneData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -118,20 +119,24 @@ public class TestController {
 
     //Тест на реацию 1
     @GetMapping("/t/r/1")
-    public String reactionTestOne(@RequestParam("s") int stage,
-                                @RequestParam(value = "t", required = false) Double time, Model model) {
+    public String reactionTestOne(@RequestParam("s") int stage, Model model) {
         ReactionTestOne reactionTestOne = ReactionTestOne.getInstance();
         stage = reactionTestOne.CorrectNextStage(stage);
+
+        if (reactionTestOne.timeIsUp()) {
+            stage = 2;
+        }
 
         if (stage == 0) {
             model.addAttribute("desc", testTableService.getDescById(3));
             model.addAttribute("name", testTableService.getNameById(3));
         }
-        System.out.println(time == null? "No time" : time);
-        //model.addAttribute("imagePath", "/img/memtrax/" + picture + ".jpg");
 
         if (stage == 2) {
             if (!reactionTestOne.isFinished()) {
+                reactionTestOne.getReactionTestOneDataList().remove(0); //первое ложное при старте
+                resultTableService.saveTestThree(String.valueOf(reactionTestOne.getReactionTime()).substring(0,5),
+                    String.valueOf(reactionTestOne.getErrors()), reactionTestOne.getFalseStarts());
                 reactionTestOne.setFinished(true);
             }
             model.addAttribute("result",
@@ -174,6 +179,14 @@ public class TestController {
         if (data.getStage() == 4) {
             resultTableService.saveTestOne(attentionTestOne.getTestData());
         }
+        return ResponseEntity.ok().build();
+    }
+
+    //Данные этапа теста на внимательность 1
+    @PostMapping("/reactionTestOneStageData")
+    public ResponseEntity<Void> reactionTestOneStageData(@RequestBody ReactionTestOneData data) {
+        ReactionTestOne reactionTestOne = ReactionTestOne.getInstance();
+        reactionTestOne.addData(data);
         return ResponseEntity.ok().build();
     }
 }

@@ -53,10 +53,23 @@ public class ResultTableService {
 		resultTableRepository.save(resultTable);
 	}
 
+	public void saveTestThree(String reactionTime, String errors, String falseStarts) {
+		ResultTable resultTable = new ResultTable();
+		resultTable.setTest_id("3");
+		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setP1(reactionTime);
+		resultTable.setP2(errors);
+		resultTable.setP3(falseStarts);
+
+		resultTableRepository.save(resultTable);
+	}
+
 	public boolean getStatus(int testId) {
 		if ("0".equals(resultTableRepository.getStatus(String.valueOf(testId)))) {
 			return false;
 		}
 		return true;
 	}
+
+
 }
