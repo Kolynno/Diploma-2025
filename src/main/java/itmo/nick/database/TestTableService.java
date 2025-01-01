@@ -27,6 +27,13 @@ public class TestTableService {
 		testTableRepository.save(testTable);
 	}
 
+	/**
+	 * Получить название теста.
+	 * В случае, если тест был пройден данным пользователем, то отмечается галочкой,
+	 * иначе просто название
+	 * @param id идентификатор теста
+	 * @return название теста для отображения
+	 */
 	public String getNameById(int id) {
 		String name = testTableRepository.findNameById(id);
 		boolean status = resultTableService.getStatus(id);

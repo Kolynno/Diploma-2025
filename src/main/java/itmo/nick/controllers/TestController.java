@@ -6,6 +6,7 @@ import itmo.nick.database.entities.PersonTable;
 import itmo.nick.database.PersonTableService;
 import itmo.nick.person.Person;
 import itmo.nick.person.PersonState;
+import itmo.nick.test.SimpleTest;
 import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.attention.AttentionTestOneData;
 import itmo.nick.test.memory.MemoryTestOne;
@@ -34,43 +35,48 @@ public class TestController {
     private TestTableService testTableService;
 
     /**
-     * Основные страницы
+     * Страница регистрации
      */
-    //Страница регистрации нового участника
     @GetMapping("/r")
     public String registration() {
         deleteTestAndData();
         return "registration";
     }
 
-    //Страница оценки первичного состояния
+    /**
+     * Страница оценки состояния
+     */
     @GetMapping("/s")
     public String personStateAnalyze() {
         return "personStateAnalyze";
     }
 
-    //Страница всех тестов
+    /**
+     * Страница всех тестов
+     */
     @GetMapping("/t")
     public String testsPage(Model model) {
-        model.addAttribute("t1", testTableService.getNameById(1));
-        model.addAttribute("t2", testTableService.getNameById(2));
-        model.addAttribute("t3", testTableService.getNameById(3));
+        for(int i = 1; i <= SimpleTest.TEST_AMOUNT; i++) {
+            model.addAttribute("t" + i, testTableService.getNameById(i));
+        }
         return "testsPage";
     }
 
     /**
-     * Тесты
+     * Тест на внимательность 1
+     * @param stage этап
      */
-    //Тест на внимательность 1
     @GetMapping("/t/a/1")
     public String attentionTestOne(@RequestParam("s") int stage, Model model) {
         AttentionTestOne attentionTestOne = getInstance();
         stage = attentionTestOne.CorrectNextStage(stage);
-        if (stage == 0) {
+
+        if (stage == AttentionTestOne.DESCRIPTION_STAGE) {
             model.addAttribute("desc", testTableService.getDescById(1));
             model.addAttribute("name", testTableService.getNameById(1));
         }
-        if (stage == 5) {
+
+        if (stage == AttentionTestOne.LAST_STAGE) {
             model.addAttribute("result",
                 attentionTestOne.resultSec(testTableService.getResultsById(1).split(";"))
             );
@@ -78,14 +84,19 @@ public class TestController {
         return "attention/attentionTestOneStage" + stage;
     }
 
-	//Тест на память 1
+    /**
+     * Тест на память 1
+     * @param stage этап
+     * @param timeout время реакции
+     */
 	@GetMapping("/t/m/1")
 	public String memoryTestOne(@RequestParam("s") int stage,
                                 @RequestParam(value = "t", required = false) Double timeout, Model model) {
  		MemoryTestOne memoryTestOne = MemoryTestOne.getInstance();
 		stage = memoryTestOne.CorrectNextStage(stage);
+
         if (timeout != null) {
-            if (timeout > 3.0) {
+            if (timeout > MemoryTestOne.TIMEOUT_IN_SEC) {
                 memoryTestOne.answer("0", 0);
             } else {
                 //только время реации распознавания
@@ -93,17 +104,19 @@ public class TestController {
             }
         }
 
-        if (stage == 0) {
+        if (stage == MemoryTestOne.DESCRIPTION_STAGE) {
             model.addAttribute("desc", testTableService.getDescById(2));
             model.addAttribute("name", testTableService.getNameById(2));
         }
+
         String picture = memoryTestOne.getNextPicture();
         if ("-1".equals(picture)) {
-            stage = 2;
+            stage = MemoryTestOne.LAST_STAGE;
         } else {
             model.addAttribute("imagePath", "/img/memtrax/" + picture + ".jpg");
         }
-        if (stage == 2) {
+
+        if (stage == MemoryTestOne.LAST_STAGE) {
             if (!memoryTestOne.isFinished()) {
                 resultTableService.saveTestTwo(memoryTestOne.getErrorPercent(), memoryTestOne.getAnswerMs());
                 memoryTestOne.setFinished(true);
@@ -111,28 +124,30 @@ public class TestController {
             model.addAttribute("result",
                 memoryTestOne.result(testTableService.getResultsById(2).split(";"))
             );
-
         }
 
 		return "memory/memoryTestOneStage" + stage;
 	}
 
-    //Тест на реацию 1
+    /**
+     * Тест на реацию 1
+     * @param stage этап
+     */
     @GetMapping("/t/r/1")
     public String reactionTestOne(@RequestParam("s") int stage, Model model) {
         ReactionTestOne reactionTestOne = ReactionTestOne.getInstance();
         stage = reactionTestOne.CorrectNextStage(stage);
 
         if (reactionTestOne.timeIsUp()) {
-            stage = 2;
+            stage = ReactionTestOne.LAST_STAGE;
         }
 
-        if (stage == 0) {
+        if (stage == ReactionTestOne.DESCRIPTION_STAGE) {
             model.addAttribute("desc", testTableService.getDescById(3));
             model.addAttribute("name", testTableService.getNameById(3));
         }
 
-        if (stage == 2) {
+        if (stage == ReactionTestOne.LAST_STAGE) {
             if (!reactionTestOne.isFinished()) {
                 reactionTestOne.getReactionTestOneDataList().remove(0); //первое ложное при старте
                 resultTableService.saveTestThree(String.valueOf(reactionTestOne.getReactionTime()).substring(0,5),
@@ -149,16 +164,19 @@ public class TestController {
 
 
     /**
-     * Реация на действия
+     * Получение данных регистрации участника
+     * @param person участник
      */
-    //Данные регистрации участника
     @PostMapping("/register")
     public String registerPerson(@RequestBody Person person) {
         PersonTable.getInstance().setPerson(person);
         return "personStateAnalyze";
     }
 
-    //Данные состояния участника
+    /**
+     * Получение данных состояния участника
+     * @param personState состояние участника
+     */
     @PostMapping("/stateAnalyze")
     public String personState(@RequestBody PersonState personState) {
         PersonTable.getInstance().setPersonState(personState);
@@ -167,22 +185,28 @@ public class TestController {
         return "personStateAnalyze";
     }
 
-    //Данные этапа теста на внимательность 1
+    /**
+     * Получение данных этапа теста на внимательность 1
+     * @param data данные
+     */
     @PostMapping("/attentionTestOneStageData")
     public ResponseEntity<Void> attentionTestOneStageData(@RequestBody AttentionTestOneData data) {
         AttentionTestOne attentionTestOne = getInstance();
 
-        if (data.getStage() != 0) {
+        if (data.getStage() != AttentionTestOne.DESCRIPTION_STAGE) {
             attentionTestOne.getTestData()[data.getStage()] = new AttentionTestOneData(data.getStage(), data.getTime(), data.getErrors());
         }
 
-        if (data.getStage() == 4) {
+        if (data.getStage() == AttentionTestOne.LAST_STAGE - 1) {
             resultTableService.saveTestOne(attentionTestOne.getTestData());
         }
         return ResponseEntity.ok().build();
     }
 
-    //Данные этапа теста на внимательность 1
+    /**
+     * Получение данных этапа теста на реакцию 1
+     * @param data данные
+     */
     @PostMapping("/reactionTestOneStageData")
     public ResponseEntity<Void> reactionTestOneStageData(@RequestBody ReactionTestOneData data) {
         ReactionTestOne reactionTestOne = ReactionTestOne.getInstance();

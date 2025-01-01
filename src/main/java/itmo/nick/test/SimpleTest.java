@@ -11,6 +11,14 @@ import itmo.nick.test.reaction.ReactionTestOne;
  */
 public class SimpleTest {
 	/**
+	 * Общее кол-во тестов
+	 */
+	public static final int TEST_AMOUNT = 3;
+	/**
+	 * Номер первого этапа - описание теста
+	 */
+	public static final int DESCRIPTION_STAGE = 0;
+	/**
 	 * Текущий этап участника
 	 */
 	int currentStage;
@@ -79,5 +87,4 @@ public class SimpleTest {
 		MemoryTestOne.getInstance().delete();
 		ReactionTestOne.getInstance().delete();
 	}
-
 }

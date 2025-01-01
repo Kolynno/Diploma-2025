@@ -16,12 +16,17 @@ public class ReactionTestOne extends SimpleTest {
 	static ReactionTestOne reactionTestOne;
 	private ArrayList<ReactionTestOneData> reactionTestOneDataList = new ArrayList<>();
 
+	/**
+	 * Номер последнего этап теста
+	 */
+	public final static int LAST_STAGE = 2;
+
 	private static int TEST_TIME_IN_SEC = 10;
 	private static int TEST_TIME_IN_MS = TEST_TIME_IN_SEC * 1000;
 	private static double ERROR_TIME_IN_SEC = 0.5;
 
 	protected ReactionTestOne() {
-		super(2);
+		super(LAST_STAGE);
 	}
 
 	public void addData(ReactionTestOneData data) {

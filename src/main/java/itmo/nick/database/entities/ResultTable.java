@@ -42,5 +42,4 @@ public class ResultTable {
 			return resultTable;
 		}
 	}
-
 }

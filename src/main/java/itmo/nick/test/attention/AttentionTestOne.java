@@ -10,9 +10,14 @@ public class AttentionTestOne extends SimpleTest {
 
 	static AttentionTestOne attentionTestOne;
 
+	/**
+	 * Номер последнего этап теста
+	 */
+	public final static int LAST_STAGE = 5;
+
 	private AttentionTestOneData[] testData = new AttentionTestOneData[5];
 	private AttentionTestOne() {
-		super(5);
+		super(LAST_STAGE);
 	}
 
 	public static AttentionTestOne getInstance() {

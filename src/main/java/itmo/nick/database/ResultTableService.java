@@ -64,6 +64,11 @@ public class ResultTableService {
 		resultTableRepository.save(resultTable);
 	}
 
+	/**
+	 * Статус прохождения теста
+	 * @param testId идентификтор теста
+	 * @return если есть прохождение, то стаутс true, иначе false
+	 */
 	public boolean getStatus(int testId) {
 		if ("0".equals(resultTableRepository.getStatus(String.valueOf(testId)))) {
 			return false;

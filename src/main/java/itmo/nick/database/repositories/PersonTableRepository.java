@@ -16,6 +16,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PersonTableRepository extends CrudRepository<PersonTable, Integer> {
 
+	/**
+	 * Получить максимальный идентификтор участника - последний зарегистрированный участики = текущий участник
+	 * @return ID число
+	 */
 	@Query("SELECT MAX(person_id) FROM PersonTable")
 	String findCurrentPersonId();
 }

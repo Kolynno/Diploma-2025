@@ -13,8 +13,18 @@ public class MemoryTestOne extends SimpleTest {
 	static MemoryTestOne memoryTestOne;
 	private final MemoryTestOneData memoryTestOneData;
 
+	/**
+	 * Номер последнего этап теста
+	 */
+	public final static int LAST_STAGE = 2;
+
+	/**
+	 * Время таймаута реакции
+	 */
+	public static final double TIMEOUT_IN_SEC = 3.0;
+
 	protected MemoryTestOne() {
-		super(3);
+		super(LAST_STAGE);
 		memoryTestOneData = new MemoryTestOneData();
 	}
 

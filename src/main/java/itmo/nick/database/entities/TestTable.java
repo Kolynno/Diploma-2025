@@ -44,5 +44,4 @@ public class TestTable {
 			return testTable;
 		}
 	}
-
 }
