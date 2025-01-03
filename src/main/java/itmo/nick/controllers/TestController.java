@@ -10,6 +10,7 @@ import itmo.nick.test.SimpleTest;
 import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.attention.AttentionTestOneData;
 import itmo.nick.test.memory.MemoryTestOne;
+import itmo.nick.test.processing.ProcessingTestOne;
 import itmo.nick.test.reaction.ReactionTestOne;
 import itmo.nick.test.reaction.ReactionTestOneData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,6 +161,33 @@ public class TestController {
         }
 
         return "reaction/reactionTestOneStage" + stage;
+    }
+
+    /**
+     * Тест на обработку информации 1
+     * @param stage этап
+     */
+    @GetMapping("/t/p/1")
+    public String processingTestOne(@RequestParam("s") int stage, Model model) {
+        ProcessingTestOne processingTestOne = ProcessingTestOne.getInstance();
+        stage = processingTestOne.CorrectNextStage(stage);
+
+        if (stage == ReactionTestOne.DESCRIPTION_STAGE) {
+            model.addAttribute("desc", testTableService.getDescById(3));
+            model.addAttribute("name", testTableService.getNameById(3));
+        }
+
+        if (stage == ReactionTestOne.LAST_STAGE) {
+            if (!processingTestOne.isFinished()) {
+
+                resultTableService.saveTestFourth();
+            }
+            model.addAttribute("result",
+                processingTestOne.result(testTableService.getResultsById(3).split(";"))
+            );
+        }
+
+        return "reaction/processingTestOneStage" + stage;
     }
 
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест Обработки информации</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/processing/processingTestOne.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <h4 th:text="${name}"></h4>
+        <p th:utext="${desc}"></p>
+        <h4>Исследуется</h4>
+        <p>Скорость и точность обработки поступающих сигналов</p>
+        <h4>Проведение теста</h4>
+        <p>На экране либо отображается цифра "1", либо голосом сообщается "один" - в этом случае нужно нажать ЛКМ.<br>
+        Если отображается "2", либо голосом сообщается "два", то ничего не нужно делать.<br>
+        Данный текст длится 1 минуту.</p>
+    </div>
+    <div class="buttons">
+        <button class="start-btn" id="nextBtn" data-url="/t/p/1?s=1">Начать</button>
+        <button class="back-btn" id="backBtn" data-url="/t">Обратно</button>
+    </div>
+</div>
+<script src="/scripts/processing/processingTestOne.js"></script>
+</body>
+</html>
