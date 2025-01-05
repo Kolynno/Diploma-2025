@@ -11,6 +11,7 @@ import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.attention.AttentionTestOneData;
 import itmo.nick.test.memory.MemoryTestOne;
 import itmo.nick.test.processing.ProcessingTestOne;
+import itmo.nick.test.processing.ProcessingTestOneData;
 import itmo.nick.test.reaction.ReactionTestOne;
 import itmo.nick.test.reaction.ReactionTestOneData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,8 +174,15 @@ public class TestController {
         stage = processingTestOne.CorrectNextStage(stage);
 
         if (stage == ReactionTestOne.DESCRIPTION_STAGE) {
-            model.addAttribute("desc", testTableService.getDescById(3));
-            model.addAttribute("name", testTableService.getNameById(3));
+            model.addAttribute("desc", testTableService.getDescById(4));
+            model.addAttribute("name", testTableService.getNameById(4));
+        }
+
+        String numbers = processingTestOne.getNextNumbers();
+        if ("-1".equals(numbers)) {
+            stage = MemoryTestOne.LAST_STAGE;
+        } else {
+            model.addAttribute("numbers", numbers);
         }
 
         if (stage == ReactionTestOne.LAST_STAGE) {
@@ -183,11 +191,11 @@ public class TestController {
                 resultTableService.saveTestFourth();
             }
             model.addAttribute("result",
-                processingTestOne.result(testTableService.getResultsById(3).split(";"))
+                processingTestOne.result(testTableService.getResultsById(4).split(";"))
             );
         }
 
-        return "reaction/processingTestOneStage" + stage;
+        return "processing/processingTestOneStage" + stage;
     }
 
 
@@ -239,6 +247,17 @@ public class TestController {
     public ResponseEntity<Void> reactionTestOneStageData(@RequestBody ReactionTestOneData data) {
         ReactionTestOne reactionTestOne = ReactionTestOne.getInstance();
         reactionTestOne.addData(data);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Получение данных этапа теста на обработку информации 1
+     * @param data данные
+     */
+    @PostMapping("/processingTestOneStageData")
+    public ResponseEntity<Void> processingTestOneStageData(@RequestBody ProcessingTestOneData data) {
+        ProcessingTestOne processingTestOne = ProcessingTestOne.getInstance();
+        processingTestOne.addData(data);
         return ResponseEntity.ok().build();
     }
 }

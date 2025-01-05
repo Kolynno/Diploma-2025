@@ -15,6 +15,10 @@ public class ProcessingTestOne extends SimpleTest {
 
 	static ProcessingTestOne processingTestOne;
 
+	private int currentNumbers = 0;
+	private String[] numbersSequence;
+	private String[] correctAnswerSequence;
+
 	/**
 	 * Номер последнего этап теста
 	 */
@@ -22,6 +26,8 @@ public class ProcessingTestOne extends SimpleTest {
 
 	protected ProcessingTestOne() {
 		super(LAST_STAGE);
+		numbersSequence = new String[] {"11111", "11111", "11112", "11112", "22222"};
+		correctAnswerSequence = new String[] {"0", "1", "0", "1", "0"};
 	}
 
 	public static ProcessingTestOne getInstance() {
@@ -35,10 +41,20 @@ public class ProcessingTestOne extends SimpleTest {
 	}
 
 	public String result(String[] split) {
-		return null;
+		return "null";
 	}
 
 	public void delete() {
 		processingTestOne = null;
+	}
+
+	public String getNextNumbers() {
+		if (currentNumbers < numbersSequence.length) {
+			return numbersSequence[currentNumbers];
+		}
+		return "-1";
+	}
+
+	public void addData(ProcessingTestOneData data) {
 	}
 }
