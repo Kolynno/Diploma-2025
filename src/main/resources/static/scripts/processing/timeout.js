@@ -1,91 +1,49 @@
-// Время загрузки страницы
-let pageLoadTime;
-let startTime;
-let reactionTimeout;
-let isRed = true; // Флаг состояния квадрата
-let delay;
+let startTime = 0;
+const displayTime = 500; // Время показа числа в мс
+const intervalTime = 500; // Интервал между числами в мс
+let hasReacted = false; // Флаг для отслеживания реакции
 
-// Функция для установки случайного времени (от 1 до 10 секунд)
-function getRandomDelay() {
-    return Math.random() * (10 - 1) + 1; // Случайное число от 1 до 10
+const numbersElement = document.querySelector('.content p');
+
+// Функция для отправки данных на сервер
+function sendData(reactionTime) {
+    fetch('/processingTestOneStageData', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            reactionTime: reactionTime
+        })
+    }).catch(err => console.error('Ошибка отправки данных:', err));
 }
 
-// Функция для обновления интерфейса
-function showTimer() {
-    const content = document.querySelector(".content");
-    content.innerHTML = "<h1>Таймер запущен!</h1>";
-    isRed = false;
-    startTime = performance.now(); // Время старта таймера
+// Функция для показа следующего числа
+function showNextNumber() {
+    startTime = performance.now();
+
+    setTimeout(() => {
+        numbersElement.textContent = "";
+
+        // Если пользователь ничего не нажал, отправляем реакцию 1 (нет реакции)
+        setTimeout(() => {
+            if (!hasReacted) {
+                sendData(1);
+            }
+            window.location.href = `/t/p/1?s=1`;
+        }, intervalTime);
+    }, displayTime);
 }
 
-// Функция для сброса интерфейса к красному квадрату
-function resetSquare() {
-    const content = document.querySelector(".content");
-    content.innerHTML = '<img src="/img/reactionRed.png">';
-    isRed = true;
-    startReactionTest(); // Перезапуск
-}
-
-// Функция для обработки реакции
-async function handleReaction(falseStart) {
-    let reactionTime = ((performance.now() - startTime) / 1000); // Время реакции
-
-    if (falseStart) {
-        reactionTime = 0;
-        delay = 0;
-    }
-
-    const stageData = {
-        reactionTime: reactionTime.toFixed(3),
-        delay: delay.toFixed(3)
-    };
-
-    try {
-        await fetch('/reactionTestOneStageData', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(stageData)
-        });
-    } catch (error) {
-        console.error('Ошибка отправки данных:', error);
-    }
-
-    // Переход на следующую страницу
-    window.location.href = `/t/r/1?s=1`;
-
-    // Сброс интерфейса после задержки
-    setTimeout(resetSquare, 1000);
-}
-
-// Функция для старта теста реакции
-function startReactionTest() {
-    delay = getRandomDelay() * 1000; // Задержка в миллисекундах
-
-    // Сбрасываем предыдущее состояние
-    clearTimeout(reactionTimeout);
-    startTime = null;
-
-    // Устанавливаем новый таймер
-    reactionTimeout = setTimeout(() => {
-        showTimer();
-    }, delay);
-
-    pageLoadTime = performance.now(); // Запоминаем время загрузки
-}
-
-// Обработчик события для клавиши пробел
+// Обработчик нажатия клавиши
 window.addEventListener("keydown", function(event) {
-    if (event.code === "Space") {
-        event.preventDefault(); // Предотвращаем скроллинг страницы
-        if (!isRed) {
-            handleReaction(false);
-        } else {
-            handleReaction(true);
-        }
+    if (event.code === "Space" && !hasReacted) { // Проверяем, что нажата клавиша "Пробел" и не было реакции
+        hasReacted = true; // Устанавливаем флаг реакции
+        const reactionTime = performance.now() - startTime;
+        sendData(reactionTime);
     }
 });
 
-// Запуск теста при загрузке страницы
-startReactionTest();
+
+// Старт теста
+showNextNumber();

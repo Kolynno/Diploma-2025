@@ -173,19 +173,19 @@ public class TestController {
         ProcessingTestOne processingTestOne = ProcessingTestOne.getInstance();
         stage = processingTestOne.CorrectNextStage(stage);
 
-        if (stage == ReactionTestOne.DESCRIPTION_STAGE) {
+        if (stage == ProcessingTestOne.DESCRIPTION_STAGE) {
             model.addAttribute("desc", testTableService.getDescById(4));
             model.addAttribute("name", testTableService.getNameById(4));
         }
 
         String numbers = processingTestOne.getNextNumbers();
         if ("-1".equals(numbers)) {
-            stage = MemoryTestOne.LAST_STAGE;
+            stage = ProcessingTestOne.LAST_STAGE;
         } else {
             model.addAttribute("numbers", numbers);
         }
 
-        if (stage == ReactionTestOne.LAST_STAGE) {
+        if (stage == ProcessingTestOne.LAST_STAGE) {
             if (!processingTestOne.isFinished()) {
 
                 resultTableService.saveTestFourth();
