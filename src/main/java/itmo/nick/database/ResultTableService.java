@@ -4,6 +4,7 @@ import itmo.nick.database.entities.ResultTable;
 import itmo.nick.database.repositories.PersonTableRepository;
 import itmo.nick.database.repositories.ResultTableRepository;
 import itmo.nick.test.attention.AttentionTestOneData;
+import itmo.nick.test.processing.ProcessingTestOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("1");
 		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+
 		resultTable.setP1(String.valueOf(attentionTestOneData[1].getTime()));
 		resultTable.setP2(String.valueOf(attentionTestOneData[2].getTime()));
 		resultTable.setP3(String.valueOf(attentionTestOneData[3].getTime() + attentionTestOneData[3].getErrors() * 2 * attentionTestOneData[3].getTime()/100));
@@ -47,6 +49,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("2");
 		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+
 		resultTable.setP1(String.valueOf(errors));
 		resultTable.setP2(String.valueOf(time));
 
@@ -57,9 +60,22 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("3");
 		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+
 		resultTable.setP1(reactionTime);
 		resultTable.setP2(errors);
 		resultTable.setP3(falseStarts);
+
+		resultTableRepository.save(resultTable);
+	}
+
+	public void saveTestFourth(ProcessingTestOne processingTestOne) {
+		ResultTable resultTable = new ResultTable();
+		resultTable.setTest_id("4");
+		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+
+		resultTable.setP1(processingTestOne.getReactionTime());
+		resultTable.setP2(processingTestOne.getErrors());
+		resultTable.setP3(processingTestOne.getSimpleErrors());
 
 		resultTableRepository.save(resultTable);
 	}
@@ -76,8 +92,4 @@ public class ResultTableService {
 		return true;
 	}
 
-
-	public void saveTestFourth() {
-
-	}
 }

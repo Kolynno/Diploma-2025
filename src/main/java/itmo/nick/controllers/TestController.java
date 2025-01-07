@@ -186,13 +186,12 @@ public class TestController {
         }
 
         if (stage == ProcessingTestOne.LAST_STAGE) {
-            if (!processingTestOne.isFinished()) {
-
-                resultTableService.saveTestFourth();
-            }
             model.addAttribute("result",
                 processingTestOne.result(testTableService.getResultsById(4).split(";"))
             );
+            if (!processingTestOne.isFinished()) {
+                resultTableService.saveTestFourth(processingTestOne);
+            }
         }
 
         return "processing/processingTestOneStage" + stage;

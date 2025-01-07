@@ -28,7 +28,7 @@ function showNextNumber() {
         // Если пользователь ничего не нажал, отправляем реакцию 1 (нет реакции)
         setTimeout(() => {
             if (!hasReacted) {
-                sendData(1);
+                sendData(1000);
             }
             window.location.href = `/t/p/1?s=1`;
         }, intervalTime);
