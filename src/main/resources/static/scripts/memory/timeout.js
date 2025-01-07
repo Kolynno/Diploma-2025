@@ -1,25 +1,36 @@
 // Время загрузки страницы
 const pageLoadTime = performance.now();
 
-// Функция для перенаправления на указанную страницу
-function redirectToPage(isTimeout) {
+// Функция для отправки данных через POST
+function sendData(elapsedTime) {
+    fetch('/memoryTestOneStageData', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            reactionTime: elapsedTime
+        })
+    }).catch(err => console.error('Ошибка отправки данных:', err));
+}
+
+// Функция для обработки перенаправления
+function redirectToPage() {
     const currentTime = performance.now();
     const elapsedTime = ((currentTime - pageLoadTime) / 1000).toFixed(1); // Время в секундах с точностью до 1 знака
 
-    if (isTimeout) {
-        window.location.href = `/t/m/1?s=1&t=${elapsedTime}`;
-    } else {
-        window.location.href = `/t/m/1?s=1&t=${elapsedTime}`;
-    }
+    sendData(elapsedTime);
+
+    setTimeout(() => {
+        window.location.href = '/t/m/1?s=1';
+    }, 100);
 }
 
-// Таймер для автоматического перенаправления через 3,1 секунды
-setTimeout(() => redirectToPage(true), 3100);
+setTimeout(() => redirectToPage(), 3100);
 
-// Обработчик события для клавиши пробел
-window.addEventListener("keydown", function(event) {
-    if (event.code === "Space") { // Проверяем, что нажата клавиша "Пробел"
-        event.preventDefault(); // Предотвращаем скроллинг страницы
-        redirectToPage(false);
+window.addEventListener('keydown', function (event) {
+    if (event.code === 'Space') {
+        event.preventDefault();
+        redirectToPage();
     }
 });

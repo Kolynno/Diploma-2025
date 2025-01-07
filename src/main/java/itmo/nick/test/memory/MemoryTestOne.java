@@ -11,21 +11,29 @@ import itmo.nick.test.SimpleTest;
 public class MemoryTestOne extends SimpleTest {
 
 	static MemoryTestOne memoryTestOne;
-	private final MemoryTestOneData memoryTestOneData;
-
 	/**
 	 * Номер последнего этап теста
 	 */
-	public final static int LAST_STAGE = 2;
+	public static final int LAST_STAGE = 2;
 
 	/**
 	 * Время таймаута реакции
 	 */
 	public static final double TIMEOUT_IN_SEC = 3.0;
 
+	private final String[] pictureSequence;
+	private final String[] correctAnswers;
+
+	private int incorrectAnswers;
+	private double answerTime;
+
+	private int currentPict;
+
+
 	protected MemoryTestOne() {
 		super(LAST_STAGE);
-		memoryTestOneData = new MemoryTestOneData();
+		pictureSequence = getSequence();
+		correctAnswers = getCorrectAnswers();
 	}
 
 	public static MemoryTestOne getInstance() {
@@ -38,8 +46,13 @@ public class MemoryTestOne extends SimpleTest {
 		}
 	}
 
-	public String getNextPicture() {
-		return memoryTestOneData.getNextPicture();
+	public void addData(MemoryTestOneData data) {
+		if (data.getReactionTime() > TIMEOUT_IN_SEC) {
+			memoryTestOne.answer("0", 0);
+		} else {
+			//только время реации распознавания
+			memoryTestOne.answer("1", data.getReactionTime());
+		}
 	}
 
 	public String result(String[] split) {
@@ -52,21 +65,68 @@ public class MemoryTestOne extends SimpleTest {
 	}
 
 	public long getAnswerMs() {
-		return Math.round(memoryTestOneData.getAnswerTime() / 25.0 * 1000);
+		return Math.round(answerTime / 25.0 * 1000);
 	}
 
 	public double getErrorPercent() {
-		return Math.round(memoryTestOneData.getIncorrectAnswers() / 52.0 * 1000) / 10.0;
+		return Math.round(incorrectAnswers / 52.0 * 1000) / 10.0;
 	}
 
-	public void answer(String type, double time) {
-		if (!memoryTestOneData.getCorrectAnswer().equals(type)) {
-			memoryTestOneData.increaseIncorrectAnswers();
+	private void answer(String type, double time) {
+		if (!getCorrectAnswer().equals(type)) {
+			increaseIncorrectAnswers();
 		}
-		memoryTestOneData.increaseTime(time);
+		increaseTime(time);
 	}
 
 	public void delete() {
 		memoryTestOne = null;
+	}
+
+	private String[] getCorrectAnswers() {
+		return new String[] {"0","0","0","0","0","0","0","0","0","0","0","0","1","1","0","0","0","0","0","0","0","0", "0",
+			"1","1","0","1","1","1","1","0","1","0","1","1","1","1","1","1","0","1","1","1","1","1","1","1","1","1","1"};
+	}
+
+	//Пока одна и та же последовательность, а не случайная
+	private String[] getSequence() {
+		return new String[] {"25","1","19","5","15","12","2","6","20","3","23","4","5","6","14","7","8","17","9","24",
+			"10","21","11","10","12","13","2","14","15","9","16","17","18","19","20","4","21","11","3","22","23","16",
+			"24","1","25","7","8","13","18","22"};
+	}
+
+	/**
+	 * Получить номер картинки
+	 */
+	public String getNextPicture() {
+		if (currentPict >= pictureSequence.length) {
+			return "-1";
+		}
+		return pictureSequence[currentPict];
+	}
+
+	/**
+	 * Получить верный ответ.
+	 * 0 - таймаут (ничего)
+	 * 1 - нажатие на пробел (повторение картинки)
+	 */
+	private String getCorrectAnswer() {
+		String answer = correctAnswers[currentPict];
+		currentPict++;
+		return answer;
+	}
+
+	/**
+	 * Увеличить счетчик ошибки на 1
+	 */
+	private void increaseIncorrectAnswers() {
+		incorrectAnswers++;
+	}
+
+	/**
+	 * Прибавить время ответа
+	 */
+	private void increaseTime(double time) {
+		answerTime += time;
 	}
 }
