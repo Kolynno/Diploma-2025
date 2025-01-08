@@ -1,11 +1,10 @@
 let startTime = 0;
-const displayTime = 500; // Время показа числа в мс
-const intervalTime = 500; // Интервал между числами в мс
-let hasReacted = false; // Флаг для отслеживания реакции
+const displayTime = 500;
+const intervalTime = displayTime;
+let hasReacted = false;
 
 const numbersElement = document.querySelector('.content p');
 
-// Функция для отправки данных на сервер
 function sendData(reactionTime) {
     fetch('/processingTestOneStageData', {
         method: 'POST',
@@ -18,7 +17,6 @@ function sendData(reactionTime) {
     }).catch(err => console.error('Ошибка отправки данных:', err));
 }
 
-// Функция для показа следующего числа
 function showNextNumber() {
     startTime = performance.now();
 
@@ -35,15 +33,12 @@ function showNextNumber() {
     }, displayTime);
 }
 
-// Обработчик нажатия клавиши
 window.addEventListener("keydown", function(event) {
-    if (event.code === "Space" && !hasReacted) { // Проверяем, что нажата клавиша "Пробел" и не было реакции
-        hasReacted = true; // Устанавливаем флаг реакции
+    if (event.code === "Space" && !hasReacted) {
+        hasReacted = true;
         const reactionTime = performance.now() - startTime;
         sendData(reactionTime);
     }
 });
 
-
-// Старт теста
 showNextNumber();

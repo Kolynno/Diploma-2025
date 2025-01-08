@@ -1,22 +1,4 @@
 let timer = 0;
-let intervalId = null;
-
-if (document.getElementById('timerBtn') != null) {
-    document.getElementById('timerBtn').addEventListener('click', function () {
-        const timerButton = this;
-
-        if (intervalId === null) {
-            intervalId = setInterval(() => {
-                timer += 0.1;
-            }, 100);
-            timerButton.textContent = `Запущено!`;
-        } else {
-            clearInterval(intervalId);
-            intervalId = null;
-            timerButton.textContent = `${Math.round(timer * 100) / 100} сек.`;
-        }
-    });
-}
 
 if (document.getElementById('nextBtn') != null) {
     document.getElementById('nextBtn').addEventListener('click', async function () {
@@ -43,7 +25,6 @@ if (document.getElementById('nextBtn') != null) {
             console.error('Ошибка отправки данных:', error);
         }
 
-        // Переход на следующую страницу
         window.location.href = url;
     });
 }

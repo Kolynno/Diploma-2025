@@ -43,7 +43,6 @@ if (document.getElementById('nextBtn') != null) {
             console.error('Ошибка отправки данных:', error);
         }
 
-        // Переход на следующую страницу
         window.location.href = url;
     });
 }

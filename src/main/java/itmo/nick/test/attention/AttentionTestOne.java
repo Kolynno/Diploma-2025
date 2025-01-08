@@ -36,7 +36,8 @@ public class AttentionTestOne extends SimpleTest {
 	 * @param original оригинальное время тестов
 	 * @return удобочитаемый текст результата
 	 */
-	public String resultSec(String[] original) {
+	@Override
+	public String result(String[] original) {
 		String stage1Text = getStageText(attentionTestOne.getTestData()[1].getTime(), original, 0);
 		String stage2Text = getStageText(attentionTestOne.getTestData()[2].getTime(), original, 1);
 		String stage3Text = getStageText(attentionTestOne.getTestData()[3].getTime()

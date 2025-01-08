@@ -50,11 +50,15 @@ public class ProcessingTestOne extends SimpleTest {
 		}
 	}
 
-	public String result(String[] split) {
+	@Override
+	public String result(String[] original) {
 		calculateErrors();
-		return "Ошбики в оригинальном тесте у здоровых людей: " + split[0] + "% ловушка, " + split[1] + "% простой. Время реакции " + split[2] + " мс.<br>" +
-			"Ошбики в оригинальном тесте у людей с шизофренией: " + split[3] + "% ловушка, " + split[4] + "% простой. Время реакции " + split[5] + " мс.<br>" +
-			"Ваш результат: " + getErrors() + " % ловушка, " + getSimpleErrors() + " % простой. Время реакции " + getReactionTime() + " мс.";
+		return "Ошбики в оригинальном тесте у здоровых людей: " + original[0]
+			+ "% ловушка, " + original[1] + "% простой. Время реакции " + original[2] + " мс.<br>" +
+			"Ошбики в оригинальном тесте у людей с шизофренией: " + original[3]
+			+ "% ловушка, " + original[4] + "% простой. Время реакции " + original[5] + " мс.<br>" +
+			"Ваш результат: " + getErrors() + " % ловушка, " + getSimpleErrors()
+			+ " % простой. Время реакции " + getReactionTime() + " мс.";
 	}
 
 	/**

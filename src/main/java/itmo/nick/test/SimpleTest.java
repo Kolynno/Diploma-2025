@@ -80,6 +80,10 @@ public class SimpleTest {
 		return isFinished;
 	}
 
+	public String result(String[] original) {
+		return "SimpleTest";
+	}
+
 	/**
 	 * Очистка данных
 	 */

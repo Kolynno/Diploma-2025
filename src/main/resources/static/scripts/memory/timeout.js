@@ -1,7 +1,5 @@
-// Время загрузки страницы
 const pageLoadTime = performance.now();
 
-// Функция для отправки данных через POST
 function sendData(elapsedTime) {
     fetch('/memoryTestOneStageData', {
         method: 'POST',
@@ -14,10 +12,9 @@ function sendData(elapsedTime) {
     }).catch(err => console.error('Ошибка отправки данных:', err));
 }
 
-// Функция для обработки перенаправления
 function redirectToPage() {
     const currentTime = performance.now();
-    const elapsedTime = ((currentTime - pageLoadTime) / 1000).toFixed(1); // Время в секундах с точностью до 1 знака
+    const elapsedTime = ((currentTime - pageLoadTime) / 1000).toFixed(1);
 
     sendData(elapsedTime);
 

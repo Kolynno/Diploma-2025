@@ -41,9 +41,7 @@ public class TestsController {
 		loadIfDescriptionStage(stage, model, 1);
 
 		if (stage == AttentionTestOne.LAST_STAGE) {
-			model.addAttribute("result",
-				attentionTestOne.resultSec(testTableService.getResultsById(1).split(";"))
-			);
+			model.addAttribute("result", getOriginalResults(attentionTestOne, 1));
 		}
 		return "attention/attentionTestOneStage" + stage;
 	}
@@ -71,9 +69,7 @@ public class TestsController {
 				resultTableService.saveTestTwo(memoryTestOne.getErrorPercent(), memoryTestOne.getAnswerMs());
 				memoryTestOne.setFinished(true);
 			}
-			model.addAttribute("result",
-				memoryTestOne.result(testTableService.getResultsById(2).split(";"))
-			);
+			model.addAttribute("result", getOriginalResults(memoryTestOne, 2));
 		}
 
 		return "memory/memoryTestOneStage" + stage;
@@ -101,9 +97,7 @@ public class TestsController {
 					String.valueOf(reactionTestOne.getErrors()), reactionTestOne.getFalseStarts());
 				reactionTestOne.setFinished(true);
 			}
-			model.addAttribute("result",
-				reactionTestOne.result(testTableService.getResultsById(3).split(";"))
-			);
+			model.addAttribute("result", getOriginalResults(reactionTestOne, 3));
 		}
 
 		return "reaction/reactionTestOneStage" + stage;
@@ -128,9 +122,7 @@ public class TestsController {
 		}
 
 		if (stage == ProcessingTestOne.LAST_STAGE) {
-			model.addAttribute("result",
-				processingTestOne.result(testTableService.getResultsById(4).split(";"))
-			);
+			model.addAttribute("result", getOriginalResults(processingTestOne, 4));
 			if (!processingTestOne.isFinished()) {
 				resultTableService.saveTestFourth(processingTestOne);
 			}
@@ -150,5 +142,14 @@ public class TestsController {
 			model.addAttribute("desc", testTableService.getDescById(id));
 			model.addAttribute("name", testTableService.getNameById(id));
 		}
+	}
+
+	/**
+	 * Получить результаты оригинального тестирования
+	 * @param test наследник класса (сам тест)
+	 * @param id номер теста
+	 */
+	private String getOriginalResults(SimpleTest test, int id) {
+		return test.result(testTableService.getResultsById(id).split(";"));
 	}
 }

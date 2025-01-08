@@ -1,5 +1,4 @@
 document.getElementById('submitBtn').addEventListener('click', function() {
-    // Получаем данные формы
     const firstname = document.getElementById('firstname').value;
     const lastname = document.getElementById('lastname').value;
     const middlename = document.getElementById('middlename').value;
@@ -7,7 +6,6 @@ document.getElementById('submitBtn').addEventListener('click', function() {
     const sex = document.getElementById('sex').value;
     const education = document.getElementById('education').value;
 
-    // Проверка на заполнение всех полей
     let errorMessage = '';
     if (!firstname) errorMessage += 'Имя не введено.\n';
     if (!lastname) errorMessage += 'Фамилия не введена.\n';
@@ -16,13 +14,11 @@ document.getElementById('submitBtn').addEventListener('click', function() {
     if (!sex) errorMessage += 'Пол не выбран.\n';
     if (!education) errorMessage += 'Место учебы не введено.\n';
 
-    // Если есть ошибки, выводим их и прекращаем выполнение
     if (errorMessage) {
-        alert('Пожалуйста, заполните каждое поле корректными данными.');
+        alert('Введены некорректные данные:\n' + errorMessage);
         return;
     }
 
-    // Создаем объект с данными
     const formData = {
         firstname: firstname,
         lastname: lastname,
@@ -32,7 +28,6 @@ document.getElementById('submitBtn').addEventListener('click', function() {
         education: education
     };
 
-    // Пример для отправки данных на сервер через fetch
     fetch('/register', {
         method: 'POST',
         headers: {
@@ -42,8 +37,7 @@ document.getElementById('submitBtn').addEventListener('click', function() {
     })
         .then(response => {
             if (response.ok) {
-                // Перенаправление на страницу после успешной отправки данных
-                window.location.href = '/s'; // путь страницы, которую вернет сервер
+                window.location.href = '/s';
             } else {
                 throw new Error('Ошибка при регистрации');
             }

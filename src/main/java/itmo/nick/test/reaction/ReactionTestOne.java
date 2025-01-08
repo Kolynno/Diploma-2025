@@ -43,11 +43,12 @@ public class ReactionTestOne extends SimpleTest {
 		}
 	}
 
-	public String result(String[] split) {
-		return "Среднее время реакции бодрого человека " + split[0] + " мс. <br>при " + split[1] +
-			" пропусков (реакция более 500мс) и " + split[2] + " преждевременных нажатий <br>У человека " +
-			"с недостатком сна среднее время реакции " + split[3] + " мс.<br>при " + split[4] +
-			" пропусков и " + split[5] + " преждевременных нажатий<br>Ваш результат " +
+	@Override
+	public String result(String[] original) {
+		return "Среднее время реакции бодрого человека " + original[0] + " мс. <br>при " + original[1] +
+			" пропусков (реакция более 500мс) и " + original[2] + " преждевременных нажатий <br>У человека " +
+			"с недостатком сна среднее время реакции " + original[3] + " мс.<br>при " + original[4] +
+			" пропусков и " + original[5] + " преждевременных нажатий<br>Ваш результат " +
 			String.valueOf(getReactionTime()).substring(0,5) + " c. - скорость реакции, количество ошибок = "
 			+ getErrors() + ", ложных нажатий = " + getFalseStarts();
 	}
