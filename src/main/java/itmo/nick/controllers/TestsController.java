@@ -6,6 +6,7 @@ import itmo.nick.test.SimpleTest;
 import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.memory.MemoryTestOne;
 import itmo.nick.test.processing.ProcessingTestOne;
+import itmo.nick.test.processing.ProcessingTestTwo;
 import itmo.nick.test.reaction.ReactionTestOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -132,7 +133,34 @@ public class TestsController {
 	}
 
 	/**
-	 * Загурзить данные для описания, если страница с описанием
+	 * Тест на обработку информации 2
+	 * @param stage этап
+	 */
+	@GetMapping("/t/p/2")
+	public String processingTestTwo(@RequestParam("s") int stage, Model model) {
+		ProcessingTestTwo processingTestTwo = ProcessingTestTwo.getInstance();
+		stage = processingTestTwo.CorrectNextStage(stage);
+
+		loadIfDescriptionStage(stage, model, 5);
+
+		String tone = processingTestTwo.getNextTone();
+		if ("-1".equals(tone)) {
+			stage = ProcessingTestOne.LAST_STAGE;
+		} else {
+			model.addAttribute("tone", tone);
+		}
+
+		if (stage == ProcessingTestOne.LAST_STAGE) {
+			model.addAttribute("result", getOriginalResults(processingTestTwo, 5));
+			if (!processingTestTwo.isFinished()) {
+				//resultTableService.saveTestFive(processingTestTwo);
+			}
+		}
+		return "processing/processingTestTwoStage" + stage;
+	}
+
+	/**
+	 * Загрузить данные для описания, если страница с описанием
 	 * @param stage этап
 	 * @param model страница
 	 * @param id идентификатор теста

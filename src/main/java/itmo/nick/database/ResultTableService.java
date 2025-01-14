@@ -5,6 +5,7 @@ import itmo.nick.database.repositories.PersonTableRepository;
 import itmo.nick.database.repositories.ResultTableRepository;
 import itmo.nick.test.attention.AttentionTestOneData;
 import itmo.nick.test.processing.ProcessingTestOne;
+import itmo.nick.test.processing.ProcessingTestTwo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,18 @@ public class ResultTableService {
 		resultTableRepository.save(resultTable);
 	}
 
+	public void saveTestFive(ProcessingTestTwo processingTestTwo) {
+		ResultTable resultTable = new ResultTable();
+		resultTable.setTest_id("5");
+		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+
+		resultTable.setP1(processingTestTwo.getReactionTime());
+		resultTable.setP2(processingTestTwo.getSkipErrors());
+		resultTable.setP3(processingTestTwo.getSimpleErrors());
+
+		resultTableRepository.save(resultTable);
+	}
+
 	/**
 	 * Статус прохождения теста
 	 * @param testId идентификтор теста
@@ -91,5 +104,4 @@ public class ResultTableService {
 		}
 		return true;
 	}
-
 }
