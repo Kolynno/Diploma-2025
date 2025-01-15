@@ -14,7 +14,7 @@ public class ProcessingTestTwo extends SimpleTest {
 
 	static ProcessingTestTwo processingTestOne;
 
-	private ArrayList<ProcessingTestOneData> dataList;
+	private ArrayList<ProcessingTestTwoData> dataList;
 
 	private int currentTone = 0;
 	/**
@@ -50,11 +50,11 @@ public class ProcessingTestTwo extends SimpleTest {
 	public String result(String[] original) {
 		calculateErrors();
 		return "Ошибки в оригинальном тесте у здоровых людей: " + original[0]
-			+ "% ловушка, " + original[1] + "% простой. Время реакции " + original[2] + " мс.<br>" +
+			+ "% пропусков целевого звука, " + original[1] + "% долгой реакции на целевой звук. Время реакции " + original[2] + " мс.<br>" +
 			"Ошибки в оригинальном тесте у людей с шизофренией: " + original[3]
-			+ "% ловушка, " + original[4] + "% простой. Время реакции " + original[5] + " мс.<br>" +
-			"Ваш результат: " + getSkipErrors() + " % ловушка, " + getSimpleErrors()
-			+ " % простой. Время реакции " + getReactionTime() + " мс.";
+			+ "% пропусков целевого звука, " + original[4] + "% долгой реакции на целевой звук. Время реакции " + original[5] + " мс.<br>" +
+			"Ваш результат: " + getSkipErrors() + "% пропусков целевого звука, " + getErrors()
+			+ "% долгой реакции на целевой звук. Время реакции " + getReactionTime() + " мс.";
 	}
 
 	/**
@@ -86,14 +86,14 @@ public class ProcessingTestTwo extends SimpleTest {
 	 * Время реакции в мс
 	 */
 	public String getReactionTime() {
-		Double value = dataList.stream().mapToDouble(ProcessingTestOneData::getReactionTime).average().getAsDouble();
+		Double value = dataList.stream().mapToDouble(ProcessingTestTwoData::getReactionTime).average().getAsDouble();
 		return value == null ? "0" : String.valueOf(Math.round(value));
 	}
 
 	/**
 	 * Кол-во простых ошибок, процент без знака процента
 	 */
-	public String getSimpleErrors() {
+	public String getErrors() {
 		return String.valueOf(Math.round((double) simpleErrors/(dataList.size() - 1)*100.0));
 	}
 
@@ -117,7 +117,7 @@ public class ProcessingTestTwo extends SimpleTest {
 		return "-1";
 	}
 
-	public void addData(ProcessingTestOneData data) {
+	public void addData(ProcessingTestTwoData data) {
 		dataList.add(data);
 	}
 

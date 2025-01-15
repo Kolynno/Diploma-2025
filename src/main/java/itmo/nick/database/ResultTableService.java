@@ -88,7 +88,7 @@ public class ResultTableService {
 
 		resultTable.setP1(processingTestTwo.getReactionTime());
 		resultTable.setP2(processingTestTwo.getSkipErrors());
-		resultTable.setP3(processingTestTwo.getSimpleErrors());
+		resultTable.setP3(processingTestTwo.getErrors());
 
 		resultTableRepository.save(resultTable);
 	}

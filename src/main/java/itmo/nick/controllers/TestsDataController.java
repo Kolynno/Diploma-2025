@@ -11,6 +11,8 @@ import itmo.nick.test.memory.MemoryTestOne;
 import itmo.nick.test.memory.MemoryTestOneData;
 import itmo.nick.test.processing.ProcessingTestOne;
 import itmo.nick.test.processing.ProcessingTestOneData;
+import itmo.nick.test.processing.ProcessingTestTwo;
+import itmo.nick.test.processing.ProcessingTestTwoData;
 import itmo.nick.test.reaction.ReactionTestOne;
 import itmo.nick.test.reaction.ReactionTestOneData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +103,17 @@ public class TestsDataController {
     public ResponseEntity<Void> processingTestOneStageData(@RequestBody ProcessingTestOneData data) {
         ProcessingTestOne processingTestOne = ProcessingTestOne.getInstance();
         processingTestOne.addData(data);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Получение данных этапа теста на обработку информации 2
+     * @param data данные
+     */
+    @PostMapping("/processingTestTwoStageData")
+    public ResponseEntity<Void> processingTestTwoStageData(@RequestBody ProcessingTestTwoData data) {
+        ProcessingTestTwo processingTestTwo = ProcessingTestTwo.getInstance();
+        processingTestTwo.addData(data);
         return ResponseEntity.ok().build();
     }
 }
