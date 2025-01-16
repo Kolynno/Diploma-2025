@@ -126,6 +126,7 @@ public class TestsController {
 			model.addAttribute("result", getOriginalResults(processingTestOne, 4));
 			if (!processingTestOne.isFinished()) {
 				resultTableService.saveTestFourth(processingTestOne);
+				processingTestOne.setFinished(true);
 			}
 		}
 
@@ -153,7 +154,8 @@ public class TestsController {
 		if (stage == ProcessingTestOne.LAST_STAGE) {
 			model.addAttribute("result", getOriginalResults(processingTestTwo, 5));
 			if (!processingTestTwo.isFinished()) {
-				//resultTableService.saveTestFive(processingTestTwo);
+				resultTableService.saveTestFive(processingTestTwo);
+				processingTestTwo.setFinished(true);
 			}
 		}
 		return "processing/processingTestTwoStage" + stage;
