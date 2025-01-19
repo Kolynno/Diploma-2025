@@ -66,9 +66,8 @@ public class ProcessingTestTwo extends SimpleTest {
 	/**
 	 * Подсчет ошибок в тесте
 	 */
-	//TODO тут баг, что первый не просчитывается почему-то
 	private void calculateErrors() {
-		for (int i = 1; i < dataList.size(); i++) {
+		for (int i = 0; i < dataList.size(); i++) {
 			String correctAnswer = toneSequence[i];
 			double answerTime = dataList.get(i).getReactionTime();
 			if (correctAnswer.equals(GOAL)) {
@@ -128,7 +127,7 @@ public class ProcessingTestTwo extends SimpleTest {
 	}
 
 	public String getNextTone() {
-		if (currentTone < toneSequence.length - 1) {
+		if (currentTone < toneSequence.length) {
 			int index= currentTone;
 			currentTone++;
 			return toneSequence[index];

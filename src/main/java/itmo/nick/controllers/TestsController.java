@@ -144,7 +144,10 @@ public class TestsController {
 
 		loadIfDescriptionStage(stage, model, 5);
 
-		String tone = processingTestTwo.getNextTone();
+		String tone = "5";
+		if (stage == 1) {
+			tone = processingTestTwo.getNextTone();
+		}
 		if ("-1".equals(tone)) {
 			stage = ProcessingTestOne.LAST_STAGE;
 		} else {
