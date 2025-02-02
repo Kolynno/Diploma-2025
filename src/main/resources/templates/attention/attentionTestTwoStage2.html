@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица Шульте</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/attention/attentionTestTwo.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <h3>Тест успешно пройден!</h3>
+        <h4>Результаты:</h4>
+        <p th:utext="${result}"></p>
+    </div>
+    <div class="buttons">
+        <button class="back-btn" id="backBtn" data-url="/t">К тестам</button>
+    </div>
+</div>
+<script src="/scripts/attention/attentionTestTwo.js"></script>
+</body>
+</html>

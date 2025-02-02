@@ -4,6 +4,7 @@ import itmo.nick.database.entities.ResultTable;
 import itmo.nick.database.repositories.PersonTableRepository;
 import itmo.nick.database.repositories.ResultTableRepository;
 import itmo.nick.test.attention.AttentionTestOneData;
+import itmo.nick.test.attention.AttentionTestTwo;
 import itmo.nick.test.processing.ProcessingTestOne;
 import itmo.nick.test.processing.ProcessingTestTwo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,16 @@ public class ResultTableService {
 		resultTable.setP1(processingTestTwo.getReactionTime());
 		resultTable.setP2(processingTestTwo.getSkipErrors());
 		resultTable.setP3(processingTestTwo.getErrors());
+
+		resultTableRepository.save(resultTable);
+	}
+
+	public void saveTestSix(AttentionTestTwo attentionTestTwo) {
+		ResultTable resultTable = new ResultTable();
+		resultTable.setTest_id("6");
+		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+
+		resultTable.setP1(String.valueOf(Math.round(attentionTestTwo.getData().getTime())));
 
 		resultTableRepository.save(resultTable);
 	}

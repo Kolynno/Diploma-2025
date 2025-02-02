@@ -7,6 +7,8 @@ import itmo.nick.person.Person;
 import itmo.nick.person.PersonState;
 import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.attention.AttentionTestOneData;
+import itmo.nick.test.attention.AttentionTestTwo;
+import itmo.nick.test.attention.AttentionTestTwoData;
 import itmo.nick.test.memory.MemoryTestOne;
 import itmo.nick.test.memory.MemoryTestOneData;
 import itmo.nick.test.processing.ProcessingTestOne;
@@ -70,6 +72,17 @@ public class TestsDataController {
         if (data.getStage() == AttentionTestOne.LAST_STAGE - 1) {
             resultTableService.saveTestOne(attentionTestOne.getTestData());
         }
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Получение данных этапа теста на внимательность 2
+     * @param data данные
+     */
+    @PostMapping("/attentionTestTwoStageData")
+    public ResponseEntity<Void> attentionTestTwoStageData(@RequestBody AttentionTestTwoData data) {
+        AttentionTestTwo attentionTestTwo = AttentionTestTwo.getInstance();
+        attentionTestTwo.setData(data);
         return ResponseEntity.ok().build();
     }
 

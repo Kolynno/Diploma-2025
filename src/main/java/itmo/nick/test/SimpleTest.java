@@ -1,10 +1,9 @@
 package itmo.nick.test;
 
-import itmo.nick.test.attention.AttentionTestOne;
-import itmo.nick.test.memory.MemoryTestOne;
-import itmo.nick.test.processing.ProcessingTestOne;
-import itmo.nick.test.processing.ProcessingTestTwo;
-import itmo.nick.test.reaction.ReactionTestOne;
+import itmo.nick.test.attention.*;
+import itmo.nick.test.memory.*;
+import itmo.nick.test.processing.*;
+import itmo.nick.test.reaction.*;
 
 /**
  *
@@ -15,7 +14,7 @@ public class SimpleTest {
 	/**
 	 * Общее кол-во тестов
 	 */
-	public static final int TEST_AMOUNT = 5;
+	public static final int TEST_AMOUNT = 6;
 	/**
 	 * Номер первого этапа - описание теста
 	 */
@@ -94,5 +93,6 @@ public class SimpleTest {
 		ReactionTestOne.getInstance().delete();
 		ProcessingTestOne.getInstance().delete();
 		ProcessingTestTwo.getInstance().delete();
+		AttentionTestTwo.getInstance().delete();
 	}
 }

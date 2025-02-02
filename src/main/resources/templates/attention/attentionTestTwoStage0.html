@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица Шульте</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/attention/attentionTestTwo.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <h4 th:text="${name}"></h4>
+        <p th:utext="${desc}"></p>
+        <h4>Исследуется</h4>
+        <p>Тест исследует скорость обработки информации, избирательное внимание и когнитивный контроль.</p>
+        <p>Он выявляет, как мозг справляется с последовательной обработкой информации.</p>
+        <h4>Проведение теста</h4>
+        <p>После нажатия кнопки "Далее" участнику отобразиться следующий экран, где по нажатию на таймер
+        <br>Откроется таблица Шульте - таблица 5 на 5, где в ячейках числа от 1 до 25.
+        <br>Участнику необходимо вслух называть и наводить мышкой на числа в порядке возрастания
+        <br>Как только все числа найдены - остановить таймер</p>
+    </div>
+    <div class="buttons">
+        <button class="start-btn" id="nextBtn" data-url="/t/a/2?s=1">Начать</button>
+        <button class="back-btn" id="backBtn" data-url="/t">Обратно</button>
+    </div>
+</div>
+<script src="/scripts/attention/attentionTestTwo.js"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ import itmo.nick.database.ResultTableService;
 import itmo.nick.database.TestTableService;
 import itmo.nick.test.SimpleTest;
 import itmo.nick.test.attention.AttentionTestOne;
+import itmo.nick.test.attention.AttentionTestTwo;
 import itmo.nick.test.memory.MemoryTestOne;
 import itmo.nick.test.processing.ProcessingTestOne;
 import itmo.nick.test.processing.ProcessingTestTwo;
@@ -45,6 +46,27 @@ public class TestsController {
 			model.addAttribute("result", getOriginalResults(attentionTestOne, 1));
 		}
 		return "attention/attentionTestOneStage" + stage;
+	}
+
+	/**
+	 * Тест на внимательность 2
+	 * @param stage этап
+	 */
+	@GetMapping("/t/a/2")
+	public String attentionTestTwo(@RequestParam("s") int stage, Model model) {
+		AttentionTestTwo attentionTestTwo = AttentionTestTwo.getInstance();
+		stage = attentionTestTwo.CorrectNextStage(stage);
+
+		loadIfDescriptionStage(stage, model, 6);
+
+		if (stage == AttentionTestTwo.LAST_STAGE) {
+			if (!attentionTestTwo.isFinished()) {
+				resultTableService.saveTestSix(attentionTestTwo);
+				attentionTestTwo.setFinished(true);
+			}
+			model.addAttribute("result", getOriginalResults(attentionTestTwo, 6));
+		}
+		return "attention/attentionTestTwoStage" + stage;
 	}
 
 	/**
