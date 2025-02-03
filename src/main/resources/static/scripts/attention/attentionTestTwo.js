@@ -10,7 +10,7 @@ if (document.getElementById('timerBtn') != null) {
                 timer += 0.1;
             }, 100);
             timerButton.textContent = `Запущено!`;
-            document.getElementById('numTable').style.fontSize = "14px"
+            document.getElementById('numTable').style.fontSize = "64px"
         } else {
             clearInterval(intervalId);
             intervalId = null;

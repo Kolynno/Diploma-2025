@@ -61,14 +61,8 @@ public class SimpleTest {
 
 	private int nextStage(int stage) {
 		currentStage++;
-		isLastStage(stage);
-		return stage;
-	}
 
-	private void isLastStage(int stage) {
-		if (stage == lastStage) {
-			isFinished = true;
-		}
+		return stage;
 	}
 
 	public void setFinished(boolean finished) {
