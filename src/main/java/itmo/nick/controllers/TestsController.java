@@ -6,6 +6,7 @@ import itmo.nick.test.SimpleTest;
 import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.attention.AttentionTestTwo;
 import itmo.nick.test.memory.MemoryTestOne;
+import itmo.nick.test.memory.MemoryTestTwo;
 import itmo.nick.test.processing.ProcessingTestOne;
 import itmo.nick.test.processing.ProcessingTestTwo;
 import itmo.nick.test.reaction.ReactionTestOne;
@@ -96,6 +97,35 @@ public class TestsController {
 		}
 
 		return "memory/memoryTestOneStage" + stage;
+	}
+
+	/**
+	 * Тест на память 2
+	 * @param stage этап
+	 */
+	@GetMapping("/t/m/2")
+	public String memoryTestTwo(@RequestParam("s") int stage, Model model) {
+		MemoryTestTwo memoryTestTwo = MemoryTestTwo.getInstance();
+		stage = memoryTestTwo.CorrectNextStage(stage);
+
+		loadIfDescriptionStage(stage, model, 7);
+
+		String picture = memoryTestTwo.getNextPicture();
+		if ("-1".equals(picture)) {
+			stage = MemoryTestTwo.LAST_STAGE;
+		} else {
+			model.addAttribute("imagePath", "/img/memtrax/" + picture + ".jpg");
+		}
+
+		if (stage == MemoryTestTwo.LAST_STAGE) {
+			if (!memoryTestTwo.isFinished()) {
+				resultTableService.saveTestTwo(memoryTestTwo.getErrorPercent(), memoryTestTwo.getAnswerMs());
+				memoryTestTwo.setFinished(true);
+			}
+			model.addAttribute("result", getOriginalResults(memoryTestTwo, 7));
+		}
+
+		return "memory/memoryTestTwoStage" + stage;
 	}
 
 	/**

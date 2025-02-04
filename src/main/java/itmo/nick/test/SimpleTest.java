@@ -14,7 +14,7 @@ public class SimpleTest {
 	/**
 	 * Общее кол-во тестов
 	 */
-	public static final int TEST_AMOUNT = 6;
+	public static final int TEST_AMOUNT = 7;
 	/**
 	 * Номер первого этапа - описание теста
 	 */
@@ -83,10 +83,12 @@ public class SimpleTest {
 	 */
 	public static void deleteTestAndData() {
 		AttentionTestOne.getInstance().delete();
+		AttentionTestTwo.getInstance().delete();
 		MemoryTestOne.getInstance().delete();
+		MemoryTestTwo.getInstance().delete();
 		ReactionTestOne.getInstance().delete();
+
 		ProcessingTestOne.getInstance().delete();
 		ProcessingTestTwo.getInstance().delete();
-		AttentionTestTwo.getInstance().delete();
 	}
 }

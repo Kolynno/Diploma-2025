@@ -11,6 +11,8 @@ import itmo.nick.test.attention.AttentionTestTwo;
 import itmo.nick.test.attention.AttentionTestTwoData;
 import itmo.nick.test.memory.MemoryTestOne;
 import itmo.nick.test.memory.MemoryTestOneData;
+import itmo.nick.test.memory.MemoryTestTwo;
+import itmo.nick.test.memory.MemoryTestTwoData;
 import itmo.nick.test.processing.ProcessingTestOne;
 import itmo.nick.test.processing.ProcessingTestOneData;
 import itmo.nick.test.processing.ProcessingTestTwo;
@@ -105,6 +107,17 @@ public class TestsDataController {
     public ResponseEntity<Void> memoryTestOneStageData(@RequestBody MemoryTestOneData data) {
         MemoryTestOne memoryTestOne = MemoryTestOne.getInstance();
         memoryTestOne.addData(data);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Получение данных этапа теста на память 2
+     * @param data данные
+     */
+    @PostMapping("/memoryTestTwoStageData")
+    public ResponseEntity<Void> memoryTestTwoStageData(@RequestBody MemoryTestTwoData data) {
+        MemoryTestTwo memoryTestTwo = MemoryTestTwo.getInstance();
+        memoryTestTwo.addData(data);
         return ResponseEntity.ok().build();
     }
 

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заучивание 10 слов</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/memory/memoryTestTwo.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <h4 th:text="${name}"></h4>
+        <p th:utext="${desc}"></p>
+        <h4>Исследуется</h4>
+        <p>Способности кратковременной памяти человека</p>
+        <h4>Проведение теста</h4>
+        <p>На следующей странице будут показаны 10 слов, не связанных по смыслу.
+            <br>Исследователь зачитывает испытуемому слова медленно и четко каждый этап.<br>
+        После зачитывания участник должен назвать как можно больше слов.<br>
+        Если назвал слово, то учитываем, если нет - то не учитывается слово.<br>
+        Если же названо другое слово, то и его надо записать в табличку. <br>
+        Исследование проходит в тишине, и без лишних разговоров.</p>
+    </div>
+    <div class="buttons">
+        <button class="start-btn" id="nextBtn" data-url="/t/m/2?s=1">Начать</button>
+        <button class="back-btn" id="backBtn" data-url="/t">Обратно</button>
+    </div>
+</div>
+<script src="/scripts/memory/memoryTestTwo.js"></script>
+</body>
+</html>
