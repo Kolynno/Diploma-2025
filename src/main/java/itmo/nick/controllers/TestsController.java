@@ -110,16 +110,11 @@ public class TestsController {
 
 		loadIfDescriptionStage(stage, model, 7);
 
-		String picture = memoryTestTwo.getNextPicture();
-		if ("-1".equals(picture)) {
-			stage = MemoryTestTwo.LAST_STAGE;
-		} else {
-			model.addAttribute("imagePath", "/img/memtrax/" + picture + ".jpg");
-		}
+		model.addAttribute("words", memoryTestTwo.getWords());
 
 		if (stage == MemoryTestTwo.LAST_STAGE) {
 			if (!memoryTestTwo.isFinished()) {
-				resultTableService.saveTestTwo(memoryTestTwo.getErrorPercent(), memoryTestTwo.getAnswerMs());
+				//resultTableService.saveTestTwo(memoryTestTwo.getErrorPercent(), memoryTestTwo.getAnswerMs());
 				memoryTestTwo.setFinished(true);
 			}
 			model.addAttribute("result", getOriginalResults(memoryTestTwo, 7));

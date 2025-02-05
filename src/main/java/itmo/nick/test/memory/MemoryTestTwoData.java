@@ -1,5 +1,9 @@
 package itmo.nick.test.memory;
 
+
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Данные для теста на память 2
  *
@@ -7,14 +11,9 @@ package itmo.nick.test.memory;
  * @since 04.02.2025
  */
 public class MemoryTestTwoData {
+	Set<String> mentionWordsSet = new HashSet<>();
 
-	private double reactionTime;
-
-	public double getReactionTime() {
-		return reactionTime;
-	}
-
-	public void setReactionTime(double reactionTime) {
-		this.reactionTime = reactionTime;
+	public Set<String> getMentionWordsSet() {
+		return mentionWordsSet;
 	}
 }

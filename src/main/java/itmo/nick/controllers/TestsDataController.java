@@ -117,7 +117,7 @@ public class TestsDataController {
     @PostMapping("/memoryTestTwoStageData")
     public ResponseEntity<Void> memoryTestTwoStageData(@RequestBody MemoryTestTwoData data) {
         MemoryTestTwo memoryTestTwo = MemoryTestTwo.getInstance();
-        memoryTestTwo.addData(data);
+        memoryTestTwo.updateMap(data);
         return ResponseEntity.ok().build();
     }
 

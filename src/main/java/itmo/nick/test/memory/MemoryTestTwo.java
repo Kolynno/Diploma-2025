@@ -2,6 +2,9 @@ package itmo.nick.test.memory;
 
 import itmo.nick.test.SimpleTest;
 
+import java.util.LinkedHashMap;
+import java.util.Set;
+
 /**
  * Заучивание 10 слов - тест на память 2
  *
@@ -16,20 +19,32 @@ public class MemoryTestTwo extends SimpleTest {
 	 */
 	public static final int LAST_STAGE = 6;
 
+	private MemoryTestTwoData[] memoryTestTwoData;
 
-	private final String[] pictureSequence;
-	private final String[] correctAnswers;
+	private LinkedHashMap<String, Integer> wordToCountMap;
 
-	private int incorrectAnswers;
-	private double answerTime;
+	public Set<String> getWords() {
+		return wordToCountMap.keySet();
+	}
 
-	private int currentPict;
-
+	public LinkedHashMap<String, Integer> getWordToCountMap() {
+		return wordToCountMap;
+	}
 
 	protected MemoryTestTwo() {
 		super(LAST_STAGE);
-		pictureSequence = getSequence();
-		correctAnswers = getCorrectAnswers();
+		memoryTestTwoData = new MemoryTestTwoData[5];
+		wordToCountMap = new LinkedHashMap<>();
+		wordToCountMap.put("Жук", 0);
+		wordToCountMap.put("Мальчик", 0);
+		wordToCountMap.put("Арка", 0);
+		wordToCountMap.put("Колесо", 0);
+		wordToCountMap.put("Индюк", 0);
+		wordToCountMap.put("Носок", 0);
+		wordToCountMap.put("Костер", 0);
+		wordToCountMap.put("Официант", 0);
+		wordToCountMap.put("Лампочка", 0);
+		wordToCountMap.put("Ягода", 0);
 	}
 
 	public static MemoryTestTwo getInstance() {
@@ -42,78 +57,22 @@ public class MemoryTestTwo extends SimpleTest {
 		}
 	}
 
-	public void addData(MemoryTestTwoData data) {
-		memoryTestTwo.answer("1", data.getReactionTime());
-	}
-
 	@Override
 	public String result(String[] original) {
-		return "res";
+		return wordToCountMap.toString();
 	}
 
-	public long getAnswerMs() {
-		return Math.round(answerTime / 25.0 * 1000);
-	}
 
-	public double getErrorPercent() {
-		return Math.round(incorrectAnswers / 52.0 * 1000) / 10.0;
-	}
-
-	private void answer(String type, double time) {
-		if (!getCorrectAnswer().equals(type)) {
-			increaseIncorrectAnswers();
-		}
-		increaseTime(time);
-	}
 
 	public void delete() {
 		memoryTestTwo = null;
 	}
 
-	private String[] getCorrectAnswers() {
-		return new String[] {"0","0","0","0","0","0","0","0","0","0","0","0","1","1","0","0","0","0","0","0","0","0", "0",
-			"1","1","0","1","1","1","1","0","1","0","1","1","1","1","1","1","0","1","1","1","1","1","1","1","1","1","1"};
-	}
 
-	//Пока одна и та же последовательность, а не случайная
-	private String[] getSequence() {
-		return new String[] {"25","1","19","5","15","12","2","6","20","3","23","4","5","6","14","7","8","17","9","24",
-			"10","21","11","10","12","13","2","14","15","9","16","17","18","19","20","4","21","11","3","22","23","16",
-			"24","1","25","7","8","13","18","22"};
-	}
-
-	/**
-	 * Получить номер картинки
-	 */
-	public String getNextPicture() {
-		if (currentPict >= pictureSequence.length) {
-			return "-1";
+	public void updateMap(MemoryTestTwoData data) {
+		for (String word : data.mentionWordsSet) {
+			wordToCountMap.put(word, wordToCountMap.getOrDefault(word, 0) + 1);
 		}
-		return pictureSequence[currentPict];
 	}
 
-	/**
-	 * Получить верный ответ.
-	 * 0 - таймаут (ничего)
-	 * 1 - нажатие на пробел (повторение картинки)
-	 */
-	private String getCorrectAnswer() {
-		String answer = correctAnswers[currentPict];
-		currentPict++;
-		return answer;
-	}
-
-	/**
-	 * Увеличить счетчик ошибки на 1
-	 */
-	private void increaseIncorrectAnswers() {
-		incorrectAnswers++;
-	}
-
-	/**
-	 * Прибавить время ответа
-	 */
-	private void increaseTime(double time) {
-		answerTime += time;
-	}
 }

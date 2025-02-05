@@ -76,3 +76,17 @@ img {
     width: 900px;
     height: 700px;
 }
+
+.word-item {
+    cursor: pointer;
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
+    font-size: 18px;
+}
+
+.word-item.selected {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #9a00ff;
+}

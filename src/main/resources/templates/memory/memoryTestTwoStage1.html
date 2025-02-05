@@ -10,7 +10,13 @@
 
 <div class="container">
     <div class="content">
-        <img th:src="${imagePath}" alt="Memory Test Stage">
+        <ul id="wordList" th:attr="data-words=${words != null ? words : '[]'}"></ul>
+        <script th:inline="javascript">
+            document.getElementById('wordList').setAttribute('data-words', JSON.stringify([[${words}]]));
+        </script>
+        <div class="input-container">
+            <input type="text" id="newWordsInput" placeholder="Введите новые слова через запятую">
+        </div>
     </div>
     <div class="buttons">
         <button class="start-btn" id="nextBtn" data-url="/t/m/2?s=2">Далее</button>
