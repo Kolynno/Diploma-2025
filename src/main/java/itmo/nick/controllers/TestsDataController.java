@@ -19,6 +19,8 @@ import itmo.nick.test.processing.ProcessingTestTwo;
 import itmo.nick.test.processing.ProcessingTestTwoData;
 import itmo.nick.test.reaction.ReactionTestOne;
 import itmo.nick.test.reaction.ReactionTestOneData;
+import itmo.nick.test.reaction.ReactionTestTwo;
+import itmo.nick.test.reaction.ReactionTestTwoData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -96,6 +98,17 @@ public class TestsDataController {
     public ResponseEntity<Void> reactionTestOneStageData(@RequestBody ReactionTestOneData data) {
         ReactionTestOne reactionTestOne = ReactionTestOne.getInstance();
         reactionTestOne.addData(data);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Получение данных этапа теста на реакцию 2
+     * @param data данные
+     */
+    @PostMapping("/reactionTestTwoStageData")
+    public ResponseEntity<Void> reactionTestTwoStageData(@RequestBody ReactionTestTwoData data) {
+        ReactionTestTwo reactionTestTwo = ReactionTestTwo.getInstance();
+        reactionTestTwo.addData(data);
         return ResponseEntity.ok().build();
     }
 

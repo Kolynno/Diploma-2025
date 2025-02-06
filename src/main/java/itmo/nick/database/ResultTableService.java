@@ -120,6 +120,9 @@ public class ResultTableService {
 		resultTableRepository.save(resultTable);
 	}
 
+	public void saveTestEight() {
+	}
+
 	/**
 	 * Статус прохождения теста
 	 * @param testId идентификтор теста
@@ -131,6 +134,5 @@ public class ResultTableService {
 		}
 		return true;
 	}
-
 
 }

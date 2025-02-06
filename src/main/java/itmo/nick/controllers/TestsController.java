@@ -10,6 +10,7 @@ import itmo.nick.test.memory.MemoryTestTwo;
 import itmo.nick.test.processing.ProcessingTestOne;
 import itmo.nick.test.processing.ProcessingTestTwo;
 import itmo.nick.test.reaction.ReactionTestOne;
+import itmo.nick.test.reaction.ReactionTestTwo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -149,6 +150,32 @@ public class TestsController {
 		}
 
 		return "reaction/reactionTestOneStage" + stage;
+	}
+
+	/**
+	 * Тест на реацию 2
+	 * @param stage этап
+	 */
+	@GetMapping("/t/r/2")
+	public String reactionTestTwo(@RequestParam("s") int stage, Model model) {
+		ReactionTestTwo reactionTestTwo = ReactionTestTwo.getInstance();
+		stage = reactionTestTwo.CorrectNextStage(stage);
+
+		if (reactionTestTwo.attentionsIsUp()) {
+			stage = ReactionTestTwo.LAST_STAGE;
+		}
+
+		loadIfDescriptionStage(stage, model, 8);
+
+		if (stage == ReactionTestTwo.LAST_STAGE) {
+			if (!reactionTestTwo.isFinished()) {
+				//resultTableService.saveTestEight();
+				reactionTestTwo.setFinished(true);
+			}
+			model.addAttribute("result", getOriginalResults(reactionTestTwo, 8));
+		}
+
+		return "reaction/reactionTestTwoStage" + stage;
 	}
 
 	/**

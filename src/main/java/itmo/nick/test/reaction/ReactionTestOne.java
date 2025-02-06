@@ -1,7 +1,6 @@
 package itmo.nick.test.reaction;
 
 import itmo.nick.test.SimpleTest;
-import itmo.nick.test.memory.MemoryTestOneData;
 
 import java.util.ArrayList;
 

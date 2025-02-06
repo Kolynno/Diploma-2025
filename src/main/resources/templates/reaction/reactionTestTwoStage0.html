@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест реакции на движение</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/reaction/reactionTestTwo.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <h4 th:text="${name}"></h4>
+        <p th:utext="${desc}"></p>
+        <h4>Исследуется</h4>
+        <p>Скорость реакции человека</p>
+        <h4>Проведение теста</h4>
+        <p>На следующих экрана участник увидит круг с движущийся точкой.<br>
+        Как только точно дойдет до отметки (черточки), то необходимо нажать на пробел<br>
+        Скорость постепенно увеличится, есть несколько попыток на каждом этапе</p>
+    </div>
+    <div class="buttons">
+        <button class="start-btn" id="nextBtn" data-url="/t/r/2?s=1">Начать</button>
+        <button class="back-btn" id="backBtn" data-url="/t">Обратно</button>
+    </div>
+</div>
+<script src="/scripts/reaction/reactionTestTwo.js"></script>
+</body>
+</html>
