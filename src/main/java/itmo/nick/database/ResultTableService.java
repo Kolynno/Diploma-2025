@@ -10,6 +10,8 @@ import itmo.nick.test.processing.ProcessingTestTwo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
+
 /**
  * Сервис участника
  *
@@ -104,6 +106,20 @@ public class ResultTableService {
 		resultTableRepository.save(resultTable);
 	}
 
+	public void saveTestSeven(LinkedList<Integer> correctWords) {
+		ResultTable resultTable = new ResultTable();
+		resultTable.setTest_id("7");
+		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+
+		resultTable.setP1(String.valueOf(correctWords.get(0)));
+		resultTable.setP2(String.valueOf(correctWords.get(1)));
+		resultTable.setP3(String.valueOf(correctWords.get(2)));
+		resultTable.setP4(String.valueOf(correctWords.get(3)));
+		resultTable.setP5(String.valueOf(correctWords.get(4)));
+
+		resultTableRepository.save(resultTable);
+	}
+
 	/**
 	 * Статус прохождения теста
 	 * @param testId идентификтор теста
@@ -115,4 +131,6 @@ public class ResultTableService {
 		}
 		return true;
 	}
+
+
 }

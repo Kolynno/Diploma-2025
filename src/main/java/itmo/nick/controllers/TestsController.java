@@ -114,7 +114,7 @@ public class TestsController {
 
 		if (stage == MemoryTestTwo.LAST_STAGE) {
 			if (!memoryTestTwo.isFinished()) {
-				//resultTableService.saveTestTwo(memoryTestTwo.getErrorPercent(), memoryTestTwo.getAnswerMs());
+				resultTableService.saveTestSeven(memoryTestTwo.getCorrectWords());
 				memoryTestTwo.setFinished(true);
 			}
 			model.addAttribute("result", getOriginalResults(memoryTestTwo, 7));

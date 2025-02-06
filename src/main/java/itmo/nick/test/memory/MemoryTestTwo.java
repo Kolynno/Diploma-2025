@@ -2,7 +2,9 @@ package itmo.nick.test.memory;
 
 import itmo.nick.test.SimpleTest;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -31,20 +33,28 @@ public class MemoryTestTwo extends SimpleTest {
 		return wordToCountMap;
 	}
 
+	private LinkedList<Integer> correctWords = new LinkedList<>();
+
+	private String[] originalWords = {
+		"Жук",
+		"Мальчик",
+		"Арка",
+		"Колесо",
+		"Индюк",
+		"Носок",
+		"Костер",
+		"Официант",
+		"Лампочка",
+		"Ягода"
+	};
+
 	protected MemoryTestTwo() {
 		super(LAST_STAGE);
 		memoryTestTwoData = new MemoryTestTwoData[5];
 		wordToCountMap = new LinkedHashMap<>();
-		wordToCountMap.put("Жук", 0);
-		wordToCountMap.put("Мальчик", 0);
-		wordToCountMap.put("Арка", 0);
-		wordToCountMap.put("Колесо", 0);
-		wordToCountMap.put("Индюк", 0);
-		wordToCountMap.put("Носок", 0);
-		wordToCountMap.put("Костер", 0);
-		wordToCountMap.put("Официант", 0);
-		wordToCountMap.put("Лампочка", 0);
-		wordToCountMap.put("Ягода", 0);
+		for (int i = 0; i < originalWords.length; i++) {
+			wordToCountMap.put(originalWords[i], 0);
+		}
 	}
 
 	public static MemoryTestTwo getInstance() {
@@ -59,9 +69,15 @@ public class MemoryTestTwo extends SimpleTest {
 
 	@Override
 	public String result(String[] original) {
-		return wordToCountMap.toString();
+		return "Результаты в оригинальном тестировании: " + original[0] + ", " + original[1] + ", " + original[2] + ", "
+			+ original[3] + ", " + original[4] + "\n" + " правильно названных слов по этапамю.\n" +
+			"Ваш результат: " + getResult() + " соответсвенно.";
 	}
 
+	private String getResult() {
+		return correctWords.get(0) + ", " + correctWords.get(1) + ", " + correctWords.get(2) + ", "
+			+ correctWords.get(3) + ", " + correctWords.get(4);
+	}
 
 
 	public void delete() {
@@ -70,9 +86,17 @@ public class MemoryTestTwo extends SimpleTest {
 
 
 	public void updateMap(MemoryTestTwoData data) {
+		int count = 0;
 		for (String word : data.mentionWordsSet) {
 			wordToCountMap.put(word, wordToCountMap.getOrDefault(word, 0) + 1);
+			if (Arrays.asList(originalWords).contains(word)) {
+				count++;
+			}
 		}
+		correctWords.add(count);
 	}
 
+	public LinkedList<Integer> getCorrectWords() {
+		return correctWords;
+	}
 }

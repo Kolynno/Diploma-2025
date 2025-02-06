@@ -46,23 +46,23 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             console.log("Отправляем данные:", stageData); // Проверка перед отправкой
+            if (wordList) {
+                try {
+                    const response = await fetch('/memoryTestTwoStageData', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(stageData)
+                    });
 
-            try {
-                const response = await fetch('/memoryTestTwoStageData', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(stageData)
-                });
+                    if (!response.ok) {
+                        throw new Error(`Ошибка запроса: ${response.status}`);
+                    }
 
-                if (!response.ok) {
-                    throw new Error(`Ошибка запроса: ${response.status}`);
+                    console.log("Ответ сервера:", await response.json()); // Вывод ответа сервера
+                } catch (error) {
+                    console.error('Ошибка отправки данных:', error);
                 }
-
-                console.log("Ответ сервера:", await response.json()); // Вывод ответа сервера
-            } catch (error) {
-                console.error('Ошибка отправки данных:', error);
             }
-
             window.location.href = url;
         });
     }
