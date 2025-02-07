@@ -15,26 +15,27 @@ public class ReactionTestTwo extends SimpleTest {
 	static ReactionTestTwo reactionTestTwo;
 	private ArrayList<ReactionTestTwoData> reactionTestTwoDataList = new ArrayList<>();
 
+	private static int ATTEMPTS_PER_INTERVAL = 5;
+
+	private int intervalsCount = 0;
+
 	/**
 	 * Номер последнего этап теста
 	 */
 	public final static int LAST_STAGE = 6;
 
-	private static int TEST_TIME_IN_SEC = 10;
-	private static int TEST_TIME_IN_MS = TEST_TIME_IN_SEC * 1000;
-	private static double ERROR_TIME_IN_SEC = 0.5;
 
 	protected ReactionTestTwo() {
 		super(LAST_STAGE);
 	}
 
-	public boolean attentionsIsUp() {
-		//3 att
-		return false;
+	public void addData(Double[] reactionTime) {
+		reactionTestTwoDataList.get(intervalsCount).addReaction(reactionTime);
+		intervalsCount++;
 	}
 
-	public void addData(ReactionTestTwoData data) {
-		reactionTestTwoDataList.add(data);
+	public ArrayList<ReactionTestTwoData> getReactionTestTwoDataList() {
+		return reactionTestTwoDataList;
 	}
 
 	public static ReactionTestTwo getInstance() {
@@ -49,7 +50,11 @@ public class ReactionTestTwo extends SimpleTest {
 
 	@Override
 	public String result(String[] original) {
-		return "RES:";
+		return "2.0: " + reactionTestTwoDataList.get(0).getAverageReactionTime() + " c.\n" +
+			"1.5: " + reactionTestTwoDataList.get(1).getAverageReactionTime() + " c.\n" +
+			"1.1: " + reactionTestTwoDataList.get(2).getAverageReactionTime() + " c.\n" +
+			"0.9: " + reactionTestTwoDataList.get(3).getAverageReactionTime() + " c.\n" +
+			"0.7: " + reactionTestTwoDataList.get(4).getAverageReactionTime() + " c.\n";
 	}
 
 	public void delete() {

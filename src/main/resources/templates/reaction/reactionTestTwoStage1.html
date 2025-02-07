@@ -2,21 +2,24 @@
 <html lang="ru">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест реакции на движение: период 2.0 с.</title>
-    <link rel="stylesheet" href="/css/common.css">
+    <title>Тест реакции на движение</title>
     <link rel="stylesheet" href="/css/reaction/reactionTestTwo.css">
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body>
 
-<div class="container">
-    <div class="content">
-        <img src="/img/reactionRed.png">
+<div class="container" data-interval="2000">
+    <div class="circle">
+        <div class="marker"></div>
+        <div class="moving-dot"></div>
     </div>
+
     <div class="buttons">
         <button class="start-btn" id="nextBtn" data-url="/t/r/2?s=2">Далее</button>
         <button class="back-btn" id="backBtn" data-url="/t">В начало</button>
     </div>
 </div>
+
 <script src="/scripts/reaction/reactionTestTwo.js"></script>
 </body>
 </html>

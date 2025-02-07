@@ -161,10 +161,6 @@ public class TestsController {
 		ReactionTestTwo reactionTestTwo = ReactionTestTwo.getInstance();
 		stage = reactionTestTwo.CorrectNextStage(stage);
 
-		if (reactionTestTwo.attentionsIsUp()) {
-			stage = ReactionTestTwo.LAST_STAGE;
-		}
-
 		loadIfDescriptionStage(stage, model, 8);
 
 		if (stage == ReactionTestTwo.LAST_STAGE) {

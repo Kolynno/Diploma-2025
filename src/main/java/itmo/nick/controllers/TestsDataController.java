@@ -106,9 +106,9 @@ public class TestsDataController {
      * @param data данные
      */
     @PostMapping("/reactionTestTwoStageData")
-    public ResponseEntity<Void> reactionTestTwoStageData(@RequestBody ReactionTestTwoData data) {
+    public ResponseEntity<Void> reactionTestTwoStageData(@RequestBody Double[] reactionTime) {
         ReactionTestTwo reactionTestTwo = ReactionTestTwo.getInstance();
-        reactionTestTwo.addData(data);
+        reactionTestTwo.addData(reactionTime);
         return ResponseEntity.ok().build();
     }
 

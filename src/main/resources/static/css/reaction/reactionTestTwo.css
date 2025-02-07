@@ -1,78 +1,44 @@
-:root {
-    --re: #ff0000;
-    --bl: #1100ef;
-    --gr: #02df00;
-    --br: #ab4800;
-    --pu: #c000e1;
-}
-
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
 }
 
 .container {
-    text-align: center;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+.circle {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    margin: 20px auto;
+}
+
+.marker {
+    width: 20px; /* Увеличено на 100% */
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.moving-dot {
+    width: 15px; /* Увеличено на 50% */
+    height: 15px;
+    background-color: blue;
+    border-radius: 50%;
+    position: absolute;
+    transform-origin: center -95px;
 }
 
 .buttons {
-    display: flex;
-    justify-content: space-between;
     margin-top: 20px;
 }
 
 button {
     padding: 10px 20px;
-    margin: 10px;
-}
-
-table.table-content{
-    width: 100%;
-    border-collapse:collapse;
-    border-spacing:0;
-    height: auto;
-    font-family: "Franklin Gothic Book", serif;
-    font-size: 14px;
-}
-
-table.table-content,table.table-content td, table.table-content th {
-    border: 1px solid #595959;
-}
-
-table.table-content td,table.table-content th {
-    min-height:35px;padding: 3px;
-    width: 30px;
-    height: 35px;
-}
-
-table.table-content th {
-    background: #347c99;
-    color: #fff;
-    font-weight: normal;
-}
-
-#timer input {
-    width: 10%;
-    height: 20px;
-    float: right;
-    padding: 0px;
-    margin: 0px;
-    text-align: right;
-}
-
-#timer {
-    text-align: right;
-    float: right;
-}
-
-img {
-    width: 600px;
-    height: 400px;
+    font-size: 16px;
+    cursor: pointer;
+    display: none; /* Кнопки скрыты до завершения теста */
 }

@@ -1,33 +1,85 @@
-let timer = 0;
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.querySelector(".container");
+    const movingDot = document.querySelector(".moving-dot");
+    const marker = document.querySelector(".marker");
+    const interval = parseInt(container.getAttribute("data-interval"), 10);
+    const totalPresses = 5;
+    let angle = 135;
+    let pressCount = 0;
+    let reactionData = [];
+    let lastPressTime = null;
+    let animationInterval;
 
-if (document.getElementById('nextBtn') != null) {
-    document.getElementById('nextBtn').addEventListener('click', async function () {
-        const url = this.getAttribute('data-url');
-        const currentStage = parseInt(url.charAt(url.length - 1)) - 1;
-        const errorsInput = document.getElementById("errorInput");
-        const errors = errorsInput ? parseInt(errorsInput.value) || 0 : 0;
+    function setMarkerPosition() {
+        const markerAngle = Math.random() * 180 + 270;
+        const markerX = 100 + 95 * Math.cos(markerAngle * Math.PI / 180);
+        const markerY = 100 + 95 * Math.sin(markerAngle * Math.PI / 180);
+        marker.style.left = `${markerX}px`;
+        marker.style.top = `${markerY}px`;
+    }
 
-        const stageData = {
-            time: Math.round(timer * 100) / 100,
-            errors: errors,
-            stage: currentStage
-        };
+    function updateDotPosition() {
+        angle = (angle + 6) % 360; // Двигаем точку по кругу
+        const x = 100 + 95 * Math.cos(angle * Math.PI / 180);
+        const y = 100 + 95 * Math.sin(angle * Math.PI / 180);
+        movingDot.style.left = `${x}px`;
+        movingDot.style.top = `${y}px`;
+    }
 
-        try {
-            await fetch('/reactionTestTwoStageData', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(stageData)
-            });
-        } catch (error) {
-            console.error('Ошибка отправки данных:', error);
+    function checkAlignment() {
+        const distance = Math.hypot(movingDot.offsetLeft - marker.offsetLeft, movingDot.offsetTop - marker.offsetTop);
+        return distance < 10; // Проверяем совпадение точек
+    }
+
+    function handleKeyPress(event) {
+        if (event.code === "Space" && pressCount < totalPresses) {
+            const now = performance.now();
+            const isAligned = checkAlignment();
+            let reactionTime = lastPressTime !== null ? now - lastPressTime : 0;
+
+            reactionData.push(reactionTime);
+
+            pressCount++;
+            lastPressTime = now;
+
+            setMarkerPosition(); // Меняем положение красной точки
+            angle = 135; // Сбрасываем синюю точку до 135 градусов
+            updateDotPosition();
+
+            if (pressCount >= totalPresses) {
+                clearInterval(animationInterval); // Останавливаем движение точки
+                sendReactionData();
+            }
         }
+    }
 
-        window.location.href = url;
-    });
-}
+    function sendReactionData() {
+        fetch("/reactionTestTwoStageData", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(reactionData.filter(rt => rt !== 0))
+        }).then(response => response.json())
+            .then(data => {
+                console.log("Server response:", data);
+                document.querySelector("#nextBtn").style.display = "inline-block";
+                document.querySelector("#backBtn").style.display = "inline-block";
+            })
+            .catch(error => console.error("Error:", error));
+    }
+
+    setMarkerPosition();
+    animationInterval = setInterval(updateDotPosition, interval / 60);
+    document.addEventListener("keydown", handleKeyPress);
+});
+
+
+
+document.getElementById('nextBtn').addEventListener('click', function() {
+    const url = this.getAttribute('data-url');
+    window.location.href = url;
+});
 
 document.getElementById('backBtn').addEventListener('click', function() {
     const url = this.getAttribute('data-url');

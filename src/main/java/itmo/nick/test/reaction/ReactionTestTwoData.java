@@ -1,5 +1,8 @@
 package itmo.nick.test.reaction;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Данные для теста на реакцию 2 - движение
  *
@@ -7,25 +10,19 @@ package itmo.nick.test.reaction;
  * @since 06.02.2025
  */
 public class ReactionTestTwoData {
-	private double reactionTime;
-	private double delay;
+	private ArrayList<Double> reactions;
 
 	public ReactionTestTwoData() {
+		reactions = new ArrayList<>();
 	}
 
-	public double getReactionTime() {
-		return reactionTime;
+	public void addReaction(Double[] reactionTime) {
+		reactions.addAll(Arrays.asList(reactionTime));
+		System.out.println(reactions);
 	}
 
-	public void setReactionTime(double reactionTime) {
-		this.reactionTime = reactionTime;
+	public double getAverageReactionTime() {
+		return reactions.stream().mapToDouble(reactionTime -> reactionTime).sum() / reactions.size();
 	}
 
-	public double getDelay() {
-		return delay;
-	}
-
-	public void setDelay(double delay) {
-		this.delay = delay;
-	}
 }
