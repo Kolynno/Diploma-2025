@@ -16,7 +16,7 @@ body {
 }
 
 .marker {
-    width: 20px; /* Увеличено на 100% */
+    width: 20px;
     height: 20px;
     background-color: red;
     border-radius: 50%;
@@ -24,8 +24,8 @@ body {
 }
 
 .moving-dot {
-    width: 15px; /* Увеличено на 50% */
-    height: 15px;
+    width: 20px;
+    height: 20px;
     background-color: blue;
     border-radius: 50%;
     position: absolute;

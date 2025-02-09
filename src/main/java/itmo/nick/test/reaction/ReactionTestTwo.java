@@ -27,6 +27,9 @@ public class ReactionTestTwo extends SimpleTest {
 
 	protected ReactionTestTwo() {
 		super(LAST_STAGE);
+		for (int i = 0; i < ATTEMPTS_PER_INTERVAL; i++) {
+			reactionTestTwoDataList.add(new ReactionTestTwoData());
+		}
 	}
 
 	public void addData(Double[] reactionTime) {

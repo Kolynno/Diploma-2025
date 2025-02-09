@@ -9,13 +9,16 @@
 <body>
 
 <div class="container" data-interval="1100">
-    <div class="content">
-        <img src="/img/reactionRed.png">
+    <div class="circle">
+        <div class="marker"></div>
+        <div class="moving-dot"></div>
     </div>
+
     <div class="buttons">
-        <button class="start-btn" id="nextBtn" data-url="/t/r/2?s=4">Далее</button>
-        <button class="back-btn" id="backBtn" data-url="/t">В начало</button>
+        <button id="nextBtn" data-url="/t/r/2?s=4" style="display: none;">Далее</button>
+        <button id="backBtn" data-url="/t" style="display: none;">В начало</button>
     </div>
+
 </div>
 <script src="/scripts/reaction/reactionTestTwo.js"></script>
 </body>
