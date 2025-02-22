@@ -7,9 +7,11 @@ import itmo.nick.test.attention.AttentionTestOneData;
 import itmo.nick.test.attention.AttentionTestTwo;
 import itmo.nick.test.processing.ProcessingTestOne;
 import itmo.nick.test.processing.ProcessingTestTwo;
+import itmo.nick.test.reaction.ReactionTestTwoData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -120,7 +122,18 @@ public class ResultTableService {
 		resultTableRepository.save(resultTable);
 	}
 
-	public void saveTestEight() {
+	public void saveTestEight(ArrayList<ReactionTestTwoData> reactionTestTwoDataList) {
+		ResultTable resultTable = new ResultTable();
+		resultTable.setTest_id("8");
+		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+
+		resultTable.setP1(String.valueOf(reactionTestTwoDataList.get(0).getAverageReactionTime()));
+		resultTable.setP2(String.valueOf(reactionTestTwoDataList.get(1).getAverageReactionTime()));
+		resultTable.setP3(String.valueOf(reactionTestTwoDataList.get(2).getAverageReactionTime()));
+		resultTable.setP4(String.valueOf(reactionTestTwoDataList.get(3).getAverageReactionTime()));
+		resultTable.setP5(String.valueOf(reactionTestTwoDataList.get(4).getAverageReactionTime()));
+
+		resultTableRepository.save(resultTable);
 	}
 
 	/**

@@ -165,7 +165,7 @@ public class TestsController {
 
 		if (stage == ReactionTestTwo.LAST_STAGE) {
 			if (!reactionTestTwo.isFinished()) {
-				//resultTableService.saveTestEight();
+				resultTableService.saveTestEight(reactionTestTwo.getReactionTestTwoDataList());
 				reactionTestTwo.setFinished(true);
 			}
 			model.addAttribute("result", getOriginalResults(reactionTestTwo, 8));

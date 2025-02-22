@@ -22,7 +22,9 @@ public class ReactionTestTwoData {
 	}
 
 	public double getAverageReactionTime() {
-		return reactions.stream().mapToDouble(reactionTime -> reactionTime).sum() / reactions.size();
+		return Math.abs(
+			Math.round(reactions.stream().mapToDouble(reactionTime -> reactionTime).sum() / reactions.size())
+		);
 	}
 
 }

@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let animationFrame;
 
     function setMarkerPosition() {
-        // Выбираем случайное время попадания в диапазоне 0.5 сек – interval
-        let reactionTimeOffset = Math.random() * (interval - 500) + 500;
+        // Выбираем случайное время попадания в диапазоне 1 сек – interval
+        let reactionTimeOffset = Math.random() * (interval - 500) + 1000;
         expectedHitTime = performance.now() + reactionTimeOffset;
 
         // Вычисляем будущий угол синей точки через reactionTimeOffset

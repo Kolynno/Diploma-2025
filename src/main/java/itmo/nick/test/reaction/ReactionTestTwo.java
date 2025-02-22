@@ -53,11 +53,12 @@ public class ReactionTestTwo extends SimpleTest {
 
 	@Override
 	public String result(String[] original) {
-		return "2.0: " + reactionTestTwoDataList.get(0).getAverageReactionTime() + " c.\n" +
-			"1.5: " + reactionTestTwoDataList.get(1).getAverageReactionTime() + " c.\n" +
-			"1.1: " + reactionTestTwoDataList.get(2).getAverageReactionTime() + " c.\n" +
-			"0.9: " + reactionTestTwoDataList.get(3).getAverageReactionTime() + " c.\n" +
-			"0.7: " + reactionTestTwoDataList.get(4).getAverageReactionTime() + " c.\n";
+		return "Ваше среднее отклонение при периоде вращения круга<br>" +
+			"в 2.0с: " + reactionTestTwoDataList.get(0).getAverageReactionTime() + " мс.<br>" +
+			"в 1.5с: " + reactionTestTwoDataList.get(1).getAverageReactionTime() + " мс.<br>" +
+			"в 1.1с: " + reactionTestTwoDataList.get(2).getAverageReactionTime() + " мс.<br>" +
+			"в 0.9с: " + reactionTestTwoDataList.get(3).getAverageReactionTime() + " мс.<br>" +
+			"в 0.7с: " + reactionTestTwoDataList.get(4).getAverageReactionTime() + " мс.<br>";
 	}
 
 	public void delete() {
