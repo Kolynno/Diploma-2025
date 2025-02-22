@@ -21,4 +21,5 @@ public class Person {
 	private final Date birthday;
 	private final String sex;
 	private final String education;
+	private final String loginId;
 }

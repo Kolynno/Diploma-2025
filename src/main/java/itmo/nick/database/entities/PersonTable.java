@@ -32,7 +32,7 @@ public class PersonTable {
 	private String joy;
 	private String calm;
 	private String dominance;
-
+	private String fioInitials;
 	static PersonTable personTable;
 
 	public PersonTable() {}
@@ -52,6 +52,8 @@ public class PersonTable {
 
 	public void setPerson(Person person) {
 		this.fio = person.getLastname() + " " + person.getFirstname() + " " + person.getMiddlename();
+		this.fioInitials =
+			person.getLastname() + " " + person.getFirstname().charAt(0) + ". " + person.getMiddlename().charAt(0) + ".";
 		this.birthday = person.getBirthday();
 		this.sex = person.getSex();
 		this.education = person.getEducation();

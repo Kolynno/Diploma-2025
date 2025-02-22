@@ -24,4 +24,8 @@ public class PersonTableService {
 	public void save(PersonTable personTable) {
 		personTableRepository.save(personTable);
 	}
+
+	public PersonTableRepository getPersonTableRepository() {
+		return personTableRepository;
+	}
 }

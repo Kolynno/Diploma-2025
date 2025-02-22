@@ -1,5 +1,6 @@
 package itmo.nick.database;
 
+import itmo.nick.database.entities.PersonTable;
 import itmo.nick.database.entities.ResultTable;
 import itmo.nick.database.repositories.PersonTableRepository;
 import itmo.nick.database.repositories.ResultTableRepository;
@@ -41,7 +42,7 @@ public class ResultTableService {
 	public void saveTestOne(AttentionTestOneData[] attentionTestOneData) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("1");
-		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setPerson_id(getCurrentPersonId());
 
 		resultTable.setP1(String.valueOf(attentionTestOneData[1].getTime()));
 		resultTable.setP2(String.valueOf(attentionTestOneData[2].getTime()));
@@ -54,7 +55,7 @@ public class ResultTableService {
 	public void saveTestTwo(double errors, double time) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("2");
-		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setPerson_id(getCurrentPersonId());
 
 		resultTable.setP1(String.valueOf(errors));
 		resultTable.setP2(String.valueOf(time));
@@ -65,7 +66,7 @@ public class ResultTableService {
 	public void saveTestThree(String reactionTime, String errors, String falseStarts) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("3");
-		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setPerson_id(getCurrentPersonId());
 
 		resultTable.setP1(reactionTime);
 		resultTable.setP2(errors);
@@ -77,7 +78,7 @@ public class ResultTableService {
 	public void saveTestFourth(ProcessingTestOne processingTestOne) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("4");
-		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setPerson_id(getCurrentPersonId());
 
 		resultTable.setP1(processingTestOne.getReactionTime());
 		resultTable.setP2(processingTestOne.getErrors());
@@ -89,7 +90,7 @@ public class ResultTableService {
 	public void saveTestFive(ProcessingTestTwo processingTestTwo) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("5");
-		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setPerson_id(getCurrentPersonId());
 
 		resultTable.setP1(processingTestTwo.getReactionTime());
 		resultTable.setP2(processingTestTwo.getSkipErrors());
@@ -101,7 +102,7 @@ public class ResultTableService {
 	public void saveTestSix(AttentionTestTwo attentionTestTwo) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("6");
-		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setPerson_id(getCurrentPersonId());
 
 		resultTable.setP1(String.valueOf(Math.round(attentionTestTwo.getData().getTime())));
 
@@ -111,7 +112,7 @@ public class ResultTableService {
 	public void saveTestSeven(LinkedList<Integer> correctWords) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("7");
-		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setPerson_id(getCurrentPersonId());
 
 		resultTable.setP1(String.valueOf(correctWords.get(0)));
 		resultTable.setP2(String.valueOf(correctWords.get(1)));
@@ -125,7 +126,7 @@ public class ResultTableService {
 	public void saveTestEight(ArrayList<ReactionTestTwoData> reactionTestTwoDataList) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("8");
-		resultTable.setPerson_id(personTableRepository.findCurrentPersonId());
+		resultTable.setPerson_id(getCurrentPersonId());
 
 		resultTable.setP1(String.valueOf(reactionTestTwoDataList.get(0).getAverageReactionTime()));
 		resultTable.setP2(String.valueOf(reactionTestTwoDataList.get(1).getAverageReactionTime()));
@@ -142,10 +143,13 @@ public class ResultTableService {
 	 * @return если есть прохождение, то стаутс true, иначе false
 	 */
 	public boolean getStatus(int testId) {
-		if ("0".equals(resultTableRepository.getStatus(String.valueOf(testId)))) {
+		if ("0".equals(resultTableRepository.getStatus(getCurrentPersonId(), String.valueOf(testId)))) {
 			return false;
 		}
 		return true;
 	}
 
+	private String getCurrentPersonId() {
+		return String.valueOf(PersonTable.getInstance().getPerson_id());
+	}
 }

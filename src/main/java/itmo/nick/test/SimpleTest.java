@@ -81,7 +81,7 @@ public class SimpleTest {
 	/**
 	 * Очистка данных
 	 */
-	public static void deleteTestAndData() {
+	public static void deleteTestsData() {
 		AttentionTestOne.getInstance().delete();
 		AttentionTestTwo.getInstance().delete();
 		MemoryTestOne.getInstance().delete();

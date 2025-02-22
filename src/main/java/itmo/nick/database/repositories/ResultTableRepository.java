@@ -20,6 +20,6 @@ public interface ResultTableRepository extends CrudRepository<ResultTable, Integ
 	 * Поиск кол-ва прохождений определного теста по текущему пользователю.
 	 * @return кол-во прохождений теста (0 или 1)
 	 */
-	@Query("SELECT COUNT(result_id) FROM ResultTable WHERE person_id = (SELECT CAST(MAX(person_id) AS char) FROM PersonTable) AND test_id = :testId")
-	String getStatus(String testId);
+	@Query("SELECT COUNT(result_id) FROM ResultTable WHERE person_id = :personId AND test_id = :testId")
+	String getStatus(String personId, String testId);
 }

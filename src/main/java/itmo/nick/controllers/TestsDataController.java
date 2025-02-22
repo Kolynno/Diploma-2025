@@ -3,6 +3,7 @@ package itmo.nick.controllers;
 import itmo.nick.database.ResultTableService;
 import itmo.nick.database.entities.PersonTable;
 import itmo.nick.database.PersonTableService;
+import itmo.nick.database.repositories.PersonTableRepository;
 import itmo.nick.person.Person;
 import itmo.nick.person.PersonState;
 import itmo.nick.test.attention.AttentionTestOne;
@@ -45,8 +46,22 @@ public class TestsDataController {
      */
     @PostMapping("/register")
     public String registerPerson(@RequestBody Person person) {
+        //Сначала очистить старые данные, потом создать новую PersonTable
+        PersonTable.delete();
         PersonTable.getInstance().setPerson(person);
         return "personStateAnalyze";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody Person person) {
+        //Если есть хотя бы одна запись с таким id
+        if (!"0".equals(personTableService.getPersonTableRepository().findPersonById(person.getLoginId()))) {
+            PersonTable.getInstance().setPerson_id(Long.valueOf(person.getLoginId()));
+            return "personStateAnalyze";
+        } else {
+            //временная заплатка
+            return "/r";
+        }
     }
 
     /**
@@ -55,9 +70,11 @@ public class TestsDataController {
      */
     @PostMapping("/stateAnalyze")
     public String personState(@RequestBody PersonState personState) {
-        PersonTable.getInstance().setPersonState(personState);
-        personTableService.save(PersonTable.getInstance());
-        PersonTable.delete();
+        //Если регистрация, то как обычно, иначе же просто оставить PersonTable с id
+        if (PersonTable.getInstance().getFio() != null) {
+            PersonTable.getInstance().setPersonState(personState);
+            personTableService.save(PersonTable.getInstance());
+        }
         return "personStateAnalyze";
     }
 
