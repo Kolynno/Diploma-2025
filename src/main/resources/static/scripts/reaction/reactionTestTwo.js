@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let animationStartTime = null;
     let animationFrame;
 
+
+    //TODO надо бы брать абс значенение, как будто сейчас вместо +100мс дает (100 - interval)мс
     function setMarkerPosition() {
         // Выбираем случайное время попадания в диапазоне 1 сек – interval
         let reactionTimeOffset = Math.random() * (interval - 500) + 1000;
