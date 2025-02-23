@@ -5,7 +5,7 @@ import itmo.nick.test.SimpleTest;
 import java.util.ArrayList;
 
 /**
- * Тест на время реакции 1
+ * Тест на время реакции 1 - статичное
  *
  * @author Николай Жмакин
  * @since 29.12.2024
@@ -81,5 +81,10 @@ public class ReactionTestOne extends SimpleTest {
 
 	public ArrayList<ReactionTestOneData> getReactionTestOneDataList() {
 		return reactionTestOneDataList;
+	}
+
+	@Override
+	public int getTestId() {
+		return 3;
 	}
 }

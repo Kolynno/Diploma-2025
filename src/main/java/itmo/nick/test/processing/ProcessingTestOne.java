@@ -5,7 +5,7 @@ import itmo.nick.test.SimpleTest;
 import java.util.*;
 
 /**
- * Тест на обработку информации 1
+ * Тест на обработку информации 1 - визуальный
  *
  * @author Николай Жмакин
  * @since 03.01.2025
@@ -120,5 +120,8 @@ public class ProcessingTestOne extends SimpleTest {
 		dataList.add(data);
 	}
 
-
+	@Override
+	public int getTestId() {
+		return 4;
+	}
 }

@@ -12,6 +12,7 @@ import itmo.nick.test.reaction.ReactionTestTwoData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -43,6 +44,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("1");
 		resultTable.setPerson_id(getCurrentPersonId());
+		resultTable.setResult_date(getTodayDate());
 
 		resultTable.setP1(String.valueOf(attentionTestOneData[1].getTime()));
 		resultTable.setP2(String.valueOf(attentionTestOneData[2].getTime()));
@@ -56,6 +58,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("2");
 		resultTable.setPerson_id(getCurrentPersonId());
+		resultTable.setResult_date(getTodayDate());
 
 		resultTable.setP1(String.valueOf(errors));
 		resultTable.setP2(String.valueOf(time));
@@ -67,6 +70,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("3");
 		resultTable.setPerson_id(getCurrentPersonId());
+		resultTable.setResult_date(getTodayDate());
 
 		resultTable.setP1(reactionTime);
 		resultTable.setP2(errors);
@@ -79,6 +83,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("4");
 		resultTable.setPerson_id(getCurrentPersonId());
+		resultTable.setResult_date(getTodayDate());
 
 		resultTable.setP1(processingTestOne.getReactionTime());
 		resultTable.setP2(processingTestOne.getErrors());
@@ -91,6 +96,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("5");
 		resultTable.setPerson_id(getCurrentPersonId());
+		resultTable.setResult_date(getTodayDate());
 
 		resultTable.setP1(processingTestTwo.getReactionTime());
 		resultTable.setP2(processingTestTwo.getSkipErrors());
@@ -103,6 +109,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("6");
 		resultTable.setPerson_id(getCurrentPersonId());
+		resultTable.setResult_date(getTodayDate());
 
 		resultTable.setP1(String.valueOf(Math.round(attentionTestTwo.getData().getTime())));
 
@@ -113,6 +120,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("7");
 		resultTable.setPerson_id(getCurrentPersonId());
+		resultTable.setResult_date(getTodayDate());
 
 		resultTable.setP1(String.valueOf(correctWords.get(0)));
 		resultTable.setP2(String.valueOf(correctWords.get(1)));
@@ -127,6 +135,7 @@ public class ResultTableService {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("8");
 		resultTable.setPerson_id(getCurrentPersonId());
+		resultTable.setResult_date(getTodayDate());
 
 		resultTable.setP1(String.valueOf(reactionTestTwoDataList.get(0).getAverageReactionTime()));
 		resultTable.setP2(String.valueOf(reactionTestTwoDataList.get(1).getAverageReactionTime()));
@@ -152,4 +161,9 @@ public class ResultTableService {
 	private String getCurrentPersonId() {
 		return String.valueOf(PersonTable.getInstance().getPerson_id());
 	}
+
+	private LocalDate getTodayDate() {
+		return LocalDate.now();
+	}
+
 }

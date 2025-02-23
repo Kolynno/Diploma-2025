@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 /**
  * Класс таблицы результатов в БД
  *
@@ -23,6 +26,7 @@ public class ResultTable {
 	private Long result_id;
 	private String person_id;
 	private String test_id;
+	private LocalDate result_date;
 
 	private String p1;
 	private String p2;

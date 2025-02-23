@@ -65,4 +65,8 @@ public class ReactionTestTwo extends SimpleTest {
 		reactionTestTwo = null;
 	}
 
+	@Override
+	public int getTestId() {
+		return 8;
+	}
 }

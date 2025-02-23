@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Тест на обработку информации 2
+ * Тест на обработку информации 2 - звуковой
  *
  * @author Николай Жмакин
  * @since 14.01.2025
@@ -139,5 +139,8 @@ public class ProcessingTestTwo extends SimpleTest {
 		dataList.add(data);
 	}
 
-
+	@Override
+	public int getTestId() {
+		return 5;
+	}
 }

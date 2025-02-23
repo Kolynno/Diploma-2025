@@ -1,11 +1,14 @@
 package itmo.nick.test;
 
+import itmo.nick.database.ResultTableService;
 import itmo.nick.test.attention.*;
 import itmo.nick.test.memory.*;
 import itmo.nick.test.processing.*;
 import itmo.nick.test.reaction.*;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
+ * Родительский класс тестов
  *
  * @author Николай Жмакин
  * @since 20.10.2024
@@ -32,7 +35,7 @@ public class SimpleTest {
 	 */
 	boolean isFinished;
 
-	protected SimpleTest(int lastStage) {
+	public SimpleTest(@Value("0") int lastStage) {
 		this.lastStage = lastStage;
 	}
 
@@ -90,5 +93,12 @@ public class SimpleTest {
 		ReactionTestTwo.getInstance().delete();
 		ProcessingTestOne.getInstance().delete();
 		ProcessingTestTwo.getInstance().delete();
+	}
+
+	/**
+	 * Возвращает id теста для идентификации
+	 */
+	public int getTestId() {
+		return 0;
 	}
 }

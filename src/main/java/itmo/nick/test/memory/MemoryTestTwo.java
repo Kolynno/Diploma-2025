@@ -99,4 +99,9 @@ public class MemoryTestTwo extends SimpleTest {
 	public LinkedList<Integer> getCorrectWords() {
 		return correctWords;
 	}
+
+	@Override
+	public int getTestId() {
+		return 7;
+	}
 }

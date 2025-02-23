@@ -130,4 +130,9 @@ public class MemoryTestOne extends SimpleTest {
 	private void increaseTime(double time) {
 		answerTime += time;
 	}
+
+	@Override
+	public int getTestId() {
+		return 2;
+	}
 }

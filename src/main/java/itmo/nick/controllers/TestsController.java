@@ -40,12 +40,18 @@ public class TestsController {
 	@GetMapping("/t/a/1")
 	public String attentionTestOne(@RequestParam("s") int stage, Model model) {
 		AttentionTestOne attentionTestOne = getInstance();
-		stage = attentionTestOne.CorrectNextStage(stage);
+		int testId = attentionTestOne.getTestId();
 
-		loadIfDescriptionStage(stage, model, 1);
+		if (resultTableService.getStatus(testId)) {
+			stage = AttentionTestOne.LAST_STAGE;
+		} else {
+			stage = attentionTestOne.CorrectNextStage(stage);
+		}
+
+		loadIfDescriptionStage(stage, model, testId);
 
 		if (stage == AttentionTestOne.LAST_STAGE) {
-			model.addAttribute("result", getOriginalResults(attentionTestOne, 1));
+			model.addAttribute("result", getOriginalResults(attentionTestOne, testId));
 		}
 		return "attention/attentionTestOneStage" + stage;
 	}
@@ -57,16 +63,22 @@ public class TestsController {
 	@GetMapping("/t/a/2")
 	public String attentionTestTwo(@RequestParam("s") int stage, Model model) {
 		AttentionTestTwo attentionTestTwo = AttentionTestTwo.getInstance();
-		stage = attentionTestTwo.CorrectNextStage(stage);
+		int testId = attentionTestTwo.getTestId();
 
-		loadIfDescriptionStage(stage, model, 6);
+		if (resultTableService.getStatus(testId)) {
+			stage = AttentionTestTwo.LAST_STAGE;
+		} else {
+			stage = attentionTestTwo.CorrectNextStage(stage);
+		}
+
+		loadIfDescriptionStage(stage, model, testId);
 
 		if (stage == AttentionTestTwo.LAST_STAGE) {
 			if (!attentionTestTwo.isFinished()) {
 				resultTableService.saveTestSix(attentionTestTwo);
 				attentionTestTwo.setFinished(true);
 			}
-			model.addAttribute("result", getOriginalResults(attentionTestTwo, 6));
+			model.addAttribute("result", getOriginalResults(attentionTestTwo, testId));
 		}
 		return "attention/attentionTestTwoStage" + stage;
 	}
@@ -78,9 +90,15 @@ public class TestsController {
 	@GetMapping("/t/m/1")
 	public String memoryTestOne(@RequestParam("s") int stage, Model model) {
 		MemoryTestOne memoryTestOne = MemoryTestOne.getInstance();
-		stage = memoryTestOne.CorrectNextStage(stage);
+		int testId = memoryTestOne.getTestId();
 
-		loadIfDescriptionStage(stage, model, 2);
+		if (resultTableService.getStatus(testId)) {
+			stage = MemoryTestOne.LAST_STAGE;
+		} else {
+			stage = memoryTestOne.CorrectNextStage(stage);
+		}
+
+		loadIfDescriptionStage(stage, model, testId);
 
 		String picture = memoryTestOne.getNextPicture();
 		if ("-1".equals(picture)) {
@@ -94,7 +112,7 @@ public class TestsController {
 				resultTableService.saveTestTwo(memoryTestOne.getErrorPercent(), memoryTestOne.getAnswerMs());
 				memoryTestOne.setFinished(true);
 			}
-			model.addAttribute("result", getOriginalResults(memoryTestOne, 2));
+			model.addAttribute("result", getOriginalResults(memoryTestOne, testId));
 		}
 
 		return "memory/memoryTestOneStage" + stage;
@@ -107,9 +125,15 @@ public class TestsController {
 	@GetMapping("/t/m/2")
 	public String memoryTestTwo(@RequestParam("s") int stage, Model model) {
 		MemoryTestTwo memoryTestTwo = MemoryTestTwo.getInstance();
-		stage = memoryTestTwo.CorrectNextStage(stage);
+		int testId = memoryTestTwo.getTestId();
 
-		loadIfDescriptionStage(stage, model, 7);
+		if (resultTableService.getStatus(testId)) {
+			stage = MemoryTestTwo.LAST_STAGE;
+		} else {
+			stage = memoryTestTwo.CorrectNextStage(stage);
+		}
+
+		loadIfDescriptionStage(stage, model, testId);
 
 		model.addAttribute("words", memoryTestTwo.getWords());
 
@@ -118,7 +142,7 @@ public class TestsController {
 				resultTableService.saveTestSeven(memoryTestTwo.getCorrectWords());
 				memoryTestTwo.setFinished(true);
 			}
-			model.addAttribute("result", getOriginalResults(memoryTestTwo, 7));
+			model.addAttribute("result", getOriginalResults(memoryTestTwo, testId));
 		}
 
 		return "memory/memoryTestTwoStage" + stage;
@@ -131,13 +155,19 @@ public class TestsController {
 	@GetMapping("/t/r/1")
 	public String reactionTestOne(@RequestParam("s") int stage, Model model) {
 		ReactionTestOne reactionTestOne = ReactionTestOne.getInstance();
-		stage = reactionTestOne.CorrectNextStage(stage);
+		int testId = reactionTestOne.getTestId();
+
+		if (resultTableService.getStatus(testId)) {
+			stage = ReactionTestOne.LAST_STAGE;
+		} else {
+			stage = reactionTestOne.CorrectNextStage(stage);
+		}
 
 		if (reactionTestOne.timeIsUp()) {
 			stage = ReactionTestOne.LAST_STAGE;
 		}
 
-		loadIfDescriptionStage(stage, model, 3);
+		loadIfDescriptionStage(stage, model, testId);
 
 		if (stage == ReactionTestOne.LAST_STAGE) {
 			if (!reactionTestOne.isFinished()) {
@@ -146,7 +176,7 @@ public class TestsController {
 					String.valueOf(reactionTestOne.getErrors()), reactionTestOne.getFalseStarts());
 				reactionTestOne.setFinished(true);
 			}
-			model.addAttribute("result", getOriginalResults(reactionTestOne, 3));
+			model.addAttribute("result", getOriginalResults(reactionTestOne, testId));
 		}
 
 		return "reaction/reactionTestOneStage" + stage;
@@ -159,16 +189,22 @@ public class TestsController {
 	@GetMapping("/t/r/2")
 	public String reactionTestTwo(@RequestParam("s") int stage, Model model) {
 		ReactionTestTwo reactionTestTwo = ReactionTestTwo.getInstance();
-		stage = reactionTestTwo.CorrectNextStage(stage);
+		int testId = reactionTestTwo.getTestId();
 
-		loadIfDescriptionStage(stage, model, 8);
+		if (resultTableService.getStatus(testId)) {
+			stage = ReactionTestTwo.LAST_STAGE;
+		} else {
+			stage = reactionTestTwo.CorrectNextStage(stage);
+		}
+
+		loadIfDescriptionStage(stage, model, testId);
 
 		if (stage == ReactionTestTwo.LAST_STAGE) {
 			if (!reactionTestTwo.isFinished()) {
 				resultTableService.saveTestEight(reactionTestTwo.getReactionTestTwoDataList());
 				reactionTestTwo.setFinished(true);
 			}
-			model.addAttribute("result", getOriginalResults(reactionTestTwo, 8));
+			model.addAttribute("result", getOriginalResults(reactionTestTwo, testId));
 		}
 
 		return "reaction/reactionTestTwoStage" + stage;
@@ -181,9 +217,15 @@ public class TestsController {
 	@GetMapping("/t/p/1")
 	public String processingTestOne(@RequestParam("s") int stage, Model model) {
 		ProcessingTestOne processingTestOne = ProcessingTestOne.getInstance();
-		stage = processingTestOne.CorrectNextStage(stage);
+		int testId = processingTestOne.getTestId();
 
-		loadIfDescriptionStage(stage, model, 4);
+		if (resultTableService.getStatus(testId)) {
+			stage = ProcessingTestOne.LAST_STAGE;
+		} else {
+			stage = processingTestOne.CorrectNextStage(stage);
+		}
+
+		loadIfDescriptionStage(stage, model, testId);
 
 		String numbers = processingTestOne.getNextNumbers();
 		if ("-1".equals(numbers)) {
@@ -193,7 +235,7 @@ public class TestsController {
 		}
 
 		if (stage == ProcessingTestOne.LAST_STAGE) {
-			model.addAttribute("result", getOriginalResults(processingTestOne, 4));
+			model.addAttribute("result", getOriginalResults(processingTestOne, testId));
 			if (!processingTestOne.isFinished()) {
 				resultTableService.saveTestFourth(processingTestOne);
 				processingTestOne.setFinished(true);
@@ -210,9 +252,15 @@ public class TestsController {
 	@GetMapping("/t/p/2")
 	public String processingTestTwo(@RequestParam("s") int stage, Model model) {
 		ProcessingTestTwo processingTestTwo = ProcessingTestTwo.getInstance();
-		stage = processingTestTwo.CorrectNextStage(stage);
+		int testId = processingTestTwo.getTestId();
 
-		loadIfDescriptionStage(stage, model, 5);
+		if (resultTableService.getStatus(testId)) {
+			stage = ProcessingTestTwo.LAST_STAGE;
+		} else {
+			stage = processingTestTwo.CorrectNextStage(stage);
+		}
+
+		loadIfDescriptionStage(stage, model, testId);
 
 		String tone = "5";
 		if (stage == 1) {
@@ -225,7 +273,7 @@ public class TestsController {
 		}
 
 		if (stage == ProcessingTestOne.LAST_STAGE) {
-			model.addAttribute("result", getOriginalResults(processingTestTwo, 5));
+			model.addAttribute("result", getOriginalResults(processingTestTwo, testId));
 			if (!processingTestTwo.isFinished()) {
 				resultTableService.saveTestFive(processingTestTwo);
 				processingTestTwo.setFinished(true);

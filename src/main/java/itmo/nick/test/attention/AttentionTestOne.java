@@ -59,6 +59,11 @@ public class AttentionTestOne extends SimpleTest {
 		return (double) Math.round((testOne - Double.parseDouble(original[originalStage])) * 100) / 100;
 	}
 
+	@Override
+	public int getTestId() {
+		return 1;
+	}
+
 	public void delete() {
 		attentionTestOne = null;
 	}

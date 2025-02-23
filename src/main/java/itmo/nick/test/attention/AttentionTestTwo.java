@@ -52,6 +52,11 @@ public class AttentionTestTwo extends SimpleTest {
 		this.data = data;
 	}
 
+	@Override
+	public int getTestId() {
+		return 6;
+	}
+
 	public void delete() {
 		attentionTestTwo = null;
 	}
