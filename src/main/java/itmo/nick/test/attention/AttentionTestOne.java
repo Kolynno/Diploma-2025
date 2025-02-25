@@ -6,6 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * Тест на внимание 1 - Тест Струпа
+ */
 public class AttentionTestOne extends SimpleTest {
 
 	static AttentionTestOne attentionTestOne;
