@@ -2,6 +2,7 @@ package itmo.nick.database;
 
 import itmo.nick.database.entities.PersonTable;
 import itmo.nick.database.repositories.PersonTableRepository;
+import itmo.nick.person.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,20 @@ public class PersonTableService {
 
 	public PersonTableRepository getPersonTableRepository() {
 		return personTableRepository;
+	}
+
+	/**
+	 * Есть ли пользователь с таким id
+	 * @return true, если есть, иначе false
+	 */
+	public boolean isExist(Person person) {
+		return !"0".equals(getPersonTableRepository().findPersonById(person.getLoginId()));
+	}
+
+	/**
+	 * Сохранить данные логина в текущего участника
+	 */
+	public void saveIdToCurrentPerson(Person person) {
+		PersonTable.getInstance().setPerson_id(Long.valueOf(person.getLoginId()));
 	}
 }

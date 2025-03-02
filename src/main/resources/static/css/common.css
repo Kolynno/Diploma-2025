@@ -22,12 +22,23 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+}
 
+.shortBtn {
+    width: 49%;
 }
 
 button:hover {
     background-color: var(--main-color-hover);
     transition: background-color 0.3s ease;
+}
+
+a {
+    color: var(--main-color);
+}
+
+a:hover {
+    color: var(--main-color-hover);
 }
 
 body {

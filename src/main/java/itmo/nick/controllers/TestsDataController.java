@@ -3,9 +3,9 @@ package itmo.nick.controllers;
 import itmo.nick.database.ResultTableService;
 import itmo.nick.database.entities.PersonTable;
 import itmo.nick.database.PersonTableService;
-import itmo.nick.database.repositories.PersonTableRepository;
 import itmo.nick.person.Person;
 import itmo.nick.person.PersonState;
+import itmo.nick.reports.PDFCreator;
 import itmo.nick.test.attention.AttentionTestOne;
 import itmo.nick.test.attention.AttentionTestOneData;
 import itmo.nick.test.attention.AttentionTestTwo;
@@ -21,7 +21,6 @@ import itmo.nick.test.processing.ProcessingTestTwoData;
 import itmo.nick.test.reaction.ReactionTestOne;
 import itmo.nick.test.reaction.ReactionTestOneData;
 import itmo.nick.test.reaction.ReactionTestTwo;
-import itmo.nick.test.reaction.ReactionTestTwoData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,6 +38,8 @@ public class TestsDataController {
     private PersonTableService personTableService;
     @Autowired
     private ResultTableService resultTableService;
+    @Autowired
+    private PDFCreator pdfCreator;
 
     /**
      * Получение данных регистрации участника
@@ -52,16 +53,28 @@ public class TestsDataController {
         return "personStateAnalyze";
     }
 
+    /**
+     * Войти по коду за зарегистрированного участника
+     * @param person участник (по сути код участника)
+     */
     @PostMapping("/login")
     public String login(@RequestBody Person person) {
-        //Если есть хотя бы одна запись с таким id
-        if (!"0".equals(personTableService.getPersonTableRepository().findPersonById(person.getLoginId()))) {
-            PersonTable.getInstance().setPerson_id(Long.valueOf(person.getLoginId()));
+        if (personTableService.isExist(person)) {
+            personTableService.saveIdToCurrentPerson(person);
             return "personStateAnalyze";
         } else {
-            //временная заплатка
+            //временная заплатка tmp
             return "/r";
         }
+    }
+
+    @PostMapping("/downloadReport")
+    public String downloadReport(@RequestBody Person person) {
+        if (personTableService.isExist(person)) {
+            personTableService.saveIdToCurrentPerson(person);
+            pdfCreator.create();
+        }
+        return "/r";
     }
 
     /**

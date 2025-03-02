@@ -1,3 +1,33 @@
+document.getElementById('reportBtn').addEventListener('click', function () {
+    const loginId = document.getElementById('id').value;
+    if (loginId == null) {
+        alert('Введите корректный код участника');
+        return;
+    }
+    const loginData = {
+        loginId: loginId
+    };
+
+    fetch('/downloadReport', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginData)
+    })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/s';
+            } else {
+                throw new Error('Ошибка при входе');
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            document.getElementById('error').textContent = 'Ошибка при входе: ' + error.message;
+        });
+})
+
 document.getElementById('loginBtn').addEventListener('click', function () {
     const loginId = document.getElementById('id').value;
     if (loginId == null) {
