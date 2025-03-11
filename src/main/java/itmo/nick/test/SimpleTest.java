@@ -101,4 +101,8 @@ public class SimpleTest {
 	public int getTestId() {
 		return 0;
 	}
+
+	public String reportInfo() {
+		return "ParentReport";
+	}
 }
