@@ -89,7 +89,7 @@ public class AttentionTestOne extends SimpleTest {
 	}
 
 	@Override
-	public LinkedList<String> getAllPersonDataAndCompareToOther(int personId) {
+	public LinkedList<String> getAllPersonDataAndCompareToOther(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
 		strings.add("21.05.2003");
 		strings.add("42");
@@ -101,7 +101,7 @@ public class AttentionTestOne extends SimpleTest {
 	}
 
 	@Override
-	public LinkedList<String> getBestPersonDataAndCompareToOriginal(int personId) {
+	public LinkedList<String> getBestPersonDataAndCompareToOriginal(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
 		strings.add("61");
 		strings.add("42");
@@ -112,7 +112,7 @@ public class AttentionTestOne extends SimpleTest {
 	}
 
 	@Override
-	public LinkedList<String> getPercentCompareToOtherAndOriginal(int personId) {
+	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
 		strings.add("61%");
 		strings.add("42%");
@@ -122,7 +122,7 @@ public class AttentionTestOne extends SimpleTest {
 	}
 
 	@Override
-	public LinkedList<String> getSummary(int personId) {
+	public LinkedList<String> getSummary(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
 		strings.add("Сравнение с другими участниками в среднем: + 4.3%");
 		strings.add("Сравнение с эталонным результатом в среднем: -0.1%%");

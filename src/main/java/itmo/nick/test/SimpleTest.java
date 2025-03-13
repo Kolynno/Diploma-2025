@@ -107,44 +107,44 @@ public class SimpleTest {
 	 * Название теста
 	 */
 	public String getTestName() {
-		return null;
+		return "null";
 	}
 
 	/**
 	 * Полезная информация для теста
 	 */
 	public LinkedList<String> getTestInfo() {
-		return null;
+		return new LinkedList<>();
 	}
 
 	/**
 	 * Данные для таблицы:
 	 * Номер, Дата, (Значение пользователя, Значение других) х Кол-во пунктов
 	 */
-	public LinkedList<String> getAllPersonDataAndCompareToOther(int personId) {
-		return null;
+	public LinkedList<String> getAllPersonDataAndCompareToOther(String personId) {
+		return new LinkedList<>();
 	}
 
 	/**
 	 * Данные для таблицы:
 	 * (Значение пользователя, Значение эталонного) х Кол-во пунктов
 	 */
-	public LinkedList<String> getBestPersonDataAndCompareToOriginal(int personId) {
-		return null;
+	public LinkedList<String> getBestPersonDataAndCompareToOriginal(String personId) {
+		return new LinkedList<>();
 	}
 
 	/**
 	 * Данные для таблицы:
 	 * (Значение пользователя в % от дургих, Значение пользователя в % от эталонного) х Кол-во пунктов
 	 */
-	public LinkedList<String> getPercentCompareToOtherAndOriginal(int personId) {
-		return null;
+	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
+		return new LinkedList<>();
 	}
 
 	/**
 	 * Обобщенный итог
 	 */
-	public LinkedList<String> getSummary(int personId) {
-		return null;
+	public LinkedList<String> getSummary(String personId) {
+		return new LinkedList<>();
 	}
 }

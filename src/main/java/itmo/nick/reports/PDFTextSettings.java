@@ -17,6 +17,8 @@ import java.io.IOException;
 @Service
 public class PDFTextSettings {
 
+	public static String PDF_REPORT_PATH = "report.pdf";
+
 	private final static String FONT = "src/main/resources/static/files/reportFont/times.ttf";
 
 	/**

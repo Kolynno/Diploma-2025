@@ -4,6 +4,8 @@ import itmo.nick.test.SimpleTest;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedList;
+
 /**
  * Тест внимания 2 - Таблица Шульте
  *
@@ -59,5 +61,61 @@ public class AttentionTestTwo extends SimpleTest {
 
 	public void delete() {
 		attentionTestTwo = null;
+	}
+
+	@Override
+	public String getTestName() {
+		return "Тест таблица Шульте";
+	}
+
+	@Override
+	public LinkedList<String> getTestInfo() {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("Первый - 11");
+		strings.add("Второй - 22");
+		strings.add("Третий - 33");
+
+		return strings;
+	}
+
+	@Override
+	public LinkedList<String> getAllPersonDataAndCompareToOther(String personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("21.05.2023");
+		strings.add("1");
+		strings.add("2");
+		strings.add("3");
+		strings.add("4");
+
+		return strings;
+	}
+
+	@Override
+	public LinkedList<String> getBestPersonDataAndCompareToOriginal(String personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("11");
+		strings.add("22");
+		strings.add("33");
+		strings.add("44");
+
+		return strings;
+	}
+
+	@Override
+	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("1%");
+		strings.add("2%");
+		strings.add("3%");
+		strings.add("4%");
+		return strings;
+	}
+
+	@Override
+	public LinkedList<String> getSummary(String personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("Сравнение с другими участниками в среднем: + 111.3%");
+		strings.add("Сравнение с эталонным результатом в среднем: -111.1%%");
+		return strings;
 	}
 }
