@@ -4,6 +4,8 @@ import itmo.nick.test.SimpleTest;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedList;
+
 @Getter
 @Setter
 /**
@@ -72,34 +74,58 @@ public class AttentionTestOne extends SimpleTest {
 	}
 
 	@Override
-	public String reportInfo() {
-		return "Обозначения:\n" +
-			"- № – номер попытки\n" +
-			"- Дата – дата тестирования\n" +
-			"- П1 – показатель 1: время в секундах на ответ на этапе 1 у данного участника\n" +
-			"- П1С – показатель 1: время в секундах на ответ на этапе 1 у других участников\n" +
-			"- П2 – показатель 2: время в секундах на ответ на этапе 2\n" +
-			"- П2С – показатель 2: время в секундах на ответ на этапе 2 у других участников\n" +
-			"- П3 – показатель 3: время в секундах на ответ на этапе 3\n" +
-			"- П3С – показатель 3: время в секундах на ответ на этапе 3 у других участников\n" +
-			"- П4 – показатель 4: время в секундах на ответ на этапе 4\n" +
-			"- П4С – показатель 4: время в секундах на ответ на этапе 4 у других участников\n" +
-			"- Среднее – значение в секундах в среднем\n" +
-			"- П1Л – показатель 1: лучшее время в секундах на ответ на этапе 1 у данного участника\n" +
-			"- П1Э – показатель 1: эталонное время из оригинального тестирования на этапе 1\n" +
-			"- П2Л – показатель 2: лучшее время в секундах на ответ на этапе 2 у данного участника\n" +
-			"- П2Э – показатель 2: эталонное время из оригинального тестирования на этапе 2\n" +
-			"- П3Л – показатель 3: лучшее время в секундах на ответ на этапе 3 у данного участника\n" +
-			"- П3Э – показатель 3: эталонное время из оригинального тестирования на этапе 3\n" +
-			"- П4Л – показатель 4: лучшее время в секундах на ответ на этапе 4 у данного участника\n" +
-			"- П4Э – показатель 4: эталонное время из оригинального тестирования на этапе 4\n" +
-			"- П1С% – сравнение лучшего показателя 1 с другими участниками в процентах\n" +
-			"- П1Э% – сравнение лучшего показателя 1 с эталонным в процентах\n" +
-			"- П2С% – сравнение лучшего показателя 2 с другими участниками в процентах\n" +
-			"- П2Э% – сравнение лучшего показателя 2 с эталонным в процентах\n" +
-			"- П3С% – сравнение лучшего показателя 3 с другими участниками в процентах\n" +
-			"- П3Э% – сравнение лучшего показателя 3 с эталонным в процентах\n" +
-			"- П4С% – сравнение лучшего показателя 4 с другими участниками в процентах\n" +
-			"- П4Э% – сравнение лучшего показателя 4 с эталонным в процентах" ;
+	public String getTestName() {
+		return "Тест Струпа";
+	}
+
+	@Override
+	public LinkedList<String> getTestInfo() {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("Первый - 1");
+		strings.add("Второй - 2");
+		strings.add("Третий - 3");
+
+		return strings;
+	}
+
+	@Override
+	public LinkedList<String> getAllPersonDataAndCompareToOther(int personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("21.05.2003");
+		strings.add("42");
+		strings.add("55");
+		strings.add("62");
+		strings.add("52");
+
+		return strings;
+	}
+
+	@Override
+	public LinkedList<String> getBestPersonDataAndCompareToOriginal(int personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("61");
+		strings.add("42");
+		strings.add("55");
+		strings.add("62");
+
+		return strings;
+	}
+
+	@Override
+	public LinkedList<String> getPercentCompareToOtherAndOriginal(int personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("61%");
+		strings.add("42%");
+		strings.add("55%");
+		strings.add("62%");
+		return strings;
+	}
+
+	@Override
+	public LinkedList<String> getSummary(int personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("Сравнение с другими участниками в среднем: + 4.3%");
+		strings.add("Сравнение с эталонным результатом в среднем: -0.1%%");
+		return strings;
 	}
 }

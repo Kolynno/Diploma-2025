@@ -4,8 +4,10 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import itmo.nick.database.TestTableService;
+import itmo.nick.database.PersonTableService;
+import itmo.nick.database.ResultTableService;
 import itmo.nick.test.SimpleTest;
+import itmo.nick.test.attention.AttentionTestOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,17 +29,23 @@ public class PDFCreator {
 	@Autowired
 	PDFTextSettings pdfTextSettings;
 	@Autowired
-	private TestTableService testTableService;
+	private PersonTableService personTableService;
+	@Autowired
+	private ResultTableService resultTableService;
 
-	public void create() {
+	/**
+	 * Создать файл отчета
+	 * @param personId - идентификатор участника
+	 */
+	public void create(String personId) {
 		try {
-			setup();
+			setup(personId);
 		} catch (DocumentException | IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private void setup() throws IOException, DocumentException {
+	private void setup(String personId) throws IOException, DocumentException {
 		Document document = new Document();
 
 		PdfWriter.getInstance(document, new FileOutputStream("test.pdf"));
@@ -50,11 +58,11 @@ public class PDFCreator {
 
 		document.add(new Paragraph("Подробный отчет", pdfTextSettings.mainHeaderFont()));
 
-		document.add(new Paragraph("Участник: ***", pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Дата рождения: ***", pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Пол: ***", pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Образование: ***", pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Результаты тестов: с *** по ***", pdfTextSettings.mainTextFont()));
+		document.add(new Paragraph("Участник: " + personTableService.getFio(personId), pdfTextSettings.mainTextFont()));
+		document.add(new Paragraph("Дата рождения: " +  personTableService.getBirthday(personId), pdfTextSettings.mainTextFont()));
+		document.add(new Paragraph("Пол: " +  personTableService.getSex(personId), pdfTextSettings.mainTextFont()));
+		document.add(new Paragraph("Образование: " +  personTableService.getEducation(personId), pdfTextSettings.mainTextFont()));
+		document.add(new Paragraph("Результаты тестов: с " + resultTableService.getFirstDateResult() + " по " + resultTableService.getLastDateResult(), pdfTextSettings.mainTextFont()));
 
 		document.add(new Paragraph("Кратко", pdfTextSettings.mainTitleFont()));
 		document.add(new Paragraph(" ", pdfTextSettings.mainTextFont()));
@@ -70,10 +78,23 @@ public class PDFCreator {
 	}
 
 	private void addTestInfo(Document document, int testId) throws DocumentException {
-		document.add(new Paragraph(testTableService.getNameById(testId), pdfTextSettings.mainTitleFont()));
-
-		//а далее тут для каждого теста свои данные
-
+		document.add(new Paragraph(AttentionTestOne.getInstance().getTestName(), pdfTextSettings.mainTitleFont()));
+		for(String line : AttentionTestOne.getInstance().getTestInfo()) {
+			document.add(new Paragraph(line, pdfTextSettings.mainTextFont()));
+		}
+		for(String line : AttentionTestOne.getInstance().getAllPersonDataAndCompareToOther(1)) {
+			document.add(new Paragraph(line, pdfTextSettings.mainTextFont()));
+		}
+		for(String line : AttentionTestOne.getInstance().getBestPersonDataAndCompareToOriginal(1)) {
+			document.add(new Paragraph(line, pdfTextSettings.mainTextFont()));
+		}
+		for(String line : AttentionTestOne.getInstance().getPercentCompareToOtherAndOriginal(1)) {
+			document.add(new Paragraph(line, pdfTextSettings.mainTextFont()));
+		}
+		document.add(new Paragraph("Итог", pdfTextSettings.mainTitleFont()));
+		for(String line : AttentionTestOne.getInstance().getSummary(1)) {
+			document.add(new Paragraph(line, pdfTextSettings.mainTextFont()));
+		}
 	}
 
 	private void addTableHeader(PdfPTable table) {
@@ -87,7 +108,7 @@ public class PDFCreator {
 			});
 	}
 
-	private void addRows(PdfPTable table) throws DocumentException, IOException {
+	private void addRows(PdfPTable table) {
 		table.addCell(new Phrase("1", pdfTextSettings.mainTextFont()));
 		table.addCell(new Phrase("Тест Струпа", pdfTextSettings.mainTextFont()));
 		table.addCell(new Phrase("***", pdfTextSettings.mainTextFont()));

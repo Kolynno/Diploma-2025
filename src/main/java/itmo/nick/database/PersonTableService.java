@@ -44,4 +44,24 @@ public class PersonTableService {
 	public void saveIdToCurrentPerson(Person person) {
 		PersonTable.getInstance().setPerson_id(Long.valueOf(person.getLoginId()));
 	}
+
+	public String getFio(String loginId) {
+		return personTableRepository.getFio(loginId);
+	}
+
+	public String getSex(String loginId) {
+		if ("male".equals(personTableRepository.getSex(loginId))) {
+			return "мужской";
+		} else {
+			return "женский";
+		}
+	}
+
+	public String getEducation(String loginId) {
+		return personTableRepository.getEducation(loginId);
+	}
+
+	public String getBirthday(String loginId) {
+		return personTableRepository.getBirthday(loginId);
+	}
 }

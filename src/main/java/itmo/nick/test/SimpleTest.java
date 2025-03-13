@@ -1,11 +1,12 @@
 package itmo.nick.test;
 
-import itmo.nick.database.ResultTableService;
 import itmo.nick.test.attention.*;
 import itmo.nick.test.memory.*;
 import itmo.nick.test.processing.*;
 import itmo.nick.test.reaction.*;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.util.LinkedList;
 
 /**
  * Родительский класс тестов
@@ -102,7 +103,48 @@ public class SimpleTest {
 		return 0;
 	}
 
-	public String reportInfo() {
-		return "ParentReport";
+	/**
+	 * Название теста
+	 */
+	public String getTestName() {
+		return null;
+	}
+
+	/**
+	 * Полезная информация для теста
+	 */
+	public LinkedList<String> getTestInfo() {
+		return null;
+	}
+
+	/**
+	 * Данные для таблицы:
+	 * Номер, Дата, (Значение пользователя, Значение других) х Кол-во пунктов
+	 */
+	public LinkedList<String> getAllPersonDataAndCompareToOther(int personId) {
+		return null;
+	}
+
+	/**
+	 * Данные для таблицы:
+	 * (Значение пользователя, Значение эталонного) х Кол-во пунктов
+	 */
+	public LinkedList<String> getBestPersonDataAndCompareToOriginal(int personId) {
+		return null;
+	}
+
+	/**
+	 * Данные для таблицы:
+	 * (Значение пользователя в % от дургих, Значение пользователя в % от эталонного) х Кол-во пунктов
+	 */
+	public LinkedList<String> getPercentCompareToOtherAndOriginal(int personId) {
+		return null;
+	}
+
+	/**
+	 * Обобщенный итог
+	 */
+	public LinkedList<String> getSummary(int personId) {
+		return null;
 	}
 }

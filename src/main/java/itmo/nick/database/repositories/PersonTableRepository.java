@@ -29,4 +29,16 @@ public interface PersonTableRepository extends CrudRepository<PersonTable, Integ
 
 	@Query("SELECT fioInitials FROM PersonTable WHERE person_id = :loginId")
 	String getFioInitials(String loginId);
+
+	@Query("SELECT fio FROM PersonTable WHERE person_id = :loginId")
+	String getFio(String loginId);
+
+	@Query("SELECT sex FROM PersonTable WHERE person_id = :loginId")
+	String getSex(String loginId);
+
+	@Query("SELECT education FROM PersonTable WHERE person_id = :loginId")
+	String getEducation(String loginId);
+
+	@Query("SELECT birthday FROM PersonTable WHERE person_id = :loginId")
+	String getBirthday(String loginId);
 }

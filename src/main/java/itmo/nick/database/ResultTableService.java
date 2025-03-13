@@ -26,12 +26,10 @@ import java.util.LinkedList;
 public class ResultTableService {
 
 	private final ResultTableRepository resultTableRepository;
-	private final PersonTableRepository personTableRepository;
 
 	@Autowired
 	public ResultTableService(ResultTableRepository resultTableRepository, PersonTableRepository personTableRepository) {
 		this.resultTableRepository = resultTableRepository;
-		this.personTableRepository = personTableRepository;
 	}
 
 	/**
@@ -164,6 +162,14 @@ public class ResultTableService {
 
 	private LocalDate getTodayDate() {
 		return LocalDate.now();
+	}
+
+	public LocalDate getFirstDateResult() {
+		return resultTableRepository.getFirstDateResult();
+	}
+
+	public LocalDate getLastDateResult() {
+		return resultTableRepository.getLastDateResult();
 	}
 
 }

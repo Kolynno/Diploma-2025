@@ -72,7 +72,7 @@ public class TestsDataController {
     public String downloadReport(@RequestBody Person person) {
         if (personTableService.isExist(person)) {
             personTableService.saveIdToCurrentPerson(person);
-            pdfCreator.create();
+            pdfCreator.create(person.getLoginId());
         }
         return "/r";
     }
@@ -133,7 +133,7 @@ public class TestsDataController {
 
     /**
      * Получение данных этапа теста на реакцию 2
-     * @param data данные
+     * @param reactionTime данные реакции
      */
     @PostMapping("/reactionTestTwoStageData")
     public ResponseEntity<Void> reactionTestTwoStageData(@RequestBody Double[] reactionTime) {
