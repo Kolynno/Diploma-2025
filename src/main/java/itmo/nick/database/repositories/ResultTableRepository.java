@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 
 
 /**
@@ -39,4 +40,25 @@ public interface ResultTableRepository extends CrudRepository<ResultTable, Integ
 	 */
 	@Query("SELECT MAX(result_date) FROM ResultTable")
 	LocalDate getLastDateResult();
+
+	@Query("SELECT COUNT(result_date) FROM ResultTable WHERE person_id = :personId")
+	int getTestsCount(String personId);
+
+	@Query("SELECT p1 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
+	String getP1(String personId, LocalDate date);
+
+	@Query("SELECT p2 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
+	String getP2(String personId, LocalDate date);
+
+	@Query("SELECT p3 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
+	String getP3(String personId, LocalDate date);
+
+	@Query("SELECT p4 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
+	String getP4(String personId, LocalDate date);
+
+	@Query("SELECT p5 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
+	String getP5(String personId, LocalDate date);
+
+	@Query("SELECT result_date FROM ResultTable WHERE person_id = :personId ORDER BY result_date")
+	LinkedList<LocalDate> getTestDates(String personId);
 }

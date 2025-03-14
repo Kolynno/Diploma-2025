@@ -172,4 +172,50 @@ public class ResultTableService {
 		return resultTableRepository.getLastDateResult();
 	}
 
+	public int getTestCount(String personId) {
+		return resultTableRepository.getTestsCount(personId);
+	}
+
+	/**
+	 * Результаты всех параметров теста за дату
+	 * @param personId
+	 * @param date
+	 */
+	public LinkedList<String> getResults(String personId, LocalDate date) {
+		String p1 = resultTableRepository.getP1(personId, date);
+		String p2 = resultTableRepository.getP1(personId, date);
+		String p3 = resultTableRepository.getP1(personId, date);
+		String p4 = resultTableRepository.getP1(personId, date);
+		String p5 = resultTableRepository.getP1(personId, date);
+
+		LinkedList<String> results = new LinkedList<>();
+		if (p1 != null) {
+			results.add(p1);
+		}
+		if (p2 != null) {
+			results.add(p2);
+		}
+		if (p3 != null) {
+			results.add(p3);
+		}
+		if (p4 != null) {
+			results.add(p4);
+		}
+		if (p5 != null) {
+			results.add(p5);
+		}
+		return results;
+	}
+
+	/**
+	 * @param personId
+	 * @param number номер теста
+	 */
+	public LocalDate getTestDate(String personId, int number) {
+		LinkedList<LocalDate> dates = resultTableRepository.getTestDates(personId);
+		if (number < dates.size()) {
+			return dates.get(number);
+		}
+		return null;
+	}
 }

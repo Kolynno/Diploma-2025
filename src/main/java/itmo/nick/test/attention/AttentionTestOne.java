@@ -1,9 +1,13 @@
 package itmo.nick.test.attention;
 
+import itmo.nick.database.ResultTableService;
 import itmo.nick.test.SimpleTest;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 @Getter
@@ -12,6 +16,9 @@ import java.util.LinkedList;
  * Тест на внимание 1 - Тест Струпа
  */
 public class AttentionTestOne extends SimpleTest {
+
+	@Autowired
+	private ResultTableService resultTableService;
 
 	static AttentionTestOne attentionTestOne;
 
@@ -81,16 +88,41 @@ public class AttentionTestOne extends SimpleTest {
 	@Override
 	public LinkedList<String> getTestInfo() {
 		LinkedList<String> strings = new LinkedList<>();
-		strings.add("Первый - 1");
-		strings.add("Второй - 2");
-		strings.add("Третий - 3");
-
+		strings.add("№ – номер попытки");
+		strings.add("Дата – дата тестирования");
+		strings.add("П1, П2, П3, П4 - показатели теста. Время в секундах на каждый этап соответственно");
+		strings.add("П1С,П2С, П3С, П4С - " +
+			"значение в секундах показателей у других участников на каждый этап соответственно");
+		strings.add("П1Л, П2Л, П3Л, П4Л - лучшее значение в секунлах на каждый этап соответственно");
+		strings.add("П1Э, П2Э, П3Э, П4Э - " +
+			"значение в секундах показателей оригинально теста на каждый этап соответственно");
+		strings.add("Показатели со знаком процента (П*С%, П*Э%) - " +
+			"процент разницы между лучших показателем участника (П*) " +
+			"и лучшего других участников и оригинального тестирования");
 		return strings;
 	}
 
 	@Override
 	public LinkedList<String> getAllPersonDataAndCompareToOther(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
+		int testsCount = resultTableService.getTestCount(personId);
+		ArrayList<String> allResults = new ArrayList<>();
+
+		LocalDate date = resultTableService.getFirstDateResult();
+		for (int i = 1; i <= testsCount; i++) {
+			strings.add(String.valueOf(i));
+			strings.add(date.toString());
+			LinkedList<String> results = resultTableService.getResults(personId, date);
+			strings.addAll(results);
+			date = resultTableService.getTestDate(personId, i+1);
+			allResults.addAll(results);
+		}
+
+		//calc avg data and then add there
+		for (int i = 0; i < testsCount; i++) {
+
+		}
+
 		strings.add("21.05.2003");
 		strings.add("42");
 		strings.add("55");
