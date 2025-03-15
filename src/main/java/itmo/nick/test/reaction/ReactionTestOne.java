@@ -1,6 +1,7 @@
 package itmo.nick.test.reaction;
 
 import itmo.nick.test.SimpleTest;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
  * @author Николай Жмакин
  * @since 29.12.2024
  */
+@Component
 public class ReactionTestOne extends SimpleTest {
 
 	static ReactionTestOne reactionTestOne;

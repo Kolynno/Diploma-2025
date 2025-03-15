@@ -1,6 +1,7 @@
 package itmo.nick.test.memory;
 
 import itmo.nick.test.SimpleTest;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -13,6 +14,7 @@ import java.util.Set;
  * @author Николай Жмакин
  * @since 04.02.2025
  */
+@Component
 public class MemoryTestTwo extends SimpleTest {
 
 	static MemoryTestTwo memoryTestTwo;

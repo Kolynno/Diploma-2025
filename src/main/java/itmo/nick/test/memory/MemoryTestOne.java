@@ -1,6 +1,7 @@
 package itmo.nick.test.memory;
 
 import itmo.nick.test.SimpleTest;
+import org.springframework.stereotype.Component;
 
 /**
  * Memtrax - тест на память 1
@@ -8,6 +9,7 @@ import itmo.nick.test.SimpleTest;
  * @author Николай Жмакин
  * @since 22.12.2024
  */
+@Component
 public class MemoryTestOne extends SimpleTest {
 
 	static MemoryTestOne memoryTestOne;

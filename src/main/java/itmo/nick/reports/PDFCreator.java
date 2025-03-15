@@ -16,6 +16,7 @@ import itmo.nick.test.processing.ProcessingTestTwo;
 import itmo.nick.test.reaction.ReactionTestOne;
 import itmo.nick.test.reaction.ReactionTestTwo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
@@ -40,6 +41,8 @@ public class PDFCreator {
 	private PersonTableService personTableService;
 	@Autowired
 	private ResultTableService resultTableService;
+	@Autowired
+	private ApplicationContext applicationContext;
 
 	/**
 	 * Данные для отчета
@@ -120,14 +123,14 @@ public class PDFCreator {
 
 	private SimpleTest getCurrentTest(int testId) {
 		return switch (testId) {
-			case 1 -> AttentionTestOne.getInstance();
-			case 2 -> AttentionTestTwo.getInstance();
-			case 3 -> MemoryTestOne.getInstance();
-			case 4 -> MemoryTestTwo.getInstance();
-			case 5 -> ProcessingTestOne.getInstance();
-			case 6 -> ProcessingTestTwo.getInstance();
-			case 7 -> ReactionTestOne.getInstance();
-			case 8 -> ReactionTestTwo.getInstance();
+			case 1 -> applicationContext.getBean(AttentionTestOne.class);
+			case 2 -> applicationContext.getBean(AttentionTestTwo.class);
+			case 3 -> applicationContext.getBean(MemoryTestOne.class);
+			case 4 -> applicationContext.getBean(MemoryTestTwo.class);
+			case 5 -> applicationContext.getBean(ProcessingTestOne.class);
+			case 6 -> applicationContext.getBean(ProcessingTestTwo.class);
+			case 7 -> applicationContext.getBean(ReactionTestOne.class);
+			case 8 -> applicationContext.getBean(ReactionTestTwo.class);
 			default -> new SimpleTest(0);
 		};
 	}

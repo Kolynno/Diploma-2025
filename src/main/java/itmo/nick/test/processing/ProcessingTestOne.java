@@ -1,6 +1,7 @@
 package itmo.nick.test.processing;
 
 import itmo.nick.test.SimpleTest;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -10,6 +11,7 @@ import java.util.*;
  * @author Николай Жмакин
  * @since 03.01.2025
  */
+@Component
 public class ProcessingTestOne extends SimpleTest {
 
 	static ProcessingTestOne processingTestOne;

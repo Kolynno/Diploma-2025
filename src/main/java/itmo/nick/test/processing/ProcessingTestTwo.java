@@ -1,6 +1,7 @@
 package itmo.nick.test.processing;
 
 import itmo.nick.test.SimpleTest;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.Arrays;
  * @author Николай Жмакин
  * @since 14.01.2025
  */
+@Component
 public class ProcessingTestTwo extends SimpleTest {
 
 	private final static String GOAL = "1";

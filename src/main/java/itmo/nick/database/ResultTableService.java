@@ -218,4 +218,29 @@ public class ResultTableService {
 		}
 		return null;
 	}
+
+	public LinkedList<Double> getOtherBest(int testId) {
+		String bestP1 = resultTableRepository.getBestP1(String.valueOf(testId));
+		String bestP2 = resultTableRepository.getBestP2(String.valueOf(testId));
+		String bestP3 = resultTableRepository.getBestP3(String.valueOf(testId));
+		String bestP4 = resultTableRepository.getBestP4(String.valueOf(testId));
+		String bestP5 = resultTableRepository.getBestP5(String.valueOf(testId));
+		LinkedList<Double> results = new LinkedList<>();
+		if (bestP1 != null) {
+			results.add(Double.valueOf(bestP1));
+		}
+		if (bestP2 != null) {
+			results.add(Double.valueOf(bestP2));
+		}
+		if (bestP3 != null) {
+			results.add(Double.valueOf(bestP3));
+		}
+		if (bestP4 != null) {
+			results.add(Double.valueOf(bestP4));
+		}
+		if (bestP5 != null) {
+			results.add(Double.valueOf(bestP5));
+		}
+		return results;
+	}
 }

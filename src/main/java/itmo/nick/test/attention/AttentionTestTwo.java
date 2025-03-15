@@ -3,6 +3,7 @@ package itmo.nick.test.attention;
 import itmo.nick.test.SimpleTest;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 
@@ -14,6 +15,7 @@ import java.util.LinkedList;
  */
 @Getter
 @Setter
+@Component
 public class AttentionTestTwo extends SimpleTest {
 
 	static AttentionTestTwo attentionTestTwo;
