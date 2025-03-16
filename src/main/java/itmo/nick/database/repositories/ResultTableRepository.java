@@ -62,6 +62,7 @@ public interface ResultTableRepository extends CrudRepository<ResultTable, Integ
 	@Query("SELECT result_date FROM ResultTable WHERE person_id = :personId ORDER BY result_date")
 	LinkedList<LocalDate> getTestDates(String personId);
 
+	//todo не всегда мниимальное - это лучшее
 	@Query(value = "SELECT MIN(CAST(p1 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
 	String getBestP1(String testId);
 

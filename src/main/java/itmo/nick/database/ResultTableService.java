@@ -181,28 +181,28 @@ public class ResultTableService {
 	 * @param personId
 	 * @param date
 	 */
-	public LinkedList<String> getResults(String personId, LocalDate date) {
+	public LinkedList<Double> getResults(String personId, LocalDate date) {
 		String p1 = resultTableRepository.getP1(personId, date);
 		String p2 = resultTableRepository.getP1(personId, date);
 		String p3 = resultTableRepository.getP1(personId, date);
 		String p4 = resultTableRepository.getP1(personId, date);
 		String p5 = resultTableRepository.getP1(personId, date);
 
-		LinkedList<String> results = new LinkedList<>();
+		LinkedList<Double> results = new LinkedList<>();
 		if (p1 != null) {
-			results.add(p1);
+			results.add(Double.valueOf(p1));
 		}
 		if (p2 != null) {
-			results.add(p2);
+			results.add(Double.valueOf(p2));
 		}
 		if (p3 != null) {
-			results.add(p3);
+			results.add(Double.valueOf(p3));
 		}
 		if (p4 != null) {
-			results.add(p4);
+			results.add(Double.valueOf(p4));
 		}
 		if (p5 != null) {
-			results.add(p5);
+			results.add(Double.valueOf(p5));
 		}
 		return results;
 	}
@@ -213,8 +213,8 @@ public class ResultTableService {
 	 */
 	public LocalDate getTestDate(String personId, int number) {
 		LinkedList<LocalDate> dates = resultTableRepository.getTestDates(personId);
-		if (number < dates.size()) {
-			return dates.get(number);
+		if (number - 1 < dates.size()) {
+			return dates.get(number - 1);
 		}
 		return null;
 	}
