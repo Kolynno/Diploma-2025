@@ -3,6 +3,8 @@ package itmo.nick.test.memory;
 import itmo.nick.test.SimpleTest;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedList;
+
 /**
  * Memtrax - тест на память 1
  *
@@ -137,4 +139,13 @@ public class MemoryTestOne extends SimpleTest {
 	public int getTestId() {
 		return 2;
 	}
+
+	@Override
+	public LinkedList<String> getTestInfo() {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("Первый");
+		return strings;
+	}
+
+
 }

@@ -41,8 +41,11 @@ public interface ResultTableRepository extends CrudRepository<ResultTable, Integ
 	@Query("SELECT MAX(result_date) FROM ResultTable")
 	LocalDate getLastDateResult();
 
-	@Query("SELECT COUNT(result_date) FROM ResultTable WHERE person_id = :personId")
-	int getTestsCount(String personId);
+	/**
+	 * Кол-во тестов у участника
+	 */
+	@Query("SELECT COUNT(result_date) FROM ResultTable WHERE person_id = :personId AND test_id = :testNumber")
+	int getTestsCount(String personId, String testNumber);
 
 	@Query("SELECT p1 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
 	String getP1(String personId, LocalDate date);

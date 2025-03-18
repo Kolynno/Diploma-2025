@@ -106,4 +106,11 @@ public class MemoryTestTwo extends SimpleTest {
 	public int getTestId() {
 		return 7;
 	}
+
+	@Override
+	public LinkedList<String> getTestInfo() {
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add("Первый");
+		return strings;
+	}
 }

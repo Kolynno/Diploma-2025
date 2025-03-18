@@ -35,6 +35,27 @@ public class SimpleTest {
 	 * Завершен ли тест участником
 	 */
 	boolean isFinished;
+	/**
+	 * Все результаты теста
+	 */
+	protected LinkedList<Double> allResults = new LinkedList<>();
+	/**
+	 * Лучшие результаты теста
+	 */
+	protected LinkedList<Double> bestResults = new LinkedList<>();
+	/**
+	 * Результаты теста оригинального исследования
+	 */
+	protected LinkedList<Double> originalResults = new LinkedList<>();
+	/**
+	 * Лучшие результаты теста других участников
+	 */
+	protected LinkedList<Double> otherBestResults = new LinkedList<>();
+	/**
+	 * Кол-во результатов теста
+	 */
+	protected int testsCount = 0;
+
 
 	public SimpleTest(@Value("0") int lastStage) {
 		this.lastStage = lastStage;
@@ -121,7 +142,7 @@ public class SimpleTest {
 	 * Данные для таблицы:
 	 * Номер, Дата, (Значение пользователя, Значение других) х Кол-во пунктов
 	 */
-	public LinkedList<String> getAllPersonDataAndCompareToOther(String personId) {
+	public LinkedList<String> getAllPersonData(String personId) {
 		return new LinkedList<>();
 	}
 
@@ -146,5 +167,9 @@ public class SimpleTest {
 	 */
 	public LinkedList<String> getSummary(String personId) {
 		return new LinkedList<>();
+	}
+
+	public int getParamsCount() {
+		return 0;
 	}
 }

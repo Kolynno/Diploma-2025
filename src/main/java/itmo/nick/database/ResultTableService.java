@@ -33,7 +33,7 @@ public class ResultTableService {
 	}
 
 	/**
-	 * Сохранение результатов.
+	 * Сохранение результатов для теста на внимание 1.
 	 * Для 1 и 2: Время
 	 * Для 3 и 4: Время + ошибки на удвоенное среднее время прочтения слова
 	 * @param attentionTestOneData данные этапов
@@ -52,6 +52,11 @@ public class ResultTableService {
 		resultTableRepository.save(resultTable);
 	}
 
+	/**
+	 * Сохрание результатов для теста на память 1
+	 * @param errors
+	 * @param time
+	 */
 	public void saveTestTwo(double errors, double time) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("2");
@@ -103,6 +108,10 @@ public class ResultTableService {
 		resultTableRepository.save(resultTable);
 	}
 
+	/**
+	 * Сохранить результаты теста на внимательность 2 - Таблица Шульте
+	 * @param attentionTestTwo данные времени
+	 */
 	public void saveTestSix(AttentionTestTwo attentionTestTwo) {
 		ResultTable resultTable = new ResultTable();
 		resultTable.setTest_id("6");
@@ -172,8 +181,8 @@ public class ResultTableService {
 		return resultTableRepository.getLastDateResult();
 	}
 
-	public int getTestCount(String personId) {
-		return resultTableRepository.getTestsCount(personId);
+	public int getTestCount(String personId, int testNumber) {
+		return resultTableRepository.getTestsCount(personId, String.valueOf(testNumber));
 	}
 
 	/**

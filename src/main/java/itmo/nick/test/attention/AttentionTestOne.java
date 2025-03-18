@@ -21,6 +21,10 @@ import java.util.LinkedList;
 @Component
 public class AttentionTestOne extends SimpleTest {
 
+	/**
+	 * Номер теста в системе
+	 */
+	public static final int TEST_NUMBER = 1;
 	@Autowired
 	private ResultTableService resultTableService;
 	@Autowired
@@ -109,47 +113,18 @@ public class AttentionTestOne extends SimpleTest {
 	}
 
 	@Override
-	public LinkedList<String> getAllPersonDataAndCompareToOther(String personId) {
+	public LinkedList<String> getAllPersonData(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
-		int testsCount = resultTableService.getTestCount(personId);
-		LinkedList<Double> allResults = new LinkedList<>();
-		LinkedList<Double> bestResults = new LinkedList<>();
-		LinkedList<Double> originalResults = getOriginalResults();
-		LinkedList<Double> otherBestResults = resultTableService.getOtherBest(1);
+		testsCount = resultTableService.getTestCount(personId, TEST_NUMBER);
+		originalResults = getOriginalResults();
+		otherBestResults = resultTableService.getOtherBest(TEST_NUMBER);
 
 		setTableAllTestsResult(personId, testsCount, strings, allResults);
-		setTableBestAndOriginal(testsCount, allResults, strings, bestResults, originalResults);
-		setTablePercentCompare(originalResults, bestResults, otherBestResults, strings);
-
 		return strings;
 	}
 
-	private void setTablePercentCompare(
-		LinkedList<Double> originalResults,
-		LinkedList<Double> bestResults,
-		LinkedList<Double> otherBestResults,
-		LinkedList<String> strings
-	) {
-		double otherPercentAvg = 0;
-		double originalPercentAvg = 0;
-		for (int i = 0; i < originalResults.size(); i++) {
-			double percentOther = Math.round((bestResults.get(i) / otherBestResults.get(i) - 1) * 100) ;
-			double percentOriginal = Math.round((bestResults.get(i) / originalResults.get(i) - 1) * 100);
-			otherPercentAvg += percentOther;
-			originalPercentAvg += percentOriginal;
-			strings.add(String.valueOf(percentOther));
-			strings.add(String.valueOf(percentOriginal));
-		}
-
-		otherPercentAvg /= originalResults.size();
-		originalPercentAvg /= originalResults.size();
-
-		strings.add(String.valueOf(otherPercentAvg));
-		strings.add(String.valueOf(originalPercentAvg));
-	}
-
 	private LinkedList<Double> getOriginalResults() {
-		String[] originalData = testTableService.getResultsById(1).split(";");
+		String[] originalData = testTableService.getResultsById(TEST_NUMBER).split(";");
 		LinkedList<Double> originalTests = new LinkedList<>();
 		originalTests.add(Double.valueOf(originalData[0]));
 		originalTests.add(Double.valueOf(originalData[1]));
@@ -158,55 +133,19 @@ public class AttentionTestOne extends SimpleTest {
 		return originalTests;
 	}
 
-	private void setTableBestAndOriginal(
-		int testsCount, LinkedList<Double> allResults,
+	private void setTableAllTestsResult(
+		String personId,
+		int testsCount,
 		LinkedList<String> strings,
-		LinkedList<Double> bestResults,
-		LinkedList<Double> originalTests
-	) {
-		double p1Best = Integer.MAX_VALUE;
-		double p2Best = Integer.MAX_VALUE;
-		double p3Best = Integer.MAX_VALUE;
-		double p4Best = Integer.MAX_VALUE;
-		double p5Best = Integer.MAX_VALUE;
-		for (int i = 0; i < testsCount; i++) {
-			if (p1Best > allResults.get(i)) {
-				p1Best = allResults.get(i);
-			}
-			if (p2Best > allResults.get(i + 1)) {
-				p2Best = allResults.get(i + 1);
-			}
-			if (p3Best > allResults.get(i + 2)) {
-				p3Best = allResults.get(i + 2);
-			}
-			if (p4Best > allResults.get(i + 3)) {
-				p4Best = allResults.get(i + 3);
-			}
-			if (p5Best > allResults.get(i + 4)) {
-				p5Best = allResults.get(i + 4);
-			}
-		}
-
-
-		bestResults.add(p1Best);
-		bestResults.add(p2Best);
-		bestResults.add(p3Best);
-		bestResults.add(p4Best);
-
-		for (int i = 0; i < originalTests.size(); i++) {
-			strings.add(String.valueOf(bestResults.get(i)));
-			strings.add(String.valueOf(originalTests.get(i)));
-		}
-	}
-
-	private void setTableAllTestsResult(String personId, int testsCount, LinkedList<String> strings, LinkedList<Double> allResults) {
+		LinkedList<Double> allResults)
+	{
 		LocalDate date = resultTableService.getFirstDateResult();
 		for (int i = 1; i <= testsCount; i++) {
 			strings.add(String.valueOf(i));
 			strings.add(date.toString());
 			LinkedList<Double> results = resultTableService.getResults(personId, date);
 			addAll(strings, results);
-			date = resultTableService.getTestDate(personId, i+1);
+			date = resultTableService.getTestDate(personId, i+ 1);
 			addAllToResults(allResults, results);
 		}
 		double p1Avg = 0;
@@ -273,18 +212,90 @@ public class AttentionTestOne extends SimpleTest {
 	@Override
 	public LinkedList<String> getBestPersonDataAndCompareToOriginal(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
+		setTableBestAndOriginal(testsCount, allResults, strings, bestResults, originalResults);
 		return strings;
+	}
+
+	private void setTableBestAndOriginal(
+		int testsCount, LinkedList<Double> allResults,
+		LinkedList<String> strings,
+		LinkedList<Double> bestResults,
+		LinkedList<Double> originalTests
+	) {
+		double p1Best = Integer.MAX_VALUE;
+		double p2Best = Integer.MAX_VALUE;
+		double p3Best = Integer.MAX_VALUE;
+		double p4Best = Integer.MAX_VALUE;
+		double p5Best = Integer.MAX_VALUE;
+		for (int i = 0; i < testsCount; i++) {
+			if (p1Best > allResults.get(i)) {
+				p1Best = allResults.get(i);
+			}
+			if (p2Best > allResults.get(i + 1)) {
+				p2Best = allResults.get(i + 1);
+			}
+			if (p3Best > allResults.get(i + 2)) {
+				p3Best = allResults.get(i + 2);
+			}
+			if (p4Best > allResults.get(i + 3)) {
+				p4Best = allResults.get(i + 3);
+			}
+			if (p5Best > allResults.get(i + 4)) {
+				p5Best = allResults.get(i + 4);
+			}
+		}
+
+
+		bestResults.add(p1Best);
+		bestResults.add(p2Best);
+		bestResults.add(p3Best);
+		bestResults.add(p4Best);
+
+		for (int i = 0; i < originalTests.size(); i++) {
+			strings.add(String.valueOf(bestResults.get(i)));
+			strings.add(String.valueOf(originalTests.get(i)));
+		}
 	}
 
 	@Override
 	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
+		setTablePercentCompare(originalResults, bestResults, otherBestResults, strings);
 		return strings;
+	}
+
+	private void setTablePercentCompare(
+		LinkedList<Double> originalResults,
+		LinkedList<Double> bestResults,
+		LinkedList<Double> otherBestResults,
+		LinkedList<String> strings
+	) {
+		double otherPercentAvg = 0;
+		double originalPercentAvg = 0;
+		for (int i = 0; i < originalResults.size(); i++) {
+			double percentOther = Math.round((bestResults.get(i) / otherBestResults.get(i) - 1) * 100) ;
+			double percentOriginal = Math.round((bestResults.get(i) / originalResults.get(i) - 1) * 100);
+			otherPercentAvg += percentOther;
+			originalPercentAvg += percentOriginal;
+			strings.add(String.valueOf(percentOther));
+			strings.add(String.valueOf(percentOriginal));
+		}
+
+		otherPercentAvg /= originalResults.size();
+		originalPercentAvg /= originalResults.size();
+
+		strings.add(String.valueOf(otherPercentAvg));
+		strings.add(String.valueOf(originalPercentAvg));
 	}
 
 	@Override
 	public LinkedList<String> getSummary(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
 		return strings;
+	}
+
+	@Override
+	public int getParamsCount() {
+		return 4;
 	}
 }
