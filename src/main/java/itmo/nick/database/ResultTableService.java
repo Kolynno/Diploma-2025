@@ -190,12 +190,12 @@ public class ResultTableService {
 	 * @param personId
 	 * @param date
 	 */
-	public LinkedList<Double> getResults(String personId, LocalDate date) {
-		String p1 = resultTableRepository.getP1(personId, date);
-		String p2 = resultTableRepository.getP1(personId, date);
-		String p3 = resultTableRepository.getP1(personId, date);
-		String p4 = resultTableRepository.getP1(personId, date);
-		String p5 = resultTableRepository.getP1(personId, date);
+	public LinkedList<Double> getResults(String personId, LocalDate date, int testNumber) {
+		String p1 = resultTableRepository.getP1(personId, date, String.valueOf(testNumber));
+		String p2 = resultTableRepository.getP2(personId, date, String.valueOf(testNumber));
+		String p3 = resultTableRepository.getP3(personId, date, String.valueOf(testNumber));
+		String p4 = resultTableRepository.getP4(personId, date, String.valueOf(testNumber));
+		String p5 = resultTableRepository.getP5(personId, date, String.valueOf(testNumber));
 
 		LinkedList<Double> results = new LinkedList<>();
 		if (p1 != null) {
@@ -218,22 +218,30 @@ public class ResultTableService {
 
 	/**
 	 * @param personId
-	 * @param number номер теста
+	 * @param order порядок теста
 	 */
-	public LocalDate getTestDate(String personId, int number) {
-		LinkedList<LocalDate> dates = resultTableRepository.getTestDates(personId);
-		if (number - 1 < dates.size()) {
-			return dates.get(number - 1);
+	public LocalDate getTestDate(String personId, int order, int testNumber) {
+		LinkedList<LocalDate> dates = resultTableRepository.getTestDates(personId, String.valueOf(testNumber));
+		if (order - 1 < dates.size()) {
+			return dates.get(order - 1);
 		}
 		return null;
 	}
 
 	public LinkedList<Double> getOtherBest(int testId) {
-		String bestP1 = resultTableRepository.getBestP1(String.valueOf(testId));
-		String bestP2 = resultTableRepository.getBestP2(String.valueOf(testId));
-		String bestP3 = resultTableRepository.getBestP3(String.valueOf(testId));
-		String bestP4 = resultTableRepository.getBestP4(String.valueOf(testId));
-		String bestP5 = resultTableRepository.getBestP5(String.valueOf(testId));
+		LinkedList<Double> data = new LinkedList<>();
+		 switch (testId) {
+			case 1 -> data = attentionTestOneOtherBest(testId);
+			case 2 -> data = attentionTestTwoOtherBest(testId);
+		}
+		return data;
+	}
+
+	private LinkedList<Double> attentionTestOneOtherBest(int testId) {
+		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
+		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
+		String bestP3 = resultTableRepository.getBestMinP3(String.valueOf(testId));
+		String bestP4 = resultTableRepository.getBestMinP4(String.valueOf(testId));
 		LinkedList<Double> results = new LinkedList<>();
 		if (bestP1 != null) {
 			results.add(Double.valueOf(bestP1));
@@ -247,8 +255,14 @@ public class ResultTableService {
 		if (bestP4 != null) {
 			results.add(Double.valueOf(bestP4));
 		}
-		if (bestP5 != null) {
-			results.add(Double.valueOf(bestP5));
+		return results;
+	}
+
+	private LinkedList<Double> attentionTestTwoOtherBest(int testId) {
+		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
+		LinkedList<Double> results = new LinkedList<>();
+		if (bestP1 != null) {
+			results.add(Double.valueOf(bestP1));
 		}
 		return results;
 	}

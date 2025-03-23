@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.stream.Stream;
 
 import static itmo.nick.reports.PDFTextSettings.PDF_REPORT_PATH;
@@ -37,18 +36,15 @@ import static itmo.nick.reports.PDFTextSettings.PDF_REPORT_PATH;
 public class PDFCreator {
 
 	@Autowired
-	PDFTextSettings pdfTextSettings;
+	private PDFTextSettings pdfTextSettings;
 	@Autowired
 	private PersonTableService personTableService;
 	@Autowired
 	private ResultTableService resultTableService;
 	@Autowired
 	private ApplicationContext applicationContext;
-
-	/**
-	 * Данные для отчета
-	 */
-	private PDFReportData pdfReportData;
+	@Autowired
+	private PDFtestPageCreator PDFtestPageCreator;
 
 	/**
 	 * Создать файл отчета
@@ -56,7 +52,6 @@ public class PDFCreator {
 	 */
 	public void create(String personId) {
 		try {
-			pdfReportData = new PDFReportData();
 			setup(personId);
 		} catch (DocumentException | IOException e) {
 			throw new RuntimeException(e);
@@ -103,107 +98,16 @@ public class PDFCreator {
 	private void addTestInfo(Document document, int testId, String personId) throws DocumentException {
 		SimpleTest test = getCurrentTest(testId);
 
-		document.add(new Paragraph(test.getTestName(), pdfTextSettings.mainTitleFont()));
-		document.add(new Paragraph(" ", pdfTextSettings.mainTitleFont()));
-		for(String line : test.getTestInfo()) {
-			document.add(new Paragraph(line, pdfTextSettings.mainTextFont()));
+		switch (test.getTestId()) {
+			case 1 -> PDFtestPageCreator.stroopTestPage(document, test, personId);
+			case 2 -> PDFtestPageCreator.memtraxTestPage(document, test, personId);
+			case 3 -> PDFtestPageCreator.staticReactionTestPage(document, test, personId);
+			case 4 -> PDFtestPageCreator.visualProcessingTestPage(document, test, personId);
+			case 5 -> PDFtestPageCreator.audioProcessingTestPage(document, test, personId);
+			case 6 -> PDFtestPageCreator.tableShulteTestPage(document, test, personId);
+			case 7 -> PDFtestPageCreator.tenWordsTestPage(document, test, personId);
+			case 8 -> PDFtestPageCreator.dynamicReactionTestPage(document, test, personId);
 		}
-		document.add(new Paragraph(" ", pdfTextSettings.mainTitleFont()));
-		addReportAllDataSummaryTable(document, test.getAllPersonData(personId), test);
-		document.add(new Paragraph(" ", pdfTextSettings.mainTitleFont()));
-		addReportBestDataTable(document, test.getBestPersonDataAndCompareToOriginal(personId));
-		document.add(new Paragraph(" ", pdfTextSettings.mainTitleFont()));
-		addReportCompareDataTable(document, test.getPercentCompareToOtherAndOriginal(personId));
-		document.add(new Paragraph(" ", pdfTextSettings.mainTitleFont()));
-		document.add(new Paragraph("Итог", pdfTextSettings.mainTitleFont()));
-		for(String line : test.getSummary(personId)) {
-			document.add(new Paragraph(line, pdfTextSettings.mainTextFont()));
-		}
-	}
-
-	private void addReportCompareDataTable(Document document, LinkedList<String> allCompareData) throws DocumentException {
-		PdfPTable table = new PdfPTable(8);
-		Stream.of("П1C%", "П1Э%", "П2C%", "П2Э%", "П3C%", "П3Э%","П4C%","П4Э%")
-			.forEach(columnTitle -> {
-				PdfPCell header = new PdfPCell();
-				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-				header.setBorderWidth(1);
-				header.setPhrase(new Phrase(columnTitle, pdfTextSettings.mainTextFont()));
-				table.addCell(header);
-			});
-		if (!allCompareData.isEmpty()) {
-			table.addCell(new Phrase(allCompareData.get(0), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allCompareData.get(1), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allCompareData.get(2), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allCompareData.get(3), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allCompareData.get(4), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allCompareData.get(5), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allCompareData.get(6), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allCompareData.get(7), pdfTextSettings.mainTextFont()));
-		}
-		document.add(table);
-	}
-
-	private void addReportBestDataTable(Document document, LinkedList<String> allBestData) throws DocumentException {
-		PdfPTable table = new PdfPTable(8);
-		Stream.of("П1Л", "П1Э", "П2Л", "П2Э", "П3Л", "П3Э","П4Л","П4Э")
-			.forEach(columnTitle -> {
-				PdfPCell header = new PdfPCell();
-				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-				header.setBorderWidth(1);
-				header.setPhrase(new Phrase(columnTitle, pdfTextSettings.mainTextFont()));
-				table.addCell(header);
-			});
-		if (!allBestData.isEmpty()) {
-			table.addCell(new Phrase(allBestData.get(0), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allBestData.get(1), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allBestData.get(2), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allBestData.get(3), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allBestData.get(4), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allBestData.get(5), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allBestData.get(6), pdfTextSettings.mainTextFont()));
-			table.addCell(new Phrase(allBestData.get(7), pdfTextSettings.mainTextFont()));
-		}
-		document.add(table);
-	}
-
-
-	private void addReportAllDataSummaryTable(Document document, LinkedList<String> allPersonData, SimpleTest test) throws DocumentException {
-		PdfPTable table = new PdfPTable(6);
-		Stream.of("№", "Дата", "П1", "П2", "П3", "П4")
-			.forEach(columnTitle -> {
-				PdfPCell header = new PdfPCell();
-				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-				header.setBorderWidth(1);
-				header.setPhrase(new Phrase(columnTitle, pdfTextSettings.mainTextFont()));
-				table.addCell(header);
-			});
-		int cols = test.getParamsCount() + 2;
-		if (!allPersonData.isEmpty()) {
-			for (int i = 0; i <= allPersonData.size() / cols; i++) {
-				int pointer = i * cols;
-				table.addCell(new Phrase(allPersonData.get(pointer), pdfTextSettings.mainTextFont())); // №
-				table.addCell(new Phrase(allPersonData.get(pointer + 1), pdfTextSettings.mainTextFont())); // Date
-				table.addCell(new Phrase(allPersonData.get(pointer + 2), pdfTextSettings.mainTextFont())); // P1
-				if (cols < 5) {
-					return;
-				}
-				table.addCell(new Phrase(allPersonData.get(pointer + 3), pdfTextSettings.mainTextFont())); // P2
-				if (cols < 6) {
-					return;
-				}
-				table.addCell(new Phrase(allPersonData.get(pointer + 4), pdfTextSettings.mainTextFont())); // P3
-				if (cols < 7) {
-					return;
-				}
-				table.addCell(new Phrase(allPersonData.get(pointer + 5), pdfTextSettings.mainTextFont())); // P4
-				if (cols < 8) {
-					return;
-				}
-				table.addCell(new Phrase(allPersonData.get(pointer + 6), pdfTextSettings.mainTextFont())); // P5
-			}
-		}
-		document.add(table);
 	}
 
 	private SimpleTest getCurrentTest(int testId) {

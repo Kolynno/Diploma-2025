@@ -21,10 +21,6 @@ import java.util.LinkedList;
 @Component
 public class AttentionTestOne extends SimpleTest {
 
-	/**
-	 * Номер теста в системе
-	 */
-	public static final int TEST_NUMBER = 1;
 	@Autowired
 	private ResultTableService resultTableService;
 	@Autowired
@@ -106,25 +102,22 @@ public class AttentionTestOne extends SimpleTest {
 		strings.add("П1Л, П2Л, П3Л, П4Л – лучшее значение в секунлах на каждый этап соответственно");
 		strings.add("П1Э, П2Э, П3Э, П4Э – " +
 			"значение в секундах показателей оригинально теста на каждый этап соответственно");
-		strings.add("Показатели со знаком процента (П*С%, П*Э%) – " +
-			"процент разницы между лучших показателем участника (П*) " +
-			"и лучшего других участников и оригинального тестирования");
 		return strings;
 	}
 
 	@Override
 	public LinkedList<String> getAllPersonData(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
-		testsCount = resultTableService.getTestCount(personId, TEST_NUMBER);
+		testsCount = resultTableService.getTestCount(personId, getTestId());
 		originalResults = getOriginalResults();
-		otherBestResults = resultTableService.getOtherBest(TEST_NUMBER);
+		otherBestResults = resultTableService.getOtherBest(getTestId());
 
 		setTableAllTestsResult(personId, testsCount, strings, allResults);
 		return strings;
 	}
 
 	private LinkedList<Double> getOriginalResults() {
-		String[] originalData = testTableService.getResultsById(TEST_NUMBER).split(";");
+		String[] originalData = testTableService.getResultsById(getTestId()).split(";");
 		LinkedList<Double> originalTests = new LinkedList<>();
 		originalTests.add(Double.valueOf(originalData[0]));
 		originalTests.add(Double.valueOf(originalData[1]));
@@ -139,26 +132,25 @@ public class AttentionTestOne extends SimpleTest {
 		LinkedList<String> strings,
 		LinkedList<Double> allResults)
 	{
-		LocalDate date = resultTableService.getFirstDateResult();
+		LocalDate date = resultTableService.getTestDate(personId, 1, getTestId());
 		for (int i = 1; i <= testsCount; i++) {
 			strings.add(String.valueOf(i));
 			strings.add(date.toString());
-			LinkedList<Double> results = resultTableService.getResults(personId, date);
+			LinkedList<Double> results = resultTableService.getResults(personId, date, getTestId());
 			addAll(strings, results);
-			date = resultTableService.getTestDate(personId, i+ 1);
+			date = resultTableService.getTestDate(personId, i + 1, getTestId());
 			addAllToResults(allResults, results);
 		}
+
 		double p1Avg = 0;
 		double p2Avg = 0;
 		double p3Avg = 0;
 		double p4Avg = 0;
-		double p5Avg = 0;
 		for (int i = 0; i < testsCount; i++) {
 			p1Avg += allResults.get(i*4);
 			p2Avg += allResults.get(i*4 + 1);
 			p3Avg += allResults.get(i*4 + 2);
 			p4Avg += allResults.get(i*4 + 3);
-			p5Avg += allResults.get(i*4 + 4);
 		}
 		p1Avg /= testsCount;
 		p2Avg /= testsCount;
@@ -186,9 +178,6 @@ public class AttentionTestOne extends SimpleTest {
 		if (results.get(3) != null) {
 			allResults.add(results.get(3));
 		}
-		if (results.get(4) != null) {
-			allResults.add(results.get(4));
-		}
 	}
 
 	private void addAll(LinkedList<String> strings, LinkedList<Double> results) {
@@ -203,9 +192,6 @@ public class AttentionTestOne extends SimpleTest {
 		}
 		if (results.get(3) != null) {
 			strings.add(String.valueOf(results.get(3)));
-		}
-		if (results.get(4) != null) {
-			strings.add(String.valueOf(results.get(4)));
 		}
 	}
 
@@ -244,7 +230,6 @@ public class AttentionTestOne extends SimpleTest {
 				p5Best = allResults.get(i + 4);
 			}
 		}
-
 
 		bestResults.add(p1Best);
 		bestResults.add(p2Best);

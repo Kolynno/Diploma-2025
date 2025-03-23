@@ -29,7 +29,7 @@ public interface TestTableRepository extends CrudRepository<TestTable, Integer> 
 	String findDescById(int id);
 
 	/**
-	 * Найти результаты оригинального теста по идентификатору
+	 * Найти результаты оригинального теста по идентификатору {@code id}
 	 */
 	@Query("SELECT test_original_result FROM TestTable WHERE test_id = :id")
 	String findResultsById(int id);

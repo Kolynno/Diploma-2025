@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.stream.IntStream;
 
 /**
  * Тест внимания 2 - Таблица Шульте
@@ -21,11 +22,6 @@ import java.util.LinkedList;
 @Setter
 @Component
 public class AttentionTestTwo extends SimpleTest {
-
-	/**
-	 * Номер теста в системе
-	 */
-	public static final int TEST_NUMBER = 6;
 
 	@Autowired
 	private ResultTableService resultTableService;
@@ -92,17 +88,15 @@ public class AttentionTestTwo extends SimpleTest {
 		strings.add("П1 - показатель 1: время в секундах на выполнение задания");
 		strings.add("П1Л - показатель 1: лучшее значение времени выполнение задания в секундах");
 		strings.add("П1Э - показатель 1: значение времени в секундах на выполнение задания в оригинальном тестировании");
-		strings.add("Показатели со знаком процента (П*С%, П*Э%) - процент разницы между лучших показателем " +
-			"участника (П*) и лучшего других участников и оригинального тестирования");
 		return strings;
 	}
 
 	@Override
 	public LinkedList<String> getAllPersonData(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
-		testsCount = resultTableService.getTestCount(personId, TEST_NUMBER);
+		testsCount = resultTableService.getTestCount(personId, getTestId());
 		originalResults = getOriginalResults();
-		otherBestResults = resultTableService.getOtherBest(TEST_NUMBER);
+		otherBestResults = resultTableService.getOtherBest(getTestId());
 
 		setTableAllTestsResult(personId, testsCount, strings, allResults);
 		return strings;
@@ -114,19 +108,16 @@ public class AttentionTestTwo extends SimpleTest {
 		LinkedList<String> strings,
 		LinkedList<Double> allResults)
 	{
-		LocalDate date = resultTableService.getFirstDateResult();
+		LocalDate date = resultTableService.getTestDate(personId, 1, getTestId());
 		for (int i = 1; i <= testsCount; i++) {
 			strings.add(String.valueOf(i));
 			strings.add(date.toString());
-			LinkedList<Double> results = resultTableService.getResults(personId, date);
+			LinkedList<Double> results = resultTableService.getResults(personId, date, getTestId());
 			strings.add(String.valueOf(results.get(0))); //т.к. 1 показатель
-			date = resultTableService.getTestDate(personId, i+ 1);
+			date = resultTableService.getTestDate(personId, i + 1, getTestId());
 			allResults.add(results.get(0)); //1 показатель
 		}
-		double p1Avg = 0;
-		for (int i = 0; i < testsCount; i++) {
-			p1Avg += allResults.get(i*4);
-		}
+		double p1Avg = IntStream.range(0, testsCount).mapToDouble(i -> allResults.get(i * 1)).sum();
 		p1Avg /= testsCount;
 
 		strings.add("");
@@ -135,7 +126,7 @@ public class AttentionTestTwo extends SimpleTest {
 	}
 
 	private LinkedList<Double> getOriginalResults() {
-		String[] originalData = testTableService.getResultsById(TEST_NUMBER).split(";");
+		String[] originalData = testTableService.getResultsById(getTestId()).split(";");
 		LinkedList<Double> originalTests = new LinkedList<>();
 		originalTests.add(Double.valueOf(originalData[0]));
 		return originalTests;
@@ -144,28 +135,34 @@ public class AttentionTestTwo extends SimpleTest {
 	@Override
 	public LinkedList<String> getBestPersonDataAndCompareToOriginal(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
-		strings.add("11");
-		strings.add("22");
-		strings.add("33");
-		strings.add("44");
-		strings.add("55");
-		strings.add("66");
-		strings.add("77");
-		strings.add("88");
+		setTableBestAndOriginal(testsCount, allResults, strings, bestResults, originalResults);
 		return strings;
 	}
+
+	private void setTableBestAndOriginal(
+		int testsCount, LinkedList<Double> allResults,
+		LinkedList<String> strings,
+		LinkedList<Double> bestResults,
+		LinkedList<Double> originalTests
+	) {
+		double p1Best = Integer.MAX_VALUE;
+		for (int i = 0; i < testsCount; i++) {
+			if (p1Best > allResults.get(i)) {
+				p1Best = allResults.get(i);
+			}
+		}
+
+		bestResults.add(p1Best);
+		strings.add(String.valueOf(bestResults.get(0)));
+		strings.add(String.valueOf(originalTests.get(0)));
+	}
+
 
 	@Override
 	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
 		strings.add("1%");
 		strings.add("2%");
-		strings.add("3%");
-		strings.add("4%");
-		strings.add("5%");
-		strings.add("6%");
-		strings.add("7%");
-		strings.add("8%");
 		return strings;
 	}
 
@@ -179,6 +176,6 @@ public class AttentionTestTwo extends SimpleTest {
 
 	@Override
 	public int getParamsCount() {
-		return 2;
+		return 1;
 	}
 }

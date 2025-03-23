@@ -42,42 +42,59 @@ public interface ResultTableRepository extends CrudRepository<ResultTable, Integ
 	LocalDate getLastDateResult();
 
 	/**
-	 * Кол-во тестов у участника
+	 * Кол-во тестов {@code testNumber} у участника {@code personId}
 	 */
 	@Query("SELECT COUNT(result_date) FROM ResultTable WHERE person_id = :personId AND test_id = :testNumber")
 	int getTestsCount(String personId, String testNumber);
 
-	@Query("SELECT p1 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
-	String getP1(String personId, LocalDate date);
+	@Query("SELECT p1 FROM ResultTable WHERE person_id = :personId AND result_date = :date AND test_id = :testNumber")
+	String getP1(String personId, LocalDate date, String testNumber);
 
-	@Query("SELECT p2 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
-	String getP2(String personId, LocalDate date);
+	@Query("SELECT p2 FROM ResultTable WHERE person_id = :personId AND result_date = :date AND test_id = :testNumber")
+	String getP2(String personId, LocalDate date, String testNumber);
 
-	@Query("SELECT p3 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
-	String getP3(String personId, LocalDate date);
+	@Query("SELECT p3 FROM ResultTable WHERE person_id = :personId AND result_date = :date AND test_id = :testNumber")
+	String getP3(String personId, LocalDate date, String testNumber);
 
-	@Query("SELECT p4 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
-	String getP4(String personId, LocalDate date);
+	@Query("SELECT p4 FROM ResultTable WHERE person_id = :personId AND result_date = :date AND test_id = :testNumber")
+	String getP4(String personId, LocalDate date, String testNumber);
 
-	@Query("SELECT p5 FROM ResultTable WHERE person_id = :personId AND result_date = :date")
-	String getP5(String personId, LocalDate date);
+	@Query("SELECT p5 FROM ResultTable WHERE person_id = :personId AND result_date = :date AND test_id = :testNumber")
+	String getP5(String personId, LocalDate date, String testNumber);
 
-	@Query("SELECT result_date FROM ResultTable WHERE person_id = :personId ORDER BY result_date")
-	LinkedList<LocalDate> getTestDates(String personId);
+	@Query("SELECT result_date FROM ResultTable WHERE person_id = :personId AND test_id = :testNumber ORDER BY result_date")
+	LinkedList<LocalDate> getTestDates(String personId, String testNumber);
 
-	//todo не всегда мниимальное - это лучшее
+	/**
+	 * Получить по {@code testId} лучшиее значение параметра (либо минимальное значение, лиюо макимальное)
+	 */
 	@Query(value = "SELECT MIN(CAST(p1 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
-	String getBestP1(String testId);
+	String getBestMinP1(String testId);
 
 	@Query(value = "SELECT MIN(CAST(p2 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
-	String getBestP2(String testId);
+	String getBestMinP2(String testId);
 
 	@Query(value = "SELECT MIN(CAST(p3 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
-	String getBestP3(String testId);
+	String getBestMinP3(String testId);
 
 	@Query(value = "SELECT MIN(CAST(p4 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
-	String getBestP4(String testId);
+	String getBestMinP4(String testId);
 
 	@Query(value = "SELECT MIN(CAST(p5 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
-	String getBestP5(String testId);
+	String getBestMinP5(String testId);
+
+	@Query(value = "SELECT MAX(CAST(p1 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
+	String getBestMaxP1(String testId);
+
+	@Query(value = "SELECT MAX(CAST(p2 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
+	String getBestMaxP2(String testId);
+
+	@Query(value = "SELECT MAX(CAST(p3 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
+	String getBestMaxP3(String testId);
+
+	@Query(value = "SELECT MAX(CAST(p4 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
+	String getBestMaxP4(String testId);
+
+	@Query(value = "SELECT MAX(CAST(p5 AS double precision)) FROM RESULT WHERE test_id = :testId", nativeQuery = true)
+	String getBestMaxP5(String testId);
 }
