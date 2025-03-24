@@ -294,54 +294,15 @@ public class ResultTableService {
 	}
 
 	private LinkedList<Double> processingTestTwoOtherBest(int testId) {
-		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
-		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
-		String bestP3 = resultTableRepository.getBestMinP3(String.valueOf(testId));
-		LinkedList<Double> results = new LinkedList<>();
-		if (bestP1 != null) {
-			results.add(Double.valueOf(bestP1));
-		}
-		if (bestP2 != null) {
-			results.add(Double.valueOf(bestP2));
-		}
-		if (bestP3 != null) {
-			results.add(Double.valueOf(bestP3));
-		}
-		return results;
+		return getBestFor3Params(testId);
 	}
 
 	private LinkedList<Double> processingTestOneOtherBest(int testId) {
-		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
-		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
-		String bestP3 = resultTableRepository.getBestMinP3(String.valueOf(testId));
-		LinkedList<Double> results = new LinkedList<>();
-		if (bestP1 != null) {
-			results.add(Double.valueOf(bestP1));
-		}
-		if (bestP2 != null) {
-			results.add(Double.valueOf(bestP2));
-		}
-		if (bestP3 != null) {
-			results.add(Double.valueOf(bestP3));
-		}
-		return results;
+		return getBestFor3Params(testId);
 	}
 
 	private LinkedList<Double> reactionTestOneOtherBest(int testId) {
-		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
-		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
-		String bestP3 = resultTableRepository.getBestMinP3(String.valueOf(testId));
-		LinkedList<Double> results = new LinkedList<>();
-		if (bestP1 != null) {
-			results.add(Double.valueOf(bestP1));
-		}
-		if (bestP2 != null) {
-			results.add(Double.valueOf(bestP2));
-		}
-		if (bestP3 != null) {
-			results.add(Double.valueOf(bestP3));
-		}
-		return results;
+		return getBestFor3Params(testId);
 	}
 
 	private LinkedList<Double> memoryTestOneOtherBest(int testId) {
@@ -386,4 +347,22 @@ public class ResultTableService {
 		}
 		return results;
 	}
+
+	private LinkedList<Double> getBestFor3Params(int testId) {
+		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
+		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
+		String bestP3 = resultTableRepository.getBestMinP3(String.valueOf(testId));
+		LinkedList<Double> results = new LinkedList<>();
+		if (bestP1 != null) {
+			results.add(Double.valueOf(bestP1));
+		}
+		if (bestP2 != null) {
+			results.add(Double.valueOf(bestP2));
+		}
+		if (bestP3 != null) {
+			results.add(Double.valueOf(bestP3));
+		}
+		return results;
+	}
+
 }
