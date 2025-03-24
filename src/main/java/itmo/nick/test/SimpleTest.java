@@ -55,6 +55,19 @@ public class SimpleTest {
 	 * Кол-во результатов теста
 	 */
 	protected int testsCount = 0;
+	/**
+	 * На сколько % может быть различие допустимо. Если перейти порог, то обнуляется.
+	 */
+	public static final int MAX_CORRECT_DIFFERENCE_IN_PERCENTS = 1000;
+
+	/**
+	 * Итоговый процент расхождения от остальных
+	 */
+	public double otherPercentAvgSummary = 0;
+	/**
+	 * Итоговый процент расхождения от оригинальных
+	 */
+	public double originalPercentAvgSummary = 0;
 
 
 	public SimpleTest(@Value("0") int lastStage) {

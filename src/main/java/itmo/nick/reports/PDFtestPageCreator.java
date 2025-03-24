@@ -79,9 +79,7 @@ public class PDFtestPageCreator {
 			tableBest.addCell(new Phrase(allBestData.get(7), pdfTextSettings.mainTextFont())); // П4Э
 		}
 		document.add(tableBest);
-
-/*
-		document.add(new Paragraph(" ", pdfTextSettings.mainTitleFont()));
+		addEmptyLine(document);
 
 		LinkedList<String> allCompareData = test.getPercentCompareToOtherAndOriginal(personId);
 		PdfPTable tableCompare = new PdfPTable(8);
@@ -94,25 +92,24 @@ public class PDFtestPageCreator {
 				tableCompare.addCell(header);
 			});
 		if (!allCompareData.isEmpty()) {
-			tableCompare.addCell(new Phrase(allCompareData.get(0), pdfTextSettings.mainTextFont()));
-			tableCompare.addCell(new Phrase(allCompareData.get(1), pdfTextSettings.mainTextFont()));
-			tableCompare.addCell(new Phrase(allCompareData.get(2), pdfTextSettings.mainTextFont()));
-			tableCompare.addCell(new Phrase(allCompareData.get(3), pdfTextSettings.mainTextFont()));
-			tableCompare.addCell(new Phrase(allCompareData.get(4), pdfTextSettings.mainTextFont()));
-			tableCompare.addCell(new Phrase(allCompareData.get(5), pdfTextSettings.mainTextFont()));
-			tableCompare.addCell(new Phrase(allCompareData.get(6), pdfTextSettings.mainTextFont()));
-			tableCompare.addCell(new Phrase(allCompareData.get(7), pdfTextSettings.mainTextFont()));
+			tableCompare.addCell(new Phrase(allCompareData.get(0), pdfTextSettings.mainTextFont())); // П1C%
+			tableCompare.addCell(new Phrase(allCompareData.get(1), pdfTextSettings.mainTextFont())); // П1Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(2), pdfTextSettings.mainTextFont())); // П2C%
+			tableCompare.addCell(new Phrase(allCompareData.get(3), pdfTextSettings.mainTextFont())); // П2Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(4), pdfTextSettings.mainTextFont())); // П3C%
+			tableCompare.addCell(new Phrase(allCompareData.get(5), pdfTextSettings.mainTextFont())); // П3Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(6), pdfTextSettings.mainTextFont())); // П4C%
+			tableCompare.addCell(new Phrase(allCompareData.get(7), pdfTextSettings.mainTextFont())); // П4Э%
 		}
 		document.add(tableCompare);
 
-
 		addEmptyLine(document);
 		document.add(new Paragraph("Итог", pdfTextSettings.mainTitleFont()));
-		for(String line : test.getSummary(personId)) {
-			document.add(new Paragraph(line, pdfTextSettings.mainTextFont()));
-		}
 
- */
+		LinkedList<String> summary = test.getSummary(personId);
+		document.add(new Paragraph("Разность относительно других участников: " + summary.get(0) + "%", pdfTextSettings.mainTextFont()));
+		document.add(new Paragraph("Разность относительно оригинальных результатов: " + summary.get(1) + "%", pdfTextSettings.mainTextFont()));
+
 	}
 
 	public void memtraxTestPage(Document document, SimpleTest test, String personId) throws DocumentException {

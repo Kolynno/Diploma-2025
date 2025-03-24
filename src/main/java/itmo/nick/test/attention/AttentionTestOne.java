@@ -97,8 +97,8 @@ public class AttentionTestOne extends SimpleTest {
 		strings.add("№ – номер попытки");
 		strings.add("Дата – дата тестирования");
 		strings.add("П1, П2, П3, П4 – показатели теста. Время в секундах на каждый этап соответственно");
-//		strings.add("П1С,П2С, П3С, П4С – " +
-//			"значение в секундах показателей у других участников на каждый этап соответственно");
+		strings.add("П*С%,П*Э% – " +
+			"процент разности по параметрам между другими участниками (С) и оригинальным (Э) соответственно");
 		strings.add("П1Л, П2Л, П3Л, П4Л – лучшее значение в секундах на каждый этап соответственно");
 		strings.add("П1Э, П2Э, П3Э, П4Э – " +
 			"значение в секундах показателей оригинально теста на каждый этап соответственно");
@@ -262,20 +262,38 @@ public class AttentionTestOne extends SimpleTest {
 			double percentOriginal = Math.round((bestResults.get(i) / originalResults.get(i) - 1) * 100);
 			otherPercentAvg += percentOther;
 			originalPercentAvg += percentOriginal;
-			strings.add(String.valueOf(percentOther));
-			strings.add(String.valueOf(percentOriginal));
+			if (Math.abs(percentOther) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
+				percentOther = 0;
+			}
+			if (Math.abs(percentOriginal) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
+				percentOriginal = 0;
+			}
+			strings.add(percentOther > 0 ? "+" + percentOther : String.valueOf(percentOther));
+			strings.add(percentOriginal > 0 ? "+" + percentOriginal : String.valueOf(percentOriginal));
 		}
 
 		otherPercentAvg /= originalResults.size();
 		originalPercentAvg /= originalResults.size();
 
-		strings.add(String.valueOf(otherPercentAvg));
-		strings.add(String.valueOf(originalPercentAvg));
+		if (Math.abs(otherPercentAvg) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
+			otherPercentAvg = 0;
+		}
+		if (Math.abs(originalPercentAvg) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
+			originalPercentAvg = 0;
+		}
+
+		otherPercentAvgSummary  = otherPercentAvg;
+		originalPercentAvgSummary = originalPercentAvg;
+
+		strings.add(otherPercentAvg > 0 ? "+" + otherPercentAvg : String.valueOf(otherPercentAvg));
+		strings.add(originalPercentAvg > 0 ? "+" + originalPercentAvg : String.valueOf(originalPercentAvg));
 	}
 
 	@Override
 	public LinkedList<String> getSummary(String personId) {
 		LinkedList<String> strings = new LinkedList<>();
+		strings.add(otherPercentAvgSummary > 0 ? "+" + otherPercentAvgSummary : String.valueOf(otherPercentAvgSummary));
+		strings.add(originalPercentAvgSummary > 0 ? "+" + originalPercentAvgSummary : String.valueOf(originalPercentAvgSummary));
 		return strings;
 	}
 
