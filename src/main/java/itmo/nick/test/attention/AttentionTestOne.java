@@ -97,9 +97,9 @@ public class AttentionTestOne extends SimpleTest {
 		strings.add("№ – номер попытки");
 		strings.add("Дата – дата тестирования");
 		strings.add("П1, П2, П3, П4 – показатели теста. Время в секундах на каждый этап соответственно");
-		strings.add("П1С,П2С, П3С, П4С – " +
-			"значение в секундах показателей у других участников на каждый этап соответственно");
-		strings.add("П1Л, П2Л, П3Л, П4Л – лучшее значение в секунлах на каждый этап соответственно");
+//		strings.add("П1С,П2С, П3С, П4С – " +
+//			"значение в секундах показателей у других участников на каждый этап соответственно");
+		strings.add("П1Л, П2Л, П3Л, П4Л – лучшее значение в секундах на каждый этап соответственно");
 		strings.add("П1Э, П2Э, П3Э, П4Э – " +
 			"значение в секундах показателей оригинально теста на каждый этап соответственно");
 		return strings;
@@ -147,10 +147,10 @@ public class AttentionTestOne extends SimpleTest {
 		double p3Avg = 0;
 		double p4Avg = 0;
 		for (int i = 0; i < testsCount; i++) {
-			p1Avg += allResults.get(i*4);
-			p2Avg += allResults.get(i*4 + 1);
-			p3Avg += allResults.get(i*4 + 2);
-			p4Avg += allResults.get(i*4 + 3);
+			p1Avg += allResults.get(i * getParamsCount());
+			p2Avg += allResults.get(i * getParamsCount() + 1);
+			p3Avg += allResults.get(i * getParamsCount() + 2);
+			p4Avg += allResults.get(i * getParamsCount() + 3);
 		}
 		p1Avg /= testsCount;
 		p2Avg /= testsCount;

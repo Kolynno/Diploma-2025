@@ -117,7 +117,7 @@ public class AttentionTestTwo extends SimpleTest {
 			date = resultTableService.getTestDate(personId, i + 1, getTestId());
 			allResults.add(results.get(0)); //1 показатель
 		}
-		double p1Avg = IntStream.range(0, testsCount).mapToDouble(i -> allResults.get(i * 1)).sum();
+		double p1Avg = IntStream.range(0, testsCount).mapToDouble(i -> allResults.get(i * getParamsCount())).sum();
 		p1Avg /= testsCount;
 
 		strings.add("");

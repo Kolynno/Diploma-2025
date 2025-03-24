@@ -232,9 +232,129 @@ public class ResultTableService {
 		LinkedList<Double> data = new LinkedList<>();
 		 switch (testId) {
 			case 1 -> data = attentionTestOneOtherBest(testId);
-			case 2 -> data = attentionTestTwoOtherBest(testId);
+			case 2 -> data = memoryTestOneOtherBest(testId);
+			case 3 -> data = reactionTestOneOtherBest(testId);
+			case 4 -> data = processingTestOneOtherBest(testId);
+			case 5 -> data = processingTestTwoOtherBest(testId);
+			case 6 -> data = attentionTestTwoOtherBest(testId);
+			case 7 -> data = memoryTestTwoOtherBest(testId);
+			case 8 -> data = reactionTestTwoOtherBest(testId);
 		}
 		return data;
+	}
+
+	private LinkedList<Double> memoryTestTwoOtherBest(int testId) {
+		String bestP1 = resultTableRepository.getBestMaxP1(String.valueOf(testId));
+		String bestP2 = resultTableRepository.getBestMaxP2(String.valueOf(testId));
+		String bestP3 = resultTableRepository.getBestMaxP3(String.valueOf(testId));
+		String bestP4 = resultTableRepository.getBestMaxP4(String.valueOf(testId));
+		String bestP5 = resultTableRepository.getBestMaxP5(String.valueOf(testId));
+		LinkedList<Double> results = new LinkedList<>();
+		if (bestP1 != null) {
+			results.add(Double.valueOf(bestP1));
+		}
+		if (bestP2 != null) {
+			results.add(Double.valueOf(bestP2));
+		}
+		if (bestP3 != null) {
+			results.add(Double.valueOf(bestP3));
+		}
+		if (bestP4 != null) {
+			results.add(Double.valueOf(bestP4));
+		}
+		if (bestP5 != null) {
+			results.add(Double.valueOf(bestP5));
+		}
+		return results;
+	}
+
+	private LinkedList<Double> reactionTestTwoOtherBest(int testId) {
+		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
+		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
+		String bestP3 = resultTableRepository.getBestMinP3(String.valueOf(testId));
+		String bestP4 = resultTableRepository.getBestMinP4(String.valueOf(testId));
+		String bestP5 = resultTableRepository.getBestMinP4(String.valueOf(testId));
+		LinkedList<Double> results = new LinkedList<>();
+		if (bestP1 != null) {
+			results.add(Double.valueOf(bestP1));
+		}
+		if (bestP2 != null) {
+			results.add(Double.valueOf(bestP2));
+		}
+		if (bestP3 != null) {
+			results.add(Double.valueOf(bestP3));
+		}
+		if (bestP4 != null) {
+			results.add(Double.valueOf(bestP4));
+		}
+		if (bestP5 != null) {
+			results.add(Double.valueOf(bestP5));
+		}
+		return results;
+	}
+
+	private LinkedList<Double> processingTestTwoOtherBest(int testId) {
+		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
+		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
+		String bestP3 = resultTableRepository.getBestMinP3(String.valueOf(testId));
+		LinkedList<Double> results = new LinkedList<>();
+		if (bestP1 != null) {
+			results.add(Double.valueOf(bestP1));
+		}
+		if (bestP2 != null) {
+			results.add(Double.valueOf(bestP2));
+		}
+		if (bestP3 != null) {
+			results.add(Double.valueOf(bestP3));
+		}
+		return results;
+	}
+
+	private LinkedList<Double> processingTestOneOtherBest(int testId) {
+		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
+		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
+		String bestP3 = resultTableRepository.getBestMinP3(String.valueOf(testId));
+		LinkedList<Double> results = new LinkedList<>();
+		if (bestP1 != null) {
+			results.add(Double.valueOf(bestP1));
+		}
+		if (bestP2 != null) {
+			results.add(Double.valueOf(bestP2));
+		}
+		if (bestP3 != null) {
+			results.add(Double.valueOf(bestP3));
+		}
+		return results;
+	}
+
+	private LinkedList<Double> reactionTestOneOtherBest(int testId) {
+		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
+		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
+		String bestP3 = resultTableRepository.getBestMinP3(String.valueOf(testId));
+		LinkedList<Double> results = new LinkedList<>();
+		if (bestP1 != null) {
+			results.add(Double.valueOf(bestP1));
+		}
+		if (bestP2 != null) {
+			results.add(Double.valueOf(bestP2));
+		}
+		if (bestP3 != null) {
+			results.add(Double.valueOf(bestP3));
+		}
+		return results;
+	}
+
+	private LinkedList<Double> memoryTestOneOtherBest(int testId) {
+		String bestP1 = resultTableRepository.getBestMinP1(String.valueOf(testId));
+		String bestP2 = resultTableRepository.getBestMinP2(String.valueOf(testId));
+		LinkedList<Double> results = new LinkedList<>();
+		if (bestP1 != null) {
+			results.add(Double.valueOf(bestP1));
+		}
+		if (bestP2 != null) {
+			results.add(Double.valueOf(bestP2));
+		}
+		return results;
 	}
 
 	private LinkedList<Double> attentionTestOneOtherBest(int testId) {

@@ -1,8 +1,12 @@
 package itmo.nick.test.memory;
 
+import itmo.nick.database.ResultTableService;
+import itmo.nick.database.TestTableService;
 import itmo.nick.test.SimpleTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 /**
@@ -13,6 +17,11 @@ import java.util.LinkedList;
  */
 @Component
 public class MemoryTestOne extends SimpleTest {
+
+	@Autowired
+	private ResultTableService resultTableService;
+	@Autowired
+	private TestTableService testTableService;
 
 	static MemoryTestOne memoryTestOne;
 	/**
@@ -61,10 +70,10 @@ public class MemoryTestOne extends SimpleTest {
 
 	@Override
 	public String result(String[] original) {
-		return "Обычные люди: " + original[0] + " ошибок и до " + original[1] + " сек. в среднем скорость ответа<br>" +
-			"Легкое когнитивное нарушение: " + original[2] + " ошибок и до " + original[3] + " сек. в среднем скорость ответа<br>" +
-			"Легкая степень деменции: " + original[4] + " ошибок и до " + original[5] + " сек. в среднем скорость ответа<br>" +
-			"Средняя и тяжка деменция: от " + original[4] + " ошибок и от " + original[5] + " сек. в среднем скорость ответа<br>" +
+		return "Обычные люди: " + original[0] + "% ошибок и до " + original[1] + " сек. в среднем скорость ответа<br>" +
+			"Легкое когнитивное нарушение: " + original[2] + "% ошибок и до " + original[3] + " сек. в среднем скорость ответа<br>" +
+			"Легкая степень деменции: " + original[4] + "% ошибок и до " + original[5] + " сек. в среднем скорость ответа<br>" +
+			"Средняя и тяжка деменция: от " + original[4] + "% ошибок и от " + original[5] + " сек. в среднем скорость ответа<br>" +
 			"Ваш результат: " + getErrorPercent() + "% ошибок,<br>" +
 			getAnswerMs() + " мс. среднее время реакции на повторную картинку";
 	}
@@ -141,11 +150,165 @@ public class MemoryTestOne extends SimpleTest {
 	}
 
 	@Override
+	public String getTestName() {
+		return "Тест Memtrax";
+	}
+
+	@Override
 	public LinkedList<String> getTestInfo() {
 		LinkedList<String> strings = new LinkedList<>();
-		strings.add("Первый");
+		strings.add("№ – номер попытки");
+		strings.add("Дата – дата тестирования");
+		strings.add("П1, П2 – показатели теста. % ошибок и среднее время ответа в секундах");
+//		strings.add("П1С,П2С, П3С, П4С – " +
+//			"значение в секундах показателей у других участников на каждый этап соответственно");
+		strings.add("П1Л, П2Л – лучшее значение. % ошибок и среднее время ответа в секундах");
+		strings.add("П1Э, П2Э – " +
+			"значение показателей оригинально теста. % ошибок и среднее время ответа в секундах");
 		return strings;
 	}
 
+	@Override
+	public LinkedList<String> getAllPersonData(String personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		testsCount = resultTableService.getTestCount(personId, getTestId());
+		originalResults = getOriginalResults();
+		otherBestResults = resultTableService.getOtherBest(getTestId());
+
+		setTableAllTestsResult(personId, testsCount, strings, allResults);
+		return strings;
+	}
+
+	private LinkedList<Double> getOriginalResults() {
+		String[] originalData = testTableService.getResultsById(getTestId()).split(";");
+		LinkedList<Double> originalTests = new LinkedList<>();
+		originalTests.add(Double.valueOf(originalData[0]));
+		originalTests.add(Double.valueOf(originalData[1]));
+		return originalTests;
+	}
+
+	private void setTableAllTestsResult(
+		String personId,
+		int testsCount,
+		LinkedList<String> strings,
+		LinkedList<Double> allResults)
+	{
+		LocalDate date = resultTableService.getTestDate(personId, 1, getTestId());
+		for (int i = 1; i <= testsCount; i++) {
+			strings.add(String.valueOf(i));
+			strings.add(date.toString());
+			LinkedList<Double> results = resultTableService.getResults(personId, date, getTestId());
+			addAll(strings, results);
+			date = resultTableService.getTestDate(personId, i + 1, getTestId());
+			addAllToResults(allResults, results);
+		}
+
+		double p1Avg = 0;
+		double p2Avg = 0;
+		for (int i = 0; i < testsCount; i++) {
+			p1Avg += allResults.get(i * getParamsCount());
+			p2Avg += allResults.get(i * getParamsCount() + 1);
+		}
+		p1Avg /= testsCount;
+		p2Avg /= testsCount;
+
+		strings.add("");
+		strings.add("Среднее");
+		strings.add(String.valueOf(p1Avg));
+		strings.add(String.valueOf(p2Avg));
+	}
+
+	private void addAllToResults(LinkedList<Double> allResults, LinkedList<Double> results) {
+		if (results.get(0) != null) {
+			allResults.add(results.get(0));
+		}
+		if (results.get(1) != null) {
+			allResults.add(results.get(1));
+		}
+	}
+
+	private void addAll(LinkedList<String> strings, LinkedList<Double> results) {
+		if (results.get(0) != null) {
+			strings.add(String.valueOf(results.get(0)));
+		}
+		if (results.get(1) != null) {
+			strings.add(String.valueOf(results.get(1)));
+		}
+	}
+
+	@Override
+	public LinkedList<String> getBestPersonDataAndCompareToOriginal(String personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		setTableBestAndOriginal(testsCount, allResults, strings, bestResults, originalResults);
+		return strings;
+	}
+
+	private void setTableBestAndOriginal(
+		int testsCount, LinkedList<Double> allResults,
+		LinkedList<String> strings,
+		LinkedList<Double> bestResults,
+		LinkedList<Double> originalTests
+	) {
+		double p1Best = Integer.MAX_VALUE;
+		double p2Best = Integer.MAX_VALUE;
+		for (int i = 0; i < testsCount; i++) {
+			if (p1Best > allResults.get(i)) {
+				p1Best = allResults.get(i);
+			}
+			if (p2Best > allResults.get(i + 1)) {
+				p2Best = allResults.get(i + 1);
+			}
+		}
+
+		bestResults.add(p1Best);
+		bestResults.add(p2Best);
+
+		for (int i = 0; i < originalTests.size(); i++) {
+			strings.add(String.valueOf(bestResults.get(i)));
+			strings.add(String.valueOf(originalTests.get(i)));
+		}
+	}
+
+	@Override
+	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		setTablePercentCompare(originalResults, bestResults, otherBestResults, strings);
+		return strings;
+	}
+
+	private void setTablePercentCompare(
+		LinkedList<Double> originalResults,
+		LinkedList<Double> bestResults,
+		LinkedList<Double> otherBestResults,
+		LinkedList<String> strings
+	) {
+		double otherPercentAvg = 0;
+		double originalPercentAvg = 0;
+		for (int i = 0; i < originalResults.size(); i++) {
+			double percentOther = Math.round((bestResults.get(i) / otherBestResults.get(i) - 1) * 100) ;
+			double percentOriginal = Math.round((bestResults.get(i) / originalResults.get(i) - 1) * 100);
+			otherPercentAvg += percentOther;
+			originalPercentAvg += percentOriginal;
+			strings.add(String.valueOf(percentOther));
+			strings.add(String.valueOf(percentOriginal));
+		}
+
+		otherPercentAvg /= originalResults.size();
+		originalPercentAvg /= originalResults.size();
+
+		strings.add(String.valueOf(otherPercentAvg));
+		strings.add(String.valueOf(originalPercentAvg));
+	}
+
+	@Override
+	public LinkedList<String> getSummary(String personId) {
+		LinkedList<String> strings = new LinkedList<>();
+		return strings;
+	}
+
+	@Override
+	public int getParamsCount() {
+		return 2;
+	}
 
 }
