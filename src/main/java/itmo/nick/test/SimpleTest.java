@@ -69,6 +69,8 @@ public class SimpleTest {
 	 */
 	public double originalPercentAvgSummary = 0;
 
+	public static String BEST_AND_ORIGINAL_COMPARE_TEST_INFO =
+		"П*С%,П*Э% – процент разности по параметрам между другими участниками (С) и оригинальным (Э) соответственно";
 
 	public SimpleTest(@Value("0") int lastStage) {
 		this.lastStage = lastStage;
@@ -172,14 +174,59 @@ public class SimpleTest {
 	 * (Значение пользователя в % от дургих, Значение пользователя в % от эталонного) х Кол-во пунктов
 	 */
 	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
-		return new LinkedList<>();
+		LinkedList<String> strings = new LinkedList<>();
+		setTablePercentCompare(originalResults, bestResults, otherBestResults, strings);
+		return strings;
+	}
+
+	private void setTablePercentCompare(
+		LinkedList<Double> originalResults,
+		LinkedList<Double> bestResults,
+		LinkedList<Double> otherBestResults,
+		LinkedList<String> strings
+	) {
+		double otherPercentAvg = 0;
+		double originalPercentAvg = 0;
+		for (int i = 0; i < originalResults.size(); i++) {
+			double percentOther = Math.round((bestResults.get(i) / otherBestResults.get(i) - 1) * 100) ;
+			double percentOriginal = Math.round((bestResults.get(i) / originalResults.get(i) - 1) * 100);
+			if (Math.abs(percentOther) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
+				percentOther = 0;
+			}
+			if (Math.abs(percentOriginal) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
+				percentOriginal = 0;
+			}
+			otherPercentAvg += percentOther;
+			originalPercentAvg += percentOriginal;
+			strings.add(percentOther > 0 ? "+" + percentOther : String.valueOf(percentOther));
+			strings.add(percentOriginal > 0 ? "+" + percentOriginal : String.valueOf(percentOriginal));
+		}
+
+		otherPercentAvg /= originalResults.size();
+		originalPercentAvg /= originalResults.size();
+
+		if (Math.abs(otherPercentAvg) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
+			otherPercentAvg = 0;
+		}
+		if (Math.abs(originalPercentAvg) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
+			originalPercentAvg = 0;
+		}
+
+		otherPercentAvgSummary  = otherPercentAvg;
+		originalPercentAvgSummary = originalPercentAvg;
+
+		strings.add(otherPercentAvg > 0 ? "+" + otherPercentAvg : String.valueOf(otherPercentAvg));
+		strings.add(originalPercentAvg > 0 ? "+" + originalPercentAvg : String.valueOf(originalPercentAvg));
 	}
 
 	/**
 	 * Обобщенный итог
 	 */
 	public LinkedList<String> getSummary(String personId) {
-		return new LinkedList<>();
+		LinkedList<String> strings = new LinkedList<>();
+		strings.add(otherPercentAvgSummary > 0 ? "+" + otherPercentAvgSummary : String.valueOf(otherPercentAvgSummary));
+		strings.add(originalPercentAvgSummary > 0 ? "+" + originalPercentAvgSummary : String.valueOf(originalPercentAvgSummary));
+		return strings;
 	}
 
 	public int getParamsCount() {

@@ -88,6 +88,7 @@ public class AttentionTestTwo extends SimpleTest {
 		strings.add("П1 - показатель 1: время в секундах на выполнение задания");
 		strings.add("П1Л - показатель 1: лучшее значение времени выполнение задания в секундах");
 		strings.add("П1Э - показатель 1: значение времени в секундах на выполнение задания в оригинальном тестировании");
+		strings.add(BEST_AND_ORIGINAL_COMPARE_TEST_INFO);
 		return strings;
 	}
 
@@ -155,23 +156,6 @@ public class AttentionTestTwo extends SimpleTest {
 		bestResults.add(p1Best);
 		strings.add(String.valueOf(bestResults.get(0)));
 		strings.add(String.valueOf(originalTests.get(0)));
-	}
-
-
-	@Override
-	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
-		LinkedList<String> strings = new LinkedList<>();
-		strings.add("1%");
-		strings.add("2%");
-		return strings;
-	}
-
-	@Override
-	public LinkedList<String> getSummary(String personId) {
-		LinkedList<String> strings = new LinkedList<>();
-		strings.add("Сравнение с другими участниками в среднем: + 111.3%");
-		strings.add("Сравнение с эталонным результатом в среднем: -111.1%%");
-		return strings;
 	}
 
 	@Override

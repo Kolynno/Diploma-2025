@@ -104,12 +104,7 @@ public class PDFtestPageCreator {
 		document.add(tableCompare);
 
 		addEmptyLine(document);
-		document.add(new Paragraph("Итог", pdfTextSettings.mainTitleFont()));
-
-		LinkedList<String> summary = test.getSummary(personId);
-		document.add(new Paragraph("Разность относительно других участников: " + summary.get(0) + "%", pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Разность относительно оригинальных результатов: " + summary.get(1) + "%", pdfTextSettings.mainTextFont()));
-
+		addSummary(document, test, personId);
 	}
 
 	public void memtraxTestPage(Document document, SimpleTest test, String personId) throws DocumentException {
@@ -161,6 +156,28 @@ public class PDFtestPageCreator {
 			tableBest.addCell(new Phrase(allBestData.get(3), pdfTextSettings.mainTextFont())); //П2Э
 		}
 		document.add(tableBest);
+		addEmptyLine(document);
+
+		LinkedList<String> allCompareData = test.getPercentCompareToOtherAndOriginal(personId);
+		PdfPTable tableCompare = new PdfPTable(4);
+		Stream.of("П1C%", "П1Э%", "П2C%", "П2Э%")
+			.forEach(columnTitle -> {
+				PdfPCell header = new PdfPCell();
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				header.setBorderWidth(1);
+				header.setPhrase(new Phrase(columnTitle, pdfTextSettings.mainTextFont()));
+				tableCompare.addCell(header);
+			});
+		if (!allCompareData.isEmpty()) {
+			tableCompare.addCell(new Phrase(allCompareData.get(0), pdfTextSettings.mainTextFont())); // П1C%
+			tableCompare.addCell(new Phrase(allCompareData.get(1), pdfTextSettings.mainTextFont())); // П1Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(2), pdfTextSettings.mainTextFont())); // П2C%
+			tableCompare.addCell(new Phrase(allCompareData.get(3), pdfTextSettings.mainTextFont())); // П2Э%
+		}
+		document.add(tableCompare);
+
+		addEmptyLine(document);
+		addSummary(document, test, personId);
 	}
 
 	public void staticReactionTestPage(Document document, SimpleTest test, String personId) throws DocumentException {
@@ -221,9 +238,8 @@ public class PDFtestPageCreator {
 			tableBest.addCell(new Phrase(allBestData.get(1), pdfTextSettings.mainTextFont())); //П1Э
 		}
 		document.add(tableBest);
+		addEmptyLine(document);
 
-		/*
-		document.add(new Paragraph(" ", pdfTextSettings.mainTitleFont()));
 		LinkedList<String> allCompareData = test.getPercentCompareToOtherAndOriginal(personId);
 		PdfPTable tableCompare = new PdfPTable(2);
 		Stream.of("П1C%", "П1Э%")
@@ -235,19 +251,13 @@ public class PDFtestPageCreator {
 				tableCompare.addCell(header);
 			});
 		if (!allCompareData.isEmpty()) {
-			tableCompare.addCell(new Phrase(allCompareData.get(0), pdfTextSettings.mainTextFont()));
-			tableCompare.addCell(new Phrase(allCompareData.get(1), pdfTextSettings.mainTextFont()));
+			tableCompare.addCell(new Phrase(allCompareData.get(0), pdfTextSettings.mainTextFont())); // П1C%
+			tableCompare.addCell(new Phrase(allCompareData.get(1), pdfTextSettings.mainTextFont())); // П1Э%
 		}
 		document.add(tableCompare);
 
-
-		document.add(new Paragraph(" ", pdfTextSettings.mainTitleFont()));
-		document.add(new Paragraph("Итог", pdfTextSettings.mainTitleFont()));
-		for(String line : test.getSummary(personId)) {
-			document.add(new Paragraph(line, pdfTextSettings.mainTextFont()));
-		}
-		*/
-
+		addEmptyLine(document);
+		addSummary(document, test, personId);
 	}
 
 	public void tenWordsTestPage(Document document, SimpleTest test, String personId) throws DocumentException {
@@ -256,45 +266,6 @@ public class PDFtestPageCreator {
 
 	public void dynamicReactionTestPage(Document document, SimpleTest test, String personId) throws DocumentException {
 		setPageWith5Params(document, test, personId);
-	}
-
-
-	private void addReportAllDataSummaryTable(Document document, LinkedList<String> allPersonData, SimpleTest test) throws DocumentException {
-		PdfPTable table = new PdfPTable(7);
-		Stream.of("№", "Дата", "П1", "П2", "П3", "П4", "П5")
-			.forEach(columnTitle -> {
-				PdfPCell header = new PdfPCell();
-				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-				header.setBorderWidth(1);
-				header.setPhrase(new Phrase(columnTitle, pdfTextSettings.mainTextFont()));
-				table.addCell(header);
-			});
-		int cols = test.getParamsCount() + 3;
-		if (!allPersonData.isEmpty()) {
-			for (int i = 0; i <= allPersonData.size() / cols; i++) {
-				int pointer = i * cols;
-				table.addCell(new Phrase(allPersonData.get(pointer), pdfTextSettings.mainTextFont())); // №
-				table.addCell(new Phrase(allPersonData.get(pointer + 1), pdfTextSettings.mainTextFont())); // Date
-				table.addCell(new Phrase(allPersonData.get(pointer + 2), pdfTextSettings.mainTextFont())); // P1
-				if (cols < 6) {
-					continue;
-				}
-				table.addCell(new Phrase(allPersonData.get(pointer + 3), pdfTextSettings.mainTextFont())); // P2
-				if (cols < 7) {
-					continue;
-				}
-				table.addCell(new Phrase(allPersonData.get(pointer + 4), pdfTextSettings.mainTextFont())); // P3
-				if (cols < 8) {
-					continue;
-				}
-				table.addCell(new Phrase(allPersonData.get(pointer + 5), pdfTextSettings.mainTextFont())); // P4
-				if (cols < 9) {
-					continue;
-				}
-				table.addCell(new Phrase(allPersonData.get(pointer + 6), pdfTextSettings.mainTextFont())); // P5
-			}
-		}
-		document.add(table);
 	}
 
 	private void addEmptyLine(Document document) throws DocumentException {
@@ -353,6 +324,30 @@ public class PDFtestPageCreator {
 			tableBest.addCell(new Phrase(allBestData.get(5), pdfTextSettings.mainTextFont())); //П3Э
 		}
 		document.add(tableBest);
+		addEmptyLine(document);
+
+		LinkedList<String> allCompareData = test.getPercentCompareToOtherAndOriginal(personId);
+		PdfPTable tableCompare = new PdfPTable(6);
+		Stream.of("П1C%", "П1Э%", "П2C%", "П2Э%", "П3С%", "П3Э%")
+			.forEach(columnTitle -> {
+				PdfPCell header = new PdfPCell();
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				header.setBorderWidth(1);
+				header.setPhrase(new Phrase(columnTitle, pdfTextSettings.mainTextFont()));
+				tableCompare.addCell(header);
+			});
+		if (!allCompareData.isEmpty()) {
+			tableCompare.addCell(new Phrase(allCompareData.get(0), pdfTextSettings.mainTextFont())); // П1C%
+			tableCompare.addCell(new Phrase(allCompareData.get(1), pdfTextSettings.mainTextFont())); // П1Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(2), pdfTextSettings.mainTextFont())); // П2C%
+			tableCompare.addCell(new Phrase(allCompareData.get(3), pdfTextSettings.mainTextFont())); // П2Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(4), pdfTextSettings.mainTextFont())); // П3С%
+			tableCompare.addCell(new Phrase(allCompareData.get(5), pdfTextSettings.mainTextFont())); // П3Э%
+		}
+		document.add(tableCompare);
+
+		addEmptyLine(document);
+		addSummary(document, test, personId);
 	}
 
 	private void setPageWith5Params(Document document, SimpleTest test, String personId) throws DocumentException {
@@ -413,6 +408,42 @@ public class PDFtestPageCreator {
 			tableBest.addCell(new Phrase(allBestData.get(9), pdfTextSettings.mainTextFont())); // П5Э
 		}
 		document.add(tableBest);
+		addEmptyLine(document);
+
+		LinkedList<String> allCompareData = test.getPercentCompareToOtherAndOriginal(personId);
+		PdfPTable tableCompare = new PdfPTable(10);
+		Stream.of("П1C%", "П1Э%", "П2C%", "П2Э%", "П3C%", "П3Э%","П4C%","П4Э%","П5C%","П5Э%")
+			.forEach(columnTitle -> {
+				PdfPCell header = new PdfPCell();
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				header.setBorderWidth(1);
+				header.setPhrase(new Phrase(columnTitle, pdfTextSettings.mainTextFont()));
+				tableCompare.addCell(header);
+			});
+		if (!allCompareData.isEmpty()) {
+			tableCompare.addCell(new Phrase(allCompareData.get(0), pdfTextSettings.mainTextFont())); // П1C%
+			tableCompare.addCell(new Phrase(allCompareData.get(1), pdfTextSettings.mainTextFont())); // П1Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(2), pdfTextSettings.mainTextFont())); // П2C%
+			tableCompare.addCell(new Phrase(allCompareData.get(3), pdfTextSettings.mainTextFont())); // П2Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(4), pdfTextSettings.mainTextFont())); // П3C%
+			tableCompare.addCell(new Phrase(allCompareData.get(5), pdfTextSettings.mainTextFont())); // П3Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(6), pdfTextSettings.mainTextFont())); // П4C%
+			tableCompare.addCell(new Phrase(allCompareData.get(7), pdfTextSettings.mainTextFont())); // П4Э%
+			tableCompare.addCell(new Phrase(allCompareData.get(8), pdfTextSettings.mainTextFont())); // П5С%
+			tableCompare.addCell(new Phrase(allCompareData.get(9), pdfTextSettings.mainTextFont())); // П5Э%
+		}
+		document.add(tableCompare);
+
+		addEmptyLine(document);
+		addSummary(document, test, personId);
+	}
+
+	private void addSummary(Document document, SimpleTest test, String personId) throws DocumentException {
+		document.add(new Paragraph("Итог", pdfTextSettings.mainTitleFont()));
+
+		LinkedList<String> summary = test.getSummary(personId);
+		document.add(new Paragraph("Разность относительно других участников: " + summary.get(0) + "%", pdfTextSettings.mainTextFont()));
+		document.add(new Paragraph("Разность относительно оригинальных результатов: " + summary.get(1) + "%", pdfTextSettings.mainTextFont()));
 	}
 
 }

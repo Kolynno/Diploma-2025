@@ -142,8 +142,7 @@ public class ProcessingTestOne extends SimpleTest {
 		strings.add("№ – номер попытки");
 		strings.add("Дата – дата тестирования");
 		strings.add("П1, П2, П3 – показатели теста. Кол-во ошибок, % ловушек и % простоя");
-//		strings.add("П1С,П2С, П3С, П4С – " +
-//			"значение в секундах показателей у других участников на каждый этап соответственно");
+		strings.add(BEST_AND_ORIGINAL_COMPARE_TEST_INFO);
 		strings.add("П1Л, П2Л, П3Л – лучшее значение. Минимальное кол-во ошибок, % ловушек и % простоя");
 		strings.add("П1Э, П2Э, П3Э – " +
 			"значение показателей оригинально теста. Кол-во ошибок, % ловушек и % простоя");
@@ -265,43 +264,6 @@ public class ProcessingTestOne extends SimpleTest {
 			strings.add(String.valueOf(bestResults.get(i)));
 			strings.add(String.valueOf(originalTests.get(i)));
 		}
-	}
-
-	@Override
-	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
-		LinkedList<String> strings = new LinkedList<>();
-		setTablePercentCompare(originalResults, bestResults, otherBestResults, strings);
-		return strings;
-	}
-
-	private void setTablePercentCompare(
-		LinkedList<Double> originalResults,
-		LinkedList<Double> bestResults,
-		LinkedList<Double> otherBestResults,
-		LinkedList<String> strings
-	) {
-		double otherPercentAvg = 0;
-		double originalPercentAvg = 0;
-		for (int i = 0; i < originalResults.size(); i++) {
-			double percentOther = Math.round((bestResults.get(i) / otherBestResults.get(i) - 1) * 100) ;
-			double percentOriginal = Math.round((bestResults.get(i) / originalResults.get(i) - 1) * 100);
-			otherPercentAvg += percentOther;
-			originalPercentAvg += percentOriginal;
-			strings.add(String.valueOf(percentOther));
-			strings.add(String.valueOf(percentOriginal));
-		}
-
-		otherPercentAvg /= originalResults.size();
-		originalPercentAvg /= originalResults.size();
-
-		strings.add(String.valueOf(otherPercentAvg));
-		strings.add(String.valueOf(originalPercentAvg));
-	}
-
-	@Override
-	public LinkedList<String> getSummary(String personId) {
-		LinkedList<String> strings = new LinkedList<>();
-		return strings;
 	}
 
 	@Override

@@ -97,8 +97,7 @@ public class AttentionTestOne extends SimpleTest {
 		strings.add("№ – номер попытки");
 		strings.add("Дата – дата тестирования");
 		strings.add("П1, П2, П3, П4 – показатели теста. Время в секундах на каждый этап соответственно");
-		strings.add("П*С%,П*Э% – " +
-			"процент разности по параметрам между другими участниками (С) и оригинальным (Э) соответственно");
+		strings.add(BEST_AND_ORIGINAL_COMPARE_TEST_INFO);
 		strings.add("П1Л, П2Л, П3Л, П4Л – лучшее значение в секундах на каждый этап соответственно");
 		strings.add("П1Э, П2Э, П3Э, П4Э – " +
 			"значение в секундах показателей оригинально теста на каждый этап соответственно");
@@ -240,61 +239,6 @@ public class AttentionTestOne extends SimpleTest {
 			strings.add(String.valueOf(bestResults.get(i)));
 			strings.add(String.valueOf(originalTests.get(i)));
 		}
-	}
-
-	@Override
-	public LinkedList<String> getPercentCompareToOtherAndOriginal(String personId) {
-		LinkedList<String> strings = new LinkedList<>();
-		setTablePercentCompare(originalResults, bestResults, otherBestResults, strings);
-		return strings;
-	}
-
-	private void setTablePercentCompare(
-		LinkedList<Double> originalResults,
-		LinkedList<Double> bestResults,
-		LinkedList<Double> otherBestResults,
-		LinkedList<String> strings
-	) {
-		double otherPercentAvg = 0;
-		double originalPercentAvg = 0;
-		for (int i = 0; i < originalResults.size(); i++) {
-			double percentOther = Math.round((bestResults.get(i) / otherBestResults.get(i) - 1) * 100) ;
-			double percentOriginal = Math.round((bestResults.get(i) / originalResults.get(i) - 1) * 100);
-			otherPercentAvg += percentOther;
-			originalPercentAvg += percentOriginal;
-			if (Math.abs(percentOther) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
-				percentOther = 0;
-			}
-			if (Math.abs(percentOriginal) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
-				percentOriginal = 0;
-			}
-			strings.add(percentOther > 0 ? "+" + percentOther : String.valueOf(percentOther));
-			strings.add(percentOriginal > 0 ? "+" + percentOriginal : String.valueOf(percentOriginal));
-		}
-
-		otherPercentAvg /= originalResults.size();
-		originalPercentAvg /= originalResults.size();
-
-		if (Math.abs(otherPercentAvg) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
-			otherPercentAvg = 0;
-		}
-		if (Math.abs(originalPercentAvg) > MAX_CORRECT_DIFFERENCE_IN_PERCENTS) {
-			originalPercentAvg = 0;
-		}
-
-		otherPercentAvgSummary  = otherPercentAvg;
-		originalPercentAvgSummary = originalPercentAvg;
-
-		strings.add(otherPercentAvg > 0 ? "+" + otherPercentAvg : String.valueOf(otherPercentAvg));
-		strings.add(originalPercentAvg > 0 ? "+" + originalPercentAvg : String.valueOf(originalPercentAvg));
-	}
-
-	@Override
-	public LinkedList<String> getSummary(String personId) {
-		LinkedList<String> strings = new LinkedList<>();
-		strings.add(otherPercentAvgSummary > 0 ? "+" + otherPercentAvgSummary : String.valueOf(otherPercentAvgSummary));
-		strings.add(originalPercentAvgSummary > 0 ? "+" + originalPercentAvgSummary : String.valueOf(originalPercentAvgSummary));
-		return strings;
 	}
 
 	@Override
