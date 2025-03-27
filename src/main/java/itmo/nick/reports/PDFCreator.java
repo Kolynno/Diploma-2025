@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.stream.Stream;
 
 import static itmo.nick.reports.PDFTextSettings.PDF_REPORT_PATH;
@@ -65,18 +66,43 @@ public class PDFCreator {
 
 		firstPage(personId, document);
 		testsPage(personId, document);
+		lastPage(document);
 
 		document.close();
 	}
 
 	private void firstPage(String personId, Document document) throws DocumentException {
 		document.add(new Paragraph("Подробный отчет", pdfTextSettings.mainHeaderFont()));
-		document.add(new Paragraph("Участник: " + personTableService.getFio(personId), pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Дата рождения: " +  personTableService.getBirthday(personId), pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Пол: " +  personTableService.getSex(personId), pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Образование: " +  personTableService.getEducation(personId), pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Результаты тестов: с " + resultTableService.getFirstDateResult() + " по " + resultTableService.getLastDateResult(), pdfTextSettings.mainTextFont()));
-		document.add(new Paragraph("Кратко", pdfTextSettings.mainTitleFont()));
+		document.add(
+			new Paragraph("Участник: " + personTableService.getFio(personId), pdfTextSettings.mainTextFont()))
+		;
+		document.add(
+			new Paragraph(
+				"Дата рождения: " + personTableService.getBirthday(personId),
+				pdfTextSettings.mainTextFont()
+			)
+		);
+		document.add(
+			new Paragraph("Пол: " +  personTableService.getSex(personId), pdfTextSettings.mainTextFont())
+		);
+		document.add(
+			new Paragraph(
+				"Образование: " +  personTableService.getEducation(personId),
+				pdfTextSettings.mainTextFont()
+			)
+		);
+		document.add(
+			new Paragraph(
+				"Результаты тестов: с " + resultTableService.getFirstDateResult()
+					+ " по " + resultTableService.getLastDateResult(),
+				pdfTextSettings.mainTextFont()
+			)
+		);
+	}
+
+	private void lastPage(Document document) throws DocumentException {
+		document.newPage();
+		document.add(new Paragraph("Краткий итог", pdfTextSettings.mainTitleFont()));
 		document.add(new Paragraph(" ", pdfTextSettings.mainTextFont()));
 		addReportSummaryTable(document);
 	}
@@ -136,21 +162,53 @@ public class PDFCreator {
 	}
 
 	private void addRows(PdfPTable table) {
+		LinkedList<String> ato = AttentionTestOne.getInstance().getSummary();
+		LinkedList<String> att = AttentionTestTwo.getInstance().getSummary();
+		LinkedList<String> mto = MemoryTestOne.getInstance().getSummary();
+		LinkedList<String> mtt = MemoryTestTwo.getInstance().getSummary();
+		LinkedList<String> pto = ProcessingTestOne.getInstance().getSummary();
+		LinkedList<String> ptt = ProcessingTestTwo.getInstance().getSummary();
+		LinkedList<String> rto = ReactionTestOne.getInstance().getSummary();
+		LinkedList<String> rtt = ReactionTestTwo.getInstance().getSummary();
+
 		table.addCell(new Phrase("1", pdfTextSettings.mainTextFont()));
 		table.addCell(new Phrase("Тест Струпа", pdfTextSettings.mainTextFont()));
-		table.addCell(new Phrase("***", pdfTextSettings.mainTextFont()));
-		table.addCell(new Phrase("***", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(ato.get(0), pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(ato.get(1), pdfTextSettings.mainTextFont()));
 
 		table.addCell(new Phrase("2", pdfTextSettings.mainTextFont()));
 		table.addCell(new Phrase("Тест Memtrax", pdfTextSettings.mainTextFont()));
-		table.addCell(new Phrase("***", pdfTextSettings.mainTextFont()));
-		table.addCell(new Phrase("***", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(mto.get(0), pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(mto.get(1), pdfTextSettings.mainTextFont()));
 
 		table.addCell(new Phrase("3", pdfTextSettings.mainTextFont()));
 		table.addCell(new Phrase("Тест времени реакции", pdfTextSettings.mainTextFont()));
-		table.addCell(new Phrase("***", pdfTextSettings.mainTextFont()));
-		table.addCell(new Phrase("***", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(rto.get(0), pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(rto.get(1), pdfTextSettings.mainTextFont()));
 
-		//и остальные тесты
+		table.addCell(new Phrase("4", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase("Тест устойчивости внимания: визуальный", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(pto.get(0), pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(pto.get(1), pdfTextSettings.mainTextFont()));
+
+		table.addCell(new Phrase("5", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase("Тест устойчивости внимания: звуковой", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(ptt.get(0), pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(ptt.get(1), pdfTextSettings.mainTextFont()));
+
+		table.addCell(new Phrase("6", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase("Тест таблица Шульте", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(att.get(0), pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(att.get(1), pdfTextSettings.mainTextFont()));
+
+		table.addCell(new Phrase("7", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase("Тест заучивание 10 слов", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(mtt.get(0), pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(mtt.get(1), pdfTextSettings.mainTextFont()));
+
+		table.addCell(new Phrase("8", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase("Тест реакции на движение", pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(rtt.get(0), pdfTextSettings.mainTextFont()));
+		table.addCell(new Phrase(rtt.get(1), pdfTextSettings.mainTextFont()));
 	}
 }

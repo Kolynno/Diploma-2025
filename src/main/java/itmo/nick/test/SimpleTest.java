@@ -222,7 +222,7 @@ public class SimpleTest {
 	/**
 	 * Обобщенный итог
 	 */
-	public LinkedList<String> getSummary(String personId) {
+	public LinkedList<String> getSummary() {
 		LinkedList<String> strings = new LinkedList<>();
 		strings.add(otherPercentAvgSummary > 0 ? "+" + otherPercentAvgSummary : String.valueOf(otherPercentAvgSummary));
 		strings.add(originalPercentAvgSummary > 0 ? "+" + originalPercentAvgSummary : String.valueOf(originalPercentAvgSummary));

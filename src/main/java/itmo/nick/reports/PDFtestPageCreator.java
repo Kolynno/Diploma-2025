@@ -104,7 +104,7 @@ public class PDFtestPageCreator {
 		document.add(tableCompare);
 
 		addEmptyLine(document);
-		addSummary(document, test, personId);
+		addSummary(document, test);
 	}
 
 	public void memtraxTestPage(Document document, SimpleTest test, String personId) throws DocumentException {
@@ -177,7 +177,7 @@ public class PDFtestPageCreator {
 		document.add(tableCompare);
 
 		addEmptyLine(document);
-		addSummary(document, test, personId);
+		addSummary(document, test);
 	}
 
 	public void staticReactionTestPage(Document document, SimpleTest test, String personId) throws DocumentException {
@@ -257,7 +257,7 @@ public class PDFtestPageCreator {
 		document.add(tableCompare);
 
 		addEmptyLine(document);
-		addSummary(document, test, personId);
+		addSummary(document, test);
 	}
 
 	public void tenWordsTestPage(Document document, SimpleTest test, String personId) throws DocumentException {
@@ -347,7 +347,7 @@ public class PDFtestPageCreator {
 		document.add(tableCompare);
 
 		addEmptyLine(document);
-		addSummary(document, test, personId);
+		addSummary(document, test);
 	}
 
 	private void setPageWith5Params(Document document, SimpleTest test, String personId) throws DocumentException {
@@ -435,13 +435,13 @@ public class PDFtestPageCreator {
 		document.add(tableCompare);
 
 		addEmptyLine(document);
-		addSummary(document, test, personId);
+		addSummary(document, test);
 	}
 
-	private void addSummary(Document document, SimpleTest test, String personId) throws DocumentException {
+	private void addSummary(Document document, SimpleTest test) throws DocumentException {
 		document.add(new Paragraph("Итог", pdfTextSettings.mainTitleFont()));
 
-		LinkedList<String> summary = test.getSummary(personId);
+		LinkedList<String> summary = test.getSummary();
 		document.add(new Paragraph("Разность относительно других участников: " + summary.get(0) + "%", pdfTextSettings.mainTextFont()));
 		document.add(new Paragraph("Разность относительно оригинальных результатов: " + summary.get(1) + "%", pdfTextSettings.mainTextFont()));
 	}
