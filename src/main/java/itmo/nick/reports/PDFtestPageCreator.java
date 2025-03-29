@@ -444,6 +444,8 @@ public class PDFtestPageCreator {
 		LinkedList<String> summary = test.getSummary();
 		document.add(new Paragraph("Разность относительно других участников: " + summary.get(0) + "%", pdfTextSettings.mainTextFont()));
 		document.add(new Paragraph("Разность относительно оригинальных результатов: " + summary.get(1) + "%", pdfTextSettings.mainTextFont()));
+		//Добавить данные для итоговой страницы отчета
+		PDFCreator.pdfSummaryData.addData(summary);
 	}
 
 }

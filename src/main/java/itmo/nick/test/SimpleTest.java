@@ -224,8 +224,14 @@ public class SimpleTest {
 	 */
 	public LinkedList<String> getSummary() {
 		LinkedList<String> strings = new LinkedList<>();
-		strings.add(otherPercentAvgSummary > 0 ? "+" + otherPercentAvgSummary : String.valueOf(otherPercentAvgSummary));
-		strings.add(originalPercentAvgSummary > 0 ? "+" + originalPercentAvgSummary : String.valueOf(originalPercentAvgSummary));
+		strings.add(otherPercentAvgSummary > 0
+			? "+" + Math.round(otherPercentAvgSummary)
+			: String.valueOf(Math.round(otherPercentAvgSummary))
+		);
+		strings.add(originalPercentAvgSummary > 0
+			? "+" + Math.round(originalPercentAvgSummary)
+			: String.valueOf(Math.round(originalPercentAvgSummary))
+		);
 		return strings;
 	}
 
