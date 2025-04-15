@@ -19,9 +19,11 @@ import java.util.stream.Stream;
 public class PDFtestPageCreator {
 
 	private final PDFTextSettings pdfTextSettings;
+	private final PDFCharts pdfCharts;
 
-	public PDFtestPageCreator(PDFTextSettings pdfTextSettings) {
+	public PDFtestPageCreator(PDFTextSettings pdfTextSettings, PDFCharts pdfCharts) {
 		this.pdfTextSettings = pdfTextSettings;
+		this.pdfCharts = pdfCharts;
 	}
 
 	public void stroopTestPage(Document document, SimpleTest test, String personId) throws DocumentException {
@@ -58,6 +60,9 @@ public class PDFtestPageCreator {
 		document.add(AllDataTable);
 		addEmptyLine(document);
 
+		pdfCharts.addAllDataCharts(document, allPersonData);
+		addEmptyLine(document);
+
 		LinkedList<String> allBestData = test.getBestPersonDataAndCompareToOriginal(personId);
 		PdfPTable tableBest = new PdfPTable(8);
 		Stream.of("П1Л", "П1Э", "П2Л", "П2Э", "П3Л", "П3Э","П4Л","П4Э")
@@ -79,6 +84,9 @@ public class PDFtestPageCreator {
 			tableBest.addCell(new Phrase(allBestData.get(7), pdfTextSettings.mainTextFont())); // П4Э
 		}
 		document.add(tableBest);
+		addEmptyLine(document);
+
+		pdfCharts.addAllBestCharts(document, allBestData);
 		addEmptyLine(document);
 
 		LinkedList<String> allCompareData = test.getPercentCompareToOtherAndOriginal(personId);

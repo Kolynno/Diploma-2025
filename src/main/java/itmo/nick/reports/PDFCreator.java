@@ -26,7 +26,6 @@ import java.util.stream.Stream;
 
 import static itmo.nick.reports.PDFTextSettings.PDF_REPORT_PATH;
 
-
 /**
  * Отчет в формате PDF
  *
