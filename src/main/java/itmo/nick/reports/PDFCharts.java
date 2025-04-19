@@ -132,9 +132,6 @@ public class PDFCharts {
 	 * Берет все картники графиков с диска и вставляет в документ
 	 */
 	private  void addAllDataCharts(Document document, int startNumber, int endNumber) throws DocumentException {
-		int chartsCount =
-			Objects.requireNonNull(new File(CHARTS_PATH + CHARTS_DIR).list()).length;
-
 		for (int i = startNumber; i <= endNumber; i++) {
 			Image chartImage = null;
 			try {
@@ -142,7 +139,7 @@ public class PDFCharts {
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			chartImage.scaleToFit(500, 400);
+			chartImage.scaleToFit(300, 250);
 			chartImage.setAlignment(Element.ALIGN_CENTER);
 			document.add(chartImage);
 		}
