@@ -111,6 +111,9 @@ public class PDFtestPageCreator {
 		}
 		document.add(tableCompare);
 
+		pdfCharts.addAllCompareCharts(document, allCompareData);
+		addEmptyLine(document);
+
 		addEmptyLine(document);
 		addSummary(document, test);
 	}
