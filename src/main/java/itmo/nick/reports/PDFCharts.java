@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Objects;
 
 /**
  * Создание графиков
@@ -30,6 +29,8 @@ public class PDFCharts {
 
 	public static final String CHARTS_PATH = "src/main/resources/static/files/charts/";
 	public static String CHARTS_DIR = "test1/";
+
+	private static final String Y_LABEL = "Значение, с";
 
 	/**
 	 * @param document pdf-файл
@@ -69,8 +70,8 @@ public class PDFCharts {
 
 		JFreeChart p1Chart = ChartFactory.createBarChart(
 			"Результаты П1 по датам",
-			"Дата",
-			"Значение",
+			"",
+			Y_LABEL,
 			p1Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -78,8 +79,8 @@ public class PDFCharts {
 
 		JFreeChart p2Chart = ChartFactory.createBarChart(
 			"Результаты П2 по датам",
-			"Дата",
-			"Значение",
+			"",
+			Y_LABEL,
 			p2Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -87,8 +88,8 @@ public class PDFCharts {
 
 		JFreeChart p3Chart = ChartFactory.createBarChart(
 			"Результаты П3 по датам",
-			"Дата",
-			"Значение",
+			"",
+			Y_LABEL,
 			p3Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -96,8 +97,8 @@ public class PDFCharts {
 
 		JFreeChart p4Chart = ChartFactory.createBarChart(
 			"Результаты П4 по датам",
-			"Дата",
-			"Значение",
+			"",
+			Y_LABEL,
 			p4Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -132,17 +133,14 @@ public class PDFCharts {
 	 * Берет все картники графиков с диска и вставляет в документ
 	 */
 	private  void addAllDataCharts(Document document, int startNumber, int endNumber) throws DocumentException {
-		int chartsCount =
-			Objects.requireNonNull(new File(CHARTS_PATH + CHARTS_DIR).list()).length;
-
 		for (int i = startNumber; i <= endNumber; i++) {
-			Image chartImage = null;
+			Image chartImage;
 			try {
 				chartImage = Image.getInstance(CHARTS_PATH + CHARTS_DIR + "chart" + i + ".png");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			chartImage.scaleToFit(500, 400);
+			chartImage.scaleToFit(300, 250);
 			chartImage.setAlignment(Element.ALIGN_CENTER);
 			document.add(chartImage);
 		}
@@ -179,7 +177,7 @@ public class PDFCharts {
 		JFreeChart p1Chart = ChartFactory.createBarChart(
 			"Сравнение лучших и эталонных значений П1",
 			"",
-			"Значение",
+			Y_LABEL,
 			p1Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -188,7 +186,7 @@ public class PDFCharts {
 		JFreeChart p2Chart = ChartFactory.createBarChart(
 			"Сравнение лучших и эталонных значений П2",
 			"",
-			"Значение",
+			Y_LABEL,
 			p2Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -197,7 +195,7 @@ public class PDFCharts {
 		JFreeChart p3Chart = ChartFactory.createBarChart(
 			"Сравнение лучших и эталонных значений П3",
 			"",
-			"Значение",
+			Y_LABEL,
 			p3Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -206,7 +204,7 @@ public class PDFCharts {
 		JFreeChart p4Chart = ChartFactory.createBarChart(
 			"Сравнение лучших и эталонных значений П4",
 			"",
-			"Значение",
+			Y_LABEL,
 			p4Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -249,7 +247,7 @@ public class PDFCharts {
 		JFreeChart p1Chart = ChartFactory.createBarChart(
 			"Сравнение в % между результатами участника и других (П1С%), и эталонных (П1Э%)",
 			"",
-			"Значение",
+			Y_LABEL,
 			p1Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -258,7 +256,7 @@ public class PDFCharts {
 		JFreeChart p2Chart = ChartFactory.createBarChart(
 			"Сравнение в % между результатами участника и других (П2С%), и эталонных (П2Э%)",
 			"",
-			"Значение",
+			Y_LABEL,
 			p2Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -267,7 +265,7 @@ public class PDFCharts {
 		JFreeChart p3Chart = ChartFactory.createBarChart(
 			"Сравнение в % между результатами участника и других (П3С%), и эталонных (П3Э%)",
 			"",
-			"Значение",
+			Y_LABEL,
 			p3Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
@@ -276,7 +274,7 @@ public class PDFCharts {
 		JFreeChart p4Chart = ChartFactory.createBarChart(
 			"Сравнение в % между результатами участника и других (П4С%), и эталонных (П4Э%)",
 			"",
-			"Значение",
+			Y_LABEL,
 			p4Dataset,
 			PlotOrientation.VERTICAL,
 			true, true, false
