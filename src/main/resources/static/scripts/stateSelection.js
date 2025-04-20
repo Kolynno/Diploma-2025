@@ -45,3 +45,7 @@ document.getElementById('submitBtn').addEventListener('click', function() {
 document.getElementById('backBtn').addEventListener('click', function() {
     window.location.href = '/r';
 });
+
+document.getElementById('skipBtn').addEventListener('click', function() {
+    window.location.href = '/t';
+});
